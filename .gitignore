@@ -1,0 +1,6 @@
+.vagrant/
+*.swp
+.metadata/
+RemoteSystemsTempFiles/
+__pycache__
+*.pyc
