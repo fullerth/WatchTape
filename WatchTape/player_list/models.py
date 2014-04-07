@@ -15,7 +15,7 @@ class PlayerToBout(models.Model):
         return("%s in %s" % (self.player, self.bout))
 
 class Bout(models.Model):
-    date = models.DateTimeField('date played')
+    date = models.DateField('date played')
     location = models.CharField(max_length=200)
 
     def __str__(self):
