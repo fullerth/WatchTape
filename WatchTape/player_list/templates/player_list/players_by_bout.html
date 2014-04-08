@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Players by Bout</title>
+    </head>
+
+    <body>
+        {% if players %}
+        <h1>Players in {{ bout }}</h1>
+        <ul>
+            {% for player in players %}
+                <li><a href="/watchtape/player/{{ player.id }}/">{{ player }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </body>
+</html>
