@@ -6,13 +6,15 @@
     </head>
 
     <body>
-        {% if players %}
         <h1>Players in {{ bout }}</h1>
+        {% if players %}
         <ul>
             {% for player in players %}
                 <li><a href="/watchtape/player/{{ player.id }}/">{{ player }}</a></li>
             {% endfor %}
         </ul>
+        {% else %}
+        <h2>No players listed in this bout</h2>
         {% endif %}
     </body>
 </html>
