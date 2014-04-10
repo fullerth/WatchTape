@@ -10,8 +10,8 @@ def view_bouts_by_player(request, player_id):
     #get bout id's for all bouts played in by player
     rostered_bouts = Bout.objects.filter(playertobout__player__id__iexact=player_id)
     player = get_object_or_404(Player, pk=player_id)
-    context = { 'player' : player, 'bouts' : rostered_bouts}
-    return render(request, 'player_list/bouts_by_player.html', context)
+    context = { 'sort' : player, 'items' : rostered_bouts, 'item_name' : 'Player', 'sort_name' : 'Bouts'}
+    return render(request, 'player_list/item_by_sort.html', context)
 
 #/bout/<id>
 def view_players_by_bout(request, bout_id):

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>{{ item_name }} by {{ sort_name }}</title>
+    </head>
+
+    <body>
+        <h1>{{ item_name }} by {{ sort_name }}</h1>
+
+        {% if items %}
+        <ul>
+            {% for item in items %}
+                <li><a href="/watchtape/bout/{{ item.id }}/">{{ item }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <h2>Error {{ item_name }} has no {{ sort_name }}</h2>
+        {% endif %}
+
+    </body>
+</html>
