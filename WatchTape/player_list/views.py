@@ -10,15 +10,19 @@ def view_bouts_by_player(request, player_id):
     #get bout id's for all bouts played in by player
     rostered_bouts = Bout.objects.filter(playertobout__player__id__iexact=player_id)
     player = get_object_or_404(Player, pk=player_id)
-    context = { 'sort' : player, 'items' : rostered_bouts, 'item_name' : 'Player', 'sort_name' : 'Bouts'}
+    context = { 'sort' : player, 'items' : rostered_bouts,
+               'sort_name' : 'Player', 'item_name' : 'Bouts',
+               'url_prefix' : 'bout'}
     return render(request, 'player_list/item_by_sort.html', context)
 
 #/bout/<id>
 def view_players_by_bout(request, bout_id):
     rostered_players = Player.objects.filter(playertobout__bout__id__exact=bout_id)
     bout = get_object_or_404(Bout, pk=bout_id)
-    context = { 'players' : rostered_players, 'bout' : bout}
-    return render(request, 'player_list/players_by_bout.html', context)
+    context = { 'sort' : bout, 'items' : rostered_players,
+                'sort_name' : 'Bout', 'item_name' : 'Player',
+                'url_prefix': 'player'}
+    return render(request, 'player_list/item_by_sort.html', context)
 
 #/video/bout/<id>
 def view_videos_by_bout(request, bout_id):
