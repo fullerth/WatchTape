@@ -59,10 +59,4 @@ echo
 echo Installing pyvirtualdisplay
 sudo pip3 install pyvirtualdisplay
 
-#install xlsd
-echo
-echo
-echo Installing xlsd
-sudo pip3 install xlsd
-
 echo Install Finished
