@@ -1,6 +1,31 @@
 import os
 import datetime
 
+#for wftda stats book
+import xlrd
+
+def import_wftda_stats():
+    stats = xlrd.open_workbook('../2014.04.12 DLF vs TR.xlsx')
+    print(stats.sheet_names())
+
+    igrf_sheet = stats.sheet_by_name('IGRF')
+    num_rows = igrf_sheet.nrows - 1
+    curr_row = -1
+    while curr_row < num_rows:
+        curr_row += 1
+        row = igrf_sheet.row(curr_row)
+        print(row)
+
+
+    #get bout info
+
+
+    #get players in the bout
+
+    #get jams in the bout
+
+
+
 def populate():
     alex = add_player(name='Alex DeLarge', number=655)
     bill = add_player(name='Bill F. Murray', number=906)
@@ -49,4 +74,5 @@ if __name__ == '__main__':
     print('Starting player_list population script...')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
     from player_list.models import Player, Bout, PlayerToBout
-    populate()
+    #populate()
+    import_wftda_stats()
