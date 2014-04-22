@@ -1,11 +1,71 @@
 import os
 import datetime
 
-#for wftda stats book
+#for wftda stats book importer
 import xlrd
 
-def import_wftda_stats():
-    stats = xlrd.open_workbook('../2014.04.12 DLF vs TR.xlsx')
+class wftda_importer_Mar_2014:
+    #Note all offsets are zero-indexed, subtract 1 from excel row/column values
+
+     #bout information
+    bout = {'sheet_name': 'IGRF', 'venue_row' : 2, 'venue_column' : 1,
+            'date_row' : 4, 'date_column' : 1, 'city_row' : 2, 'city_column' : 7,
+            'state_row' : 2, 'state_column' : 9}
+
+    #roster information
+    roster = {'sheet_name':'IGRF', 'row_start': 10, 'row_end':29,
+              'home_number_column': 1, 'home_name_column' : 2,
+              'away_number_column': 7, 'away_name_column': 8,
+              'team_name_row' : 8, 'league_name_row': 7,
+              'home_team_name_column' : 1, 'home_league_name_column' : 1,
+              'away_team_name_column' : 7, 'away_league_name_column' : 7}
+
+    #lineups information
+    lineups = {'sheet_name':'Lineups', 'first_half_row_start' : 3,
+               'first_half_row_end' : 40, 'second_half_row_start' : 49,
+               'second_half_row_end' : 86, 'jam_number_column' : 0,
+               'home_jammer_column' : 2, 'home_pivot_column' : 6,
+               'home_blockerA_column' : 10, 'home_blockerB_column' : 14,
+               'home_blockerB_column' : 18, 'away_jammer_column' : 27,
+               'away_pivot_column' : 31, 'away_blockerA_column' : 35,
+               'away_blockerB_column' : 39, 'away_blockerB_column' : 43}
+
+    def __init__(self, path):
+        #location of workbook
+        self.stats = xlrd.open_workbook(path)
+
+        self.import_bout()
+        self.import_roster()
+
+    def import_bout(self):
+        bout_sheet = self.stats.sheet_by_name(self.bout['sheet_name'])
+        venue_name = bout_sheet.cell_value(self.bout['venue_row'], self.bout['venue_column'])
+        bout_date = xlrd.xldate_as_tuple(bout_sheet.cell_value(self.bout['date_row'],
+                                                               self.bout['date_column']),
+                                                               self.stats.datemode)
+        bout_datetime = datetime.datetime(bout_date[0], bout_date[1], bout_date[2],
+                                          bout_date[3], bout_date[4], bout_date[5], )
+
+        self.bout_id = add_bout(date=bout_datetime, location=venue_name)
+
+    def import_roster(self):
+        roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
+
+        for player in range(self.roster['row_start'], self.roster['row_end']):
+            if(roster_sheet.cell_type(player, self.roster['home_number_column']) != xlrd.XL_CELL_EMPTY):
+                player_number = roster_sheet.cell_value(player, self.roster['home_number_column'])
+                player_name = roster_sheet.cell_value(player, self.roster['home_name_column'])
+                rostered_player = add_player(name = player_name, number=player_number)
+                add_player_to_bout(player=rostered_player, bout = self.bout_id)
+
+            if(roster_sheet.cell_type(player, self.roster['away_number_column']) != xlrd.XL_CELL_EMPTY):
+                player_number = roster_sheet.cell_value(player, self.roster['away_number_column'])
+                player_name = roster_sheet.cell_value(player, self.roster['away_name_column'])
+                rostered_player = add_player(name = player_name, number=player_number)
+                add_player_to_bout(player=rostered_player, bout = self.bout_id)
+
+def import_wftda_stats(path):
+    stats = xlrd.open_workbook(path)
     print(stats.sheet_names())
 
     igrf_sheet = stats.sheet_by_name('IGRF')
@@ -14,13 +74,13 @@ def import_wftda_stats():
     while curr_row < num_rows:
         curr_row += 1
         row = igrf_sheet.row(curr_row)
-        print(row)
 
 
-    #get bout info
-
+    #Create importer
+    importer = wftda_importer_Mar_2014(path=path)
 
     #get players in the bout
+    #importer.import_roster()
 
     #get jams in the bout
 
@@ -75,4 +135,4 @@ if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
     from player_list.models import Player, Bout, PlayerToBout
     #populate()
-    import_wftda_stats()
+    import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
