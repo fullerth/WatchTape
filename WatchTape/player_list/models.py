@@ -23,7 +23,6 @@ class Video(models.Model):
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
 
-
 class PlayerToBout(models.Model):
     player = models.ForeignKey(Player)
     bout = models.ForeignKey(Bout)

@@ -26,9 +26,9 @@ class wftda_importer_Mar_2014:
                'second_half_row_end' : 86, 'jam_number_column' : 0,
                'home_jammer_column' : 2, 'home_pivot_column' : 6,
                'home_blockerA_column' : 10, 'home_blockerB_column' : 14,
-               'home_blockerB_column' : 18, 'away_jammer_column' : 27,
+               'home_blockerC_column' : 18, 'away_jammer_column' : 27,
                'away_pivot_column' : 31, 'away_blockerA_column' : 35,
-               'away_blockerB_column' : 39, 'away_blockerB_column' : 43}
+               'away_blockerB_column' : 39, 'away_blockerC_column' : 43}
 
     def __init__(self, path):
         #location of workbook
@@ -36,6 +36,7 @@ class wftda_importer_Mar_2014:
 
         self.import_bout()
         self.import_roster()
+        self.import_lineups()
 
     def import_bout(self):
         bout_sheet = self.stats.sheet_by_name(self.bout['sheet_name'])
@@ -63,6 +64,36 @@ class wftda_importer_Mar_2014:
                 player_name = roster_sheet.cell_value(player, self.roster['away_name_column'])
                 rostered_player = add_player(name = player_name, number=player_number)
                 add_player_to_bout(player=rostered_player, bout = self.bout_id)
+
+    def import_lineups(self):
+        lineup_sheet = self.stats.sheet_by_name(self.lineups['sheet_name'])
+
+        #import jams from both first and second half
+        for jam in (i for j in (range(self.lineups['first_half_row_start'],
+                                      self.lineups['first_half_row_end']+1),
+                                range(self.lineups['second_half_row_start'],
+                                      self.lineups['second_half_row_end']+1)) for i in j):
+            if(lineup_sheet.cell_type(jam, self.lineups['jam_number_column']) != xlrd.XL_CELL_EMPTY):
+                jam_number = lineup_sheet.cell_value(jam, self.lineups['jam_number_column'])
+                home_jammer = lineup_sheet.cell_value(jam, self.lineups['home_jammer_column'])
+                home_pivot = lineup_sheet.cell_value(jam, self.lineups['home_pivot_column'])
+                home_blockerA = lineup_sheet.cell_value(jam, self.lineups['home_blockerA_column'])
+                home_blockerB = lineup_sheet.cell_value(jam, self.lineups['home_blockerB_column'])
+                home_blockerC = lineup_sheet.cell_value(jam, self.lineups['home_blockerC_column'])
+                away_jammer = lineup_sheet.cell_value(jam, self.lineups['away_jammer_column'])
+                away_pivot = lineup_sheet.cell_value(jam, self.lineups['away_pivot_column'])
+                away_blockerA = lineup_sheet.cell_value(jam, self.lineups['away_blockerA_column'])
+                away_blockerB = lineup_sheet.cell_value(jam, self.lineups['away_blockerB_column'])
+                away_blockerC = lineup_sheet.cell_value(jam, self.lineups['away_blockerC_column'])
+
+            #figure out how to do this in the iterator for (jam, half)
+            if(jam in range(self.lineups['first_half_row_start'],
+                            self.lineups['first_half_row_end']+1)):
+                half = 1
+            else:
+                half = 2
+
+            print('%s - half: %s' % (jam,half) )
 
 def import_wftda_stats(path):
     stats = xlrd.open_workbook(path)
