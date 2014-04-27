@@ -26,6 +26,7 @@ class Video(models.Model):
 class PlayerToBout(models.Model):
     player = models.ForeignKey(Player)
     bout = models.ForeignKey(Bout)
+    captain = models.BooleanField(default=False)
 
     def __str__(self):
         return("%s in %s" % (self.player, self.bout))

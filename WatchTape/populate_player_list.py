@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import os
 import datetime
+import re
 
 #for wftda stats book importer
 import xlrd
@@ -40,12 +43,15 @@ class wftda_importer_Mar_2014:
 
     def import_bout(self):
         bout_sheet = self.stats.sheet_by_name(self.bout['sheet_name'])
-        venue_name = bout_sheet.cell_value(self.bout['venue_row'], self.bout['venue_column'])
-        bout_date = xlrd.xldate_as_tuple(bout_sheet.cell_value(self.bout['date_row'],
-                                                               self.bout['date_column']),
-                                                               self.stats.datemode)
-        bout_datetime = datetime.datetime(bout_date[0], bout_date[1], bout_date[2],
-                                          bout_date[3], bout_date[4], bout_date[5], )
+        venue_name = bout_sheet.cell_value(self.bout['venue_row'],
+                                           self.bout['venue_column'])
+        bout_date = xlrd.xldate_as_tuple(
+                    bout_sheet.cell_value(self.bout['date_row'],
+                                          self.bout['date_column']),
+                                          self.stats.datemode)
+        bout_datetime = datetime.datetime(bout_date[0], bout_date[1],
+                                          bout_date[2], bout_date[3],
+                                          bout_date[4], bout_date[5], )
 
         self.bout_id = add_bout(date=bout_datetime, location=venue_name)
 
@@ -53,16 +59,36 @@ class wftda_importer_Mar_2014:
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
 
         for player in range(self.roster['row_start'], self.roster['row_end']):
-            if(roster_sheet.cell_type(player, self.roster['home_number_column']) != xlrd.XL_CELL_EMPTY):
-                player_number = roster_sheet.cell_value(player, self.roster['home_number_column'])
-                player_name = roster_sheet.cell_value(player, self.roster['home_name_column'])
-                rostered_player = add_player(name = player_name, number=player_number)
-                add_player_to_bout(player=rostered_player, bout = self.bout_id)
+            if(roster_sheet.cell_type(player,
+                                      self.roster['home_number_column'])
+                                      != xlrd.XL_CELL_EMPTY):
+                player_number = roster_sheet.cell_value(player,
+                                self.roster['home_number_column'])
+                player_name_raw = roster_sheet.cell_value(player,
+                                  self.roster['home_name_column'])
 
-            if(roster_sheet.cell_type(player, self.roster['away_number_column']) != xlrd.XL_CELL_EMPTY):
-                player_number = roster_sheet.cell_value(player, self.roster['away_number_column'])
-                player_name = roster_sheet.cell_value(player, self.roster['away_name_column'])
-                rostered_player = add_player(name = player_name, number=player_number)
+
+                #Remove \uc289 (� copyright symbol)
+                name_tuple = re.subn("[ ]+\uc2a9[ ]+$", '', player_name_raw)
+                #if replaced the copyright symbol, the player is a captain
+                captain = True if name_tuple[1] else False
+
+                #Do any other required name cleanup here
+                player_name = name_tuple[0]
+                rostered_player = add_player(name = player_name,
+                                             number=player_number)
+
+                add_player_to_bout(player=rostered_player, bout = self.bout_id,
+                                   captain=captain)
+
+            if(roster_sheet.cell_type(player, self.roster['away_number_column'])
+                                              != xlrd.XL_CELL_EMPTY):
+                player_number = roster_sheet.cell_value(player,
+                                self.roster['away_number_column'])
+                player_name = roster_sheet.cell_value(player,
+                              self.roster['away_name_column'])
+                rostered_player = add_player(name = player_name,
+                                             number=player_number)
                 add_player_to_bout(player=rostered_player, bout = self.bout_id)
 
     def import_lineups(self):
@@ -72,19 +98,32 @@ class wftda_importer_Mar_2014:
         for jam in (i for j in (range(self.lineups['first_half_row_start'],
                                       self.lineups['first_half_row_end']+1),
                                 range(self.lineups['second_half_row_start'],
-                                      self.lineups['second_half_row_end']+1)) for i in j):
-            if(lineup_sheet.cell_type(jam, self.lineups['jam_number_column']) != xlrd.XL_CELL_EMPTY):
-                jam_number = lineup_sheet.cell_value(jam, self.lineups['jam_number_column'])
-                home_jammer = lineup_sheet.cell_value(jam, self.lineups['home_jammer_column'])
-                home_pivot = lineup_sheet.cell_value(jam, self.lineups['home_pivot_column'])
-                home_blockerA = lineup_sheet.cell_value(jam, self.lineups['home_blockerA_column'])
-                home_blockerB = lineup_sheet.cell_value(jam, self.lineups['home_blockerB_column'])
-                home_blockerC = lineup_sheet.cell_value(jam, self.lineups['home_blockerC_column'])
-                away_jammer = lineup_sheet.cell_value(jam, self.lineups['away_jammer_column'])
-                away_pivot = lineup_sheet.cell_value(jam, self.lineups['away_pivot_column'])
-                away_blockerA = lineup_sheet.cell_value(jam, self.lineups['away_blockerA_column'])
-                away_blockerB = lineup_sheet.cell_value(jam, self.lineups['away_blockerB_column'])
-                away_blockerC = lineup_sheet.cell_value(jam, self.lineups['away_blockerC_column'])
+                                      self.lineups['second_half_row_end']+1))
+                    for i in j):
+            if(lineup_sheet.cell_type(jam, self.lineups['jam_number_column'])
+                                           != xlrd.XL_CELL_EMPTY):
+                jam_number = lineup_sheet.cell_value(jam,
+                             self.lineups['jam_number_column'])
+                home_jammer = lineup_sheet.cell_value(jam,
+                              self.lineups['home_jammer_column'])
+                home_pivot = lineup_sheet.cell_value(jam,
+                             self.lineups['home_pivot_column'])
+                home_blockerA = lineup_sheet.cell_value(jam,
+                                self.lineups['home_blockerA_column'])
+                home_blockerB = lineup_sheet.cell_value(jam,
+                                self.lineups['home_blockerB_column'])
+                home_blockerC = lineup_sheet.cell_value(jam,
+                                self.lineups['home_blockerC_column'])
+                away_jammer = lineup_sheet.cell_value(jam,
+                              self.lineups['away_jammer_column'])
+                away_pivot = lineup_sheet.cell_value(jam,
+                             self.lineups['away_pivot_column'])
+                away_blockerA = lineup_sheet.cell_value(jam,
+                                self.lineups['away_blockerA_column'])
+                away_blockerB = lineup_sheet.cell_value(jam,
+                                self.lineups['away_blockerB_column'])
+                away_blockerC = lineup_sheet.cell_value(jam,
+                                self.lineups['away_blockerC_column'])
 
             #figure out how to do this in the iterator for (jam, half)
             if(jam in range(self.lineups['first_half_row_start'],
@@ -157,8 +196,9 @@ def add_bout(date, location):
     b = Bout.objects.get_or_create(date=date, location=location)[0]
     return b
 
-def add_player_to_bout(player, bout):
-    p_to_b = PlayerToBout.objects.get_or_create(player=player, bout=bout)[0]
+def add_player_to_bout(player, bout, captain=False):
+    p_to_b = PlayerToBout.objects.get_or_create(player=player, bout=bout,
+                                                captain=captain)[0]
     return p_to_b
 
 if __name__ == '__main__':
