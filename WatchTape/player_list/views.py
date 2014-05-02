@@ -51,3 +51,11 @@ def view_jams_by_player(request, player_id):
                'sort_name' : player, 'item_name' : 'Jams',
                'url_prefix' : 'jam'}
     return render(request, 'player_list/item_by_sort.html', context)
+
+def view_players_by_jam(request, jam_id):
+    players = Player.objects.filter(playertojam__jam__id__exact=jam_id)
+    jam = get_object_or_404(Jam, pk=jam_id)
+    context = {'sort' : jam_id, 'items' : players,
+               'sort_name' : jam, 'item_name' : 'Players',
+               'url_prefix' : 'player'}
+    return render(request, 'player_list/item_by_sort.html', context)

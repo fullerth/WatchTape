@@ -15,5 +15,7 @@ urlpatterns = patterns('',
     url(r'^video/player_bout/(?P<player_id>\d+)_(?P<bout_id>\d+)/$',
         views.view_videos_by_player_and_bout, name='video_by_player_and_bout'),
     url(r'^jam/player/(?P<player_id>\d+)/$',
-        views.view_jams_by_player, name='jams_by_player')
+        views.view_jams_by_player, name='jams_by_player'),
+    url(r'^jam/(?P<jam_id>\d+)/$', views.view_players_by_jam,
+        name='players_by_jam'),
     )
