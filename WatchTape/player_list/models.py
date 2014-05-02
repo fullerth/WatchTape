@@ -16,12 +16,28 @@ class Bout(models.Model):
 
 class Jam(models.Model):
     number = models.IntegerField(default=0)
+    half = models.IntegerField(default=1)
+    bout = models.ForeignKey(Bout)
+    players = models.ManyToManyField(Player, through='PlayerToJam')
+
+    def __str__(self):
+        return("Jam #{0}".format(self.number))
 
 class Video(models.Model):
     url = models.URLField(max_length=200)
     Jam = models.ForeignKey(Jam)
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
+
+class PlayerToJam(models.Model):
+    POSITIONS = (
+                 ('B', 'Blocker'),
+                 ('J', 'Jammer'),
+                 ('P', 'Pivot')
+                )
+    player = models.ForeignKey(Player)
+    jam = models.ForeignKey(Jam)
+    position = models.CharField(max_length=1, choices=POSITIONS)
 
 class PlayerToBout(models.Model):
     player = models.ForeignKey(Player)
@@ -38,4 +54,3 @@ class JamToBout(models.Model):
 class PlayerToJam(models.Model):
     player = models.ForeignKey(Player)
     jam = models.ForeignKey(Jam)
-

@@ -11,7 +11,7 @@ def view_bouts_by_player(request, player_id):
     rostered_bouts = Bout.objects.filter(playertobout__player__id__iexact=player_id)
     player = get_object_or_404(Player, pk=player_id)
     context = { 'sort' : player, 'items' : rostered_bouts,
-               'sort_name' : 'Player', 'item_name' : 'Bouts',
+               'sort_name' : player, 'item_name' : 'Bouts',
                'url_prefix' : 'bout'}
     return render(request, 'player_list/item_by_sort.html', context)
 

@@ -29,11 +29,16 @@ class wftda_importer_Mar_2014:
                'second_half_row_end' : 86, 'jam_number_column' : 0,
                'home_jammer_column' : 2, 'home_pivot_column' : 6,
                'home_blockerA_column' : 10, 'home_blockerB_column' : 14,
-               'home_blockerC_column' : 18, 'away_jammer_column' : 27,
-               'away_pivot_column' : 31, 'away_blockerA_column' : 35,
-               'away_blockerB_column' : 39, 'away_blockerC_column' : 43}
+               'home_blockerC_column' : 18, 'away_jammer_column' : 28,
+               'away_pivot_column' : 32, 'away_blockerA_column' : 36,
+               'away_blockerB_column' : 40, 'away_blockerC_column' : 44}
+
+    #Keep track of players we've added already to allow for easy retrieval
+    stored_roster_home = dict()
+    stored_roster_away = dict()
 
     def __init__(self, path):
+
         #location of workbook
         self.stats = xlrd.open_workbook(path)
 
@@ -81,6 +86,9 @@ class wftda_importer_Mar_2014:
                 add_player_to_bout(player=rostered_player, bout = self.bout_id,
                                    captain=captain)
 
+                self.stored_roster_home[player_number] = rostered_player
+
+
             if(roster_sheet.cell_type(player, self.roster['away_number_column'])
                                               != xlrd.XL_CELL_EMPTY):
                 player_number = roster_sheet.cell_value(player,
@@ -91,102 +99,117 @@ class wftda_importer_Mar_2014:
                                              number=player_number)
                 add_player_to_bout(player=rostered_player, bout = self.bout_id)
 
+                self.stored_roster_away[player_number] = rostered_player
+
     def import_lineups(self):
         lineup_sheet = self.stats.sheet_by_name(self.lineups['sheet_name'])
 
         #import jams from both first and second half
         for jam in (i for j in (range(self.lineups['first_half_row_start'],
-                                      self.lineups['first_half_row_end']+1),
+                                      self.lineups['first_half_row_end']),
                                 range(self.lineups['second_half_row_start'],
-                                      self.lineups['second_half_row_end']+1))
+                                      self.lineups['second_half_row_end']))
                     for i in j):
+            #Only process the rows that have a number in the jam cell
+            #TODO: add an elif to handle star passes as those use "SP" in the
+            #jam cell
             if(lineup_sheet.cell_type(jam, self.lineups['jam_number_column'])
-                                           != xlrd.XL_CELL_EMPTY):
-                jam_number = lineup_sheet.cell_value(jam,
+                                           == xlrd.XL_CELL_NUMBER):
+                print("processing row: {0}".format(jam))
+
+                lineup_dict = self.get_jam_lineup(lineup_sheet=lineup_sheet,
+                                                  jam=jam)
+
+                #figure out how to do this in the iterator for (jam, half)
+                if(jam in range(self.lineups['first_half_row_start'],
+                                self.lineups['first_half_row_end']+1)):
+                    half = 1
+                else:
+                    half = 2
+
+                jam_id = add_jam(number=lineup_dict['jam_number'],
+                                 half=half,
+                                 bout=self.bout_id)
+                print("{0} in half {1}".format(jam_id, half))
+
+                self.add_lineup_to_jam(jam_id=jam_id, lineup_dict=lineup_dict)
+
+    def add_lineup_to_jam(self, jam_id, lineup_dict):
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_home[
+                                      lineup_dict['home_jammer']],
+                          position="J")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_home[
+                                      lineup_dict['home_pivot']],
+                          position="P")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_home[
+                                      lineup_dict['home_blockerA']],
+                          position="B")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_home[
+                                      lineup_dict['home_blockerB']],
+                          position="B")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_home[
+                                      lineup_dict['home_blockerC']],
+                           position="B")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_away[
+                                      lineup_dict['away_jammer']],
+                          position="J")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_away[
+                                      lineup_dict['away_pivot']],
+                          position="P")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_away[
+                                      lineup_dict['away_blockerA']],
+                          position="B")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_away[
+                                      lineup_dict['away_blockerB']],
+                          position="B")
+        add_player_to_jam(jam=jam_id,
+                          player=self.stored_roster_away[
+                                      lineup_dict['away_blockerC']],
+                          position="B")
+
+
+            #print('%s - half: %s' % (jam,half) )
+    def get_jam_lineup(self, lineup_sheet, jam):
+        lineup = dict()
+        lineup['jam_number'] = lineup_sheet.cell_value(jam,
                              self.lineups['jam_number_column'])
-                home_jammer = lineup_sheet.cell_value(jam,
+        lineup['home_jammer'] = lineup_sheet.cell_value(jam,
                               self.lineups['home_jammer_column'])
-                home_pivot = lineup_sheet.cell_value(jam,
+        lineup['home_pivot'] = lineup_sheet.cell_value(jam,
                              self.lineups['home_pivot_column'])
-                home_blockerA = lineup_sheet.cell_value(jam,
+        lineup['home_blockerA'] = lineup_sheet.cell_value(jam,
                                 self.lineups['home_blockerA_column'])
-                home_blockerB = lineup_sheet.cell_value(jam,
+        lineup['home_blockerB'] = lineup_sheet.cell_value(jam,
                                 self.lineups['home_blockerB_column'])
-                home_blockerC = lineup_sheet.cell_value(jam,
+        lineup['home_blockerC'] = lineup_sheet.cell_value(jam,
                                 self.lineups['home_blockerC_column'])
-                away_jammer = lineup_sheet.cell_value(jam,
+        lineup['away_jammer'] = lineup_sheet.cell_value(jam,
                               self.lineups['away_jammer_column'])
-                away_pivot = lineup_sheet.cell_value(jam,
+        lineup['away_pivot'] = lineup_sheet.cell_value(jam,
                              self.lineups['away_pivot_column'])
-                away_blockerA = lineup_sheet.cell_value(jam,
+        lineup['away_blockerA'] = lineup_sheet.cell_value(jam,
                                 self.lineups['away_blockerA_column'])
-                away_blockerB = lineup_sheet.cell_value(jam,
+        lineup['away_blockerB'] = lineup_sheet.cell_value(jam,
                                 self.lineups['away_blockerB_column'])
-                away_blockerC = lineup_sheet.cell_value(jam,
+        lineup['away_blockerC'] = lineup_sheet.cell_value(jam,
                                 self.lineups['away_blockerC_column'])
 
-            #figure out how to do this in the iterator for (jam, half)
-            if(jam in range(self.lineups['first_half_row_start'],
-                            self.lineups['first_half_row_end']+1)):
-                half = 1
-            else:
-                half = 2
+        print(lineup)
 
-            print('%s - half: %s' % (jam,half) )
+        return lineup
 
 def import_wftda_stats(path):
-    stats = xlrd.open_workbook(path)
-    print(stats.sheet_names())
-
-    igrf_sheet = stats.sheet_by_name('IGRF')
-    num_rows = igrf_sheet.nrows - 1
-    curr_row = -1
-    while curr_row < num_rows:
-        curr_row += 1
-        row = igrf_sheet.row(curr_row)
-
-
     #Create importer
     importer = wftda_importer_Mar_2014(path=path)
-
-    #get players in the bout
-    #importer.import_roster()
-
-    #get jams in the bout
-
-
-
-def populate():
-    alex = add_player(name='Alex DeLarge', number=655)
-    bill = add_player(name='Bill F. Murray', number=906)
-    bamb = add_player(name='''Beatin' Bam!!B''', number=444)
-    nelson = add_player(name='Full Nelson', number=123)
-    rumble = add_player(name='Rumble Fist', number=9)
-
-    first_bout = add_bout(date=datetime.date(2014, 1, 1), location="Key Arena")
-    second_bout = add_bout(date=datetime.date(2014, 2, 1), location="Rats Nest")
-    third_bout = add_bout(date=datetime.date(2014, 3, 1), location="Key Arena")
-    fourth_bout = add_bout(date=datetime.date(2014, 3, 15), location="Rats Nets")
-
-    add_player_to_bout(player=alex, bout = first_bout)
-    add_player_to_bout(player=alex, bout = second_bout)
-    add_player_to_bout(player=alex, bout = fourth_bout)
-
-    add_player_to_bout(player=bill, bout=first_bout)
-    add_player_to_bout(player=bill, bout=third_bout)
-
-    add_player_to_bout(player=bamb, bout=first_bout)
-
-    add_player_to_bout(player=nelson, bout=fourth_bout)
-
-    for p in Player.objects.all():
-        print('- %s -' % p)
-
-    for b in Bout.objects.all():
-        print('- %s -' % b)
-
-    for p_to_b in PlayerToBout.objects.all():
-        print('- %s -' % p_to_b)
 
 def add_player(name, number):
     p = Player.objects.get_or_create(name=name, number=number)[0]
@@ -201,9 +224,18 @@ def add_player_to_bout(player, bout, captain=False):
                                                 captain=captain)[0]
     return p_to_b
 
+def add_jam(number, half, bout):
+    j = Jam.objects.get_or_create(number=number, half=half, bout=bout)[0]
+    return j
+
+def add_player_to_jam(jam, player, position):
+    p_to_j = PlayerToJam.objects.get_or_create(jam=jam, player=player,
+                                               position=position)[0]
+    return p_to_j
+
 if __name__ == '__main__':
     print('Starting player_list population script...')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
-    from player_list.models import Player, Bout, PlayerToBout
+    from player_list.models import Player, Bout, PlayerToBout, Jam, PlayerToJam
     #populate()
     import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
