@@ -3,12 +3,13 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
-from player_list.models import Player, Bout, PlayerToBout
+from player_list.models import Player, Bout, PlayerToBout, Jam, PlayerToJam
 
 #/player/<id>
 def view_bouts_by_player(request, player_id):
     #get bout id's for all bouts played in by player
-    rostered_bouts = Bout.objects.filter(playertobout__player__id__iexact=player_id)
+    rostered_bouts = \
+            Bout.objects.filter(playertobout__player__id__iexact=player_id)
     player = get_object_or_404(Player, pk=player_id)
     context = { 'sort' : player, 'items' : rostered_bouts,
                'sort_name' : player, 'item_name' : 'Bouts',
@@ -17,7 +18,8 @@ def view_bouts_by_player(request, player_id):
 
 #/bout/<id>
 def view_players_by_bout(request, bout_id):
-    rostered_players = Player.objects.filter(playertobout__bout__id__exact=bout_id)
+    rostered_players = \
+            Player.objects.filter(playertobout__bout__id__exact=bout_id)
     bout = get_object_or_404(Bout, pk=bout_id)
     context = { 'sort' : bout, 'items' : rostered_players,
                 'sort_name' : bout, 'item_name' : 'Player',
@@ -41,3 +43,11 @@ def view_videos_by_player_and_bout(request, bout_id, player_id):
     template = loader.get_template('player_list/videos_by_player_and_bout.html')
     context = RequestContext(request)
     return HttpResponse(template.render(context))
+
+def view_jams_by_player(request, player_id):
+    jams = Jam.objects.filter(playertojam__player__id__exact=player_id)
+    player = get_object_or_404(Player, pk=player_id)
+    context = {'sort' : player_id, 'items' : jams,
+               'sort_name' : player, 'item_name' : 'Jams',
+               'url_prefix' : 'jam'}
+    return render(request, 'player_list/item_by_sort.html', context)

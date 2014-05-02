@@ -207,31 +207,33 @@ class wftda_importer_Mar_2014:
 
         return lineup
 
+    def add_player(name, number):
+        p = Player.objects.get_or_create(name=name, number=number)[0]
+        return p
+
+    def add_bout(date, location):
+        b = Bout.objects.get_or_create(date=date, location=location)[0]
+        return b
+
+    def add_player_to_bout(player, bout, captain=False):
+        p_to_b = PlayerToBout.objects.get_or_create(player=player, bout=bout,
+                                                    captain=captain)[0]
+        return p_to_b
+
+    def add_jam(number, half, bout):
+        j = Jam.objects.get_or_create(number=number, half=half, bout=bout)[0]
+        return j
+
+    def add_player_to_jam(jam, player, position):
+        p_to_j = PlayerToJam.objects.get_or_create(jam=jam, player=player,
+                                                   position=position)[0]
+        return p_to_j
+
+
 def import_wftda_stats(path):
     #Create importer
     importer = wftda_importer_Mar_2014(path=path)
 
-def add_player(name, number):
-    p = Player.objects.get_or_create(name=name, number=number)[0]
-    return p
-
-def add_bout(date, location):
-    b = Bout.objects.get_or_create(date=date, location=location)[0]
-    return b
-
-def add_player_to_bout(player, bout, captain=False):
-    p_to_b = PlayerToBout.objects.get_or_create(player=player, bout=bout,
-                                                captain=captain)[0]
-    return p_to_b
-
-def add_jam(number, half, bout):
-    j = Jam.objects.get_or_create(number=number, half=half, bout=bout)[0]
-    return j
-
-def add_player_to_jam(jam, player, position):
-    p_to_j = PlayerToJam.objects.get_or_create(jam=jam, player=player,
-                                               position=position)[0]
-    return p_to_j
 
 if __name__ == '__main__':
     print('Starting player_list population script...')
