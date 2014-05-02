@@ -20,7 +20,7 @@ def view_players_by_bout(request, bout_id):
     rostered_players = Player.objects.filter(playertobout__bout__id__exact=bout_id)
     bout = get_object_or_404(Bout, pk=bout_id)
     context = { 'sort' : bout, 'items' : rostered_players,
-                'sort_name' : 'Bout', 'item_name' : 'Player',
+                'sort_name' : bout, 'item_name' : 'Player',
                 'url_prefix': 'player'}
     return render(request, 'player_list/item_by_sort.html', context)
 
