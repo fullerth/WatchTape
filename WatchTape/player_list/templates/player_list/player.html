@@ -1,0 +1,32 @@
+{% extends "base_site.html" %}
+
+{% block title %}{{ item_name }} by {{ sort_name }}{% endblock title %}
+
+{% block header_block %}
+{{ sort_name }}
+{% endblock header_block %}
+
+{% block content_block %}
+
+    {% load bouts_by_player %}
+    {% bouts_by_player sort.id %}
+
+    {% load jams_by_player %}\
+    {% jams_by_player sort.id %}
+
+        {% comment %}
+
+
+        {% if items %}
+        <ul>
+            {% for item in items %}
+                <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">
+                {{ item }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <h2>Error {{ item_name }} has no {{ sort_name }}</h2>
+        {% endif %}
+        {% endcomment %}
+{% endblock content_block %}
+

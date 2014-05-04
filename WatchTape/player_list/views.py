@@ -14,7 +14,8 @@ def view_bouts_by_player(request, player_id):
     context = { 'sort' : player, 'items' : rostered_bouts,
                'sort_name' : player, 'item_name' : 'Bouts',
                'url_prefix' : 'bout'}
-    return render(request, 'player_list/item_by_sort.html', context)
+    #return render(request, 'player_list/item_by_sort_template.html', context)
+    return render(request, 'player_list/player.html', context)
 
 #/bout/<id>
 def view_players_by_bout(request, bout_id):
@@ -24,7 +25,7 @@ def view_players_by_bout(request, bout_id):
     context = { 'sort' : bout, 'items' : rostered_players,
                 'sort_name' : bout, 'item_name' : 'Player',
                 'url_prefix': 'player'}
-    return render(request, 'player_list/item_by_sort.html', context)
+    return render(request, 'player_list/item_by_sort_template.html', context)
 
 #/video/bout/<id>
 def view_videos_by_bout(request, bout_id):
@@ -50,7 +51,7 @@ def view_jams_by_player(request, player_id):
     context = {'sort' : player_id, 'items' : jams,
                'sort_name' : player, 'item_name' : 'Jams',
                'url_prefix' : 'jam'}
-    return render(request, 'player_list/item_by_sort.html', context)
+    return render(request, 'player_list/item_by_sort_template.html', context)
 
 def view_players_by_jam(request, jam_id):
     players = Player.objects.filter(playertojam__jam__id__exact=jam_id)
@@ -58,4 +59,4 @@ def view_players_by_jam(request, jam_id):
     context = {'sort' : jam_id, 'items' : players,
                'sort_name' : jam, 'item_name' : 'Players',
                'url_prefix' : 'player'}
-    return render(request, 'player_list/item_by_sort.html', context)
+    return render(request, 'player_list/item_by_sort_template.html', context)
