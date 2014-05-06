@@ -39,6 +39,9 @@ class PlayerToJam(models.Model):
     jam = models.ForeignKey(Jam)
     position = models.CharField(max_length=1, choices=POSITIONS)
 
+    def __str__(self):
+        return("{0} in {1}".format(self.player.name, self.jam))
+
 class PlayerToBout(models.Model):
     player = models.ForeignKey(Player)
     bout = models.ForeignKey(Bout)

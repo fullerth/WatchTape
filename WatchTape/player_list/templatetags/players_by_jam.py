@@ -7,9 +7,9 @@ register = template.Library()
 
 @register.inclusion_tag('player_list/item_by_sort.html')
 def players_by_jam(jam_id):
-    players = Player.objects.filter(players__jam__id__exact=jam_id)
+    players = Player.objects.filter(jam__id__exact=jam_id)
     jam = get_object_or_404(Jam, pk=jam_id)
-    context = {'sort' : jam_id, 'items' : players,
+    context = {'sort' : jam, 'items' : players,
                'sort_name' : jam, 'item_name' : 'Players',
                'url_prefix' : 'player'}
     return context

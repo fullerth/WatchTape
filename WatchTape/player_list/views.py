@@ -44,18 +44,10 @@ def view_videos_by_player_and_bout(request, bout_id, player_id):
     context = RequestContext(request)
     return HttpResponse(template.render(context))
 
-def view_jams_by_player(request, player_id):
-    jams = Jam.objects.filter(playertojam__player__id__exact=player_id)
-    player = get_object_or_404(Player, pk=player_id)
-    context = {'sort' : player_id, 'items' : jams,
-               'sort_name' : player, 'item_name' : 'Jams',
-               'url_prefix' : 'jam'}
-    return render(request, 'player_list/jam.html', context)
-
 def view_players_by_jam(request, jam_id):
     players = Player.objects.filter(playertojam__jam__id__exact=jam_id)
     jam = get_object_or_404(Jam, pk=jam_id)
-    context = {'sort' : jam_id, 'items' : players,
+    context = {'sort' : jam, 'items' : players,
                'sort_name' : jam, 'item_name' : 'Players',
                'url_prefix' : 'player'}
     return render(request, 'player_list/jam.html', context)
