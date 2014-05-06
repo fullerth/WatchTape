@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
-from player_list.models import Player, Bout, PlayerToBout, Jam, PlayerToJam
+from player_list.models import Player, Bout, PlayerToBout, \
+                               Jam, PlayerToJam, Video
 
 #/player/<id>
 def view_player_info(request, player_id):
@@ -22,3 +23,9 @@ def view_jam_info(request, jam_id):
     jam = get_object_or_404(Jam, pk=jam_id)
     context = {'jam' : jam, }
     return render(request, 'player_list/jam.html', context)
+
+#/video/<id>
+def view_video_info(request, video_id):
+    video = get_object_or_404(Video, pk=video_id)
+    context = {'video' : video, }
+    return render(request, 'player_list/video.html', context)

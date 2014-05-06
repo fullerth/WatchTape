@@ -12,8 +12,8 @@ class wftda_importer_Mar_2014:
 
      #bout information
     bout = {'sheet_name': 'IGRF', 'venue_row' : 2, 'venue_column' : 1,
-            'date_row' : 4, 'date_column' : 1, 'city_row' : 2, 'city_column' : 7,
-            'state_row' : 2, 'state_column' : 9}
+            'date_row' : 4, 'date_column' : 1, 'city_row' : 2,
+            'city_column' : 7, 'state_row' : 2, 'state_column' : 9}
 
     #roster information
     roster = {'sheet_name':'IGRF', 'row_start': 10, 'row_end':29,
@@ -177,7 +177,6 @@ class wftda_importer_Mar_2014:
                           position="B")
 
 
-            #print('%s - half: %s' % (jam,half) )
     def get_jam_lineup(self, lineup_sheet, jam):
         lineup = dict()
         lineup['jam_number'] = lineup_sheet.cell_value(jam,
@@ -229,6 +228,36 @@ class wftda_importer_Mar_2014:
                                                    position=position)[0]
         return p_to_j
 
+class video_importer:
+
+    #times is a dict containing jam # and start time from offset in seconds
+    def __init__(self, times):
+        self.offset = offset
+        self.times = times
+
+    #Implement
+    @classmethod
+    def from_invented_format(cls, path, num_jams):
+        time_dict = \
+        {'sheet_name' : 'Sheet 1',
+         'url_row' : 0, 'url_column' : 1,
+         'initial_time_row' : 1, 'initial_time_column' : 1,
+         'source_row' : 2, 'source_column' : 2,
+         'jam_row_start' : 4,
+         'jam_start_time_column' : 1, 'jam_end_time_column' : 2,}
+
+        w = xlrd.open_workbook(path)
+        data = w.get_sheets_by_name(time_dict['sheet_name'])
+
+        times = dict()
+
+    #Implement
+    @classmethod
+    def from_wftda_sheet(cls, path):
+        pass
+
+def import_video_info(base_url, path):
+    video_info = video_importer.from_path(path=path)
 
 def import_wftda_stats(path):
     #Create importer
@@ -241,3 +270,5 @@ if __name__ == '__main__':
     from player_list.models import Player, Bout, PlayerToBout, Jam, PlayerToJam
     #populate()
     import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
+    import_video_info(path='../2014.04.12 DLF vs TR Getsome Video Time.xls',
+                      num_jams=1)

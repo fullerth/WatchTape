@@ -14,20 +14,23 @@ class Bout(models.Model):
     def __str__(self):
         return("%s on %s" % (self.location, self.date))
 
+class Video(models.Model):
+    url = models.URLField(max_length=200)
+    start_time = models.TimeField(auto_now=False, auto_now_add=False)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False)
+
+    def __str__(self):
+        return("Video {0}".format(self.id))
+
 class Jam(models.Model):
     number = models.IntegerField(default=0)
     half = models.IntegerField(default=1)
     bout = models.ForeignKey(Bout)
     players = models.ManyToManyField(Player, through='PlayerToJam')
+    videos = models.ManyToManyField(Video)
 
     def __str__(self):
         return("Jam #{0}".format(self.number))
-
-class Video(models.Model):
-    url = models.URLField(max_length=200)
-    Jam = models.ForeignKey(Jam)
-    start_time = models.TimeField(auto_now=False, auto_now_add=False)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False)
 
 class PlayerToJam(models.Model):
     POSITIONS = (
