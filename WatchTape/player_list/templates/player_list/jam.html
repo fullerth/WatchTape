@@ -1,9 +1,9 @@
 {% extends "base_site.html" %}
 
-{% block title %}{{ sort_name }}{% endblock title %}
+{% block title %}{{ jam }}{% endblock title %}
 
 {% block header_block %}
-{{ sort_name }}
+{{ jam }}
 {% endblock header_block %}
 
 {% block content_block %}
@@ -11,13 +11,13 @@
     {% load bout_by_jam %}
 
     <div id="players_by_jam">
-    {% players_by_jam sort.id %}
+    {% players_by_jam jam.id %}
     </div>
 
     <hr>
 
     <div id="bout_by_jam">
-    {% bout_by_jam sort.id %}
+    {% bout_by_jam jam.id %}
     </div>
 
 {% endblock content_block %}
