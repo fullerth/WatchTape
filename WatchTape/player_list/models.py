@@ -50,7 +50,3 @@ class PlayerToBout(models.Model):
 class JamToBout(models.Model):
     bout = models.ForeignKey(Bout)
     jam = models.ForeignKey(Jam)
-
-class PlayerToJam(models.Model):
-    player = models.ForeignKey(Player)
-    jam = models.ForeignKey(Jam)

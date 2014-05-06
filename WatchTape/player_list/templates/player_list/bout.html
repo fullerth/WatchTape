@@ -7,18 +7,17 @@
 {% endblock header_block %}
 
 {% block content_block %}
-    {% load bouts_by_player %}
-    {% load jams_by_player %}
+    {% load players_by_bout %}
+    {% load jams_by_bout %}
 
-    <div id="bouts_by_player">
-    {% bouts_by_player sort.id %}
+    <div id="players_by_bout">
+    {% players_by_bout sort.id %}
     </div>
 
     <hr>
 
-    <div id="jams_by_player">
-    {% jams_by_player sort.id %}
+    <div id="jams_by_bout">
+    {% jams_by_bout sort.id %}
     </div>
 
 {% endblock content_block %}
-
