@@ -58,7 +58,7 @@ class wftda_importer_Mar_2014:
                                           bout_date[2], bout_date[3],
                                           bout_date[4], bout_date[5], )
 
-        self.bout_id = add_bout(date=bout_datetime, location=venue_name)
+        self.bout_id = self.add_bout(date=bout_datetime, location=venue_name)
 
     def import_roster(self):
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
@@ -80,11 +80,11 @@ class wftda_importer_Mar_2014:
 
                 #Do any other required name cleanup here
                 player_name = name_tuple[0]
-                rostered_player = add_player(name = player_name,
+                rostered_player = self.add_player(name = player_name,
                                              number=player_number)
 
-                add_player_to_bout(player=rostered_player, bout = self.bout_id,
-                                   captain=captain)
+                self.add_player_to_bout(player=rostered_player, bout =
+                                        self.bout_id, captain=captain)
 
                 self.stored_roster_home[player_number] = rostered_player
 
@@ -95,9 +95,10 @@ class wftda_importer_Mar_2014:
                                 self.roster['away_number_column'])
                 player_name = roster_sheet.cell_value(player,
                               self.roster['away_name_column'])
-                rostered_player = add_player(name = player_name,
+                rostered_player = self.add_player(name = player_name,
                                              number=player_number)
-                add_player_to_bout(player=rostered_player, bout = self.bout_id)
+                self.add_player_to_bout(player=rostered_player, bout =
+                                        self.bout_id)
 
                 self.stored_roster_away[player_number] = rostered_player
 
@@ -127,7 +128,7 @@ class wftda_importer_Mar_2014:
                 else:
                     half = 2
 
-                jam_id = add_jam(number=lineup_dict['jam_number'],
+                jam_id = self.add_jam(number=lineup_dict['jam_number'],
                                  half=half,
                                  bout=self.bout_id)
                 print("{0} in half {1}".format(jam_id, half))
@@ -135,43 +136,43 @@ class wftda_importer_Mar_2014:
                 self.add_lineup_to_jam(jam_id=jam_id, lineup_dict=lineup_dict)
 
     def add_lineup_to_jam(self, jam_id, lineup_dict):
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_home[
                                       lineup_dict['home_jammer']],
                           position="J")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_home[
                                       lineup_dict['home_pivot']],
                           position="P")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_home[
                                       lineup_dict['home_blockerA']],
                           position="B")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_home[
                                       lineup_dict['home_blockerB']],
                           position="B")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_home[
                                       lineup_dict['home_blockerC']],
                            position="B")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_away[
                                       lineup_dict['away_jammer']],
                           position="J")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_away[
                                       lineup_dict['away_pivot']],
                           position="P")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_away[
                                       lineup_dict['away_blockerA']],
                           position="B")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_away[
                                       lineup_dict['away_blockerB']],
                           position="B")
-        add_player_to_jam(jam=jam_id,
+        self.add_player_to_jam(jam=jam_id,
                           player=self.stored_roster_away[
                                       lineup_dict['away_blockerC']],
                           position="B")
@@ -206,24 +207,24 @@ class wftda_importer_Mar_2014:
 
         return lineup
 
-    def add_player(name, number):
+    def add_player(self, name, number):
         p = Player.objects.get_or_create(name=name, number=number)[0]
         return p
 
-    def add_bout(date, location):
+    def add_bout(self, date, location):
         b = Bout.objects.get_or_create(date=date, location=location)[0]
         return b
 
-    def add_player_to_bout(player, bout, captain=False):
+    def add_player_to_bout(self, player, bout, captain=False):
         p_to_b = PlayerToBout.objects.get_or_create(player=player, bout=bout,
                                                     captain=captain)[0]
         return p_to_b
 
-    def add_jam(number, half, bout):
+    def add_jam(self, number, half, bout):
         j = Jam.objects.get_or_create(number=number, half=half, bout=bout)[0]
         return j
 
-    def add_player_to_jam(jam, player, position):
+    def add_player_to_jam(self, jam, player, position):
         p_to_j = PlayerToJam.objects.get_or_create(jam=jam, player=player,
                                                    position=position)[0]
         return p_to_j
@@ -231,33 +232,121 @@ class wftda_importer_Mar_2014:
 class video_importer:
 
     #times is a dict containing jam # and start time from offset in seconds
-    def __init__(self, times):
-        self.offset = offset
-        self.times = times
+    def __init__(self):
+        pass
 
-    #Implement
-    @classmethod
-    def from_invented_format(cls, path, num_jams):
-        time_dict = \
-        {'sheet_name' : 'Sheet 1',
+    def from_invented_format(self, path, num_jams=None):
+        #Add 1 to values to get xls row/column
+        video = \
+        {'sheet_name' : 'Sheet1',
          'url_row' : 0, 'url_column' : 1,
-         'initial_time_row' : 1, 'initial_time_column' : 1,
-         'source_row' : 2, 'source_column' : 2,
-         'jam_row_start' : 4,
+         'bout_id_row' : 1, 'bout_id_column' : 1,
+         'initial_time_row' : 2, 'initial_time_column' : 1,
+         'source_row' : 3, 'source_column' : 1,
+         'site_row' : 4, 'site_column' : 1,
+         'jam_row_start' : 6, 'jam_number_column' : 0,
          'jam_start_time_column' : 1, 'jam_end_time_column' : 2,}
 
         w = xlrd.open_workbook(path)
-        data = w.get_sheets_by_name(time_dict['sheet_name'])
+        data = w.sheet_by_name(video['sheet_name'])
 
-        times = dict()
+        bout_id = int(data.cell_value(video['bout_id_row'],
+                                      video['bout_id_column']))
+
+        print(int(bout_id))
+
+        bout = Bout.objects.filter(id__exact=bout_id)
+
+        url = data.cell_value(video['url_row'], video['url_column'])
+        site = ''
+
+        for site_url in Video._meta.get_field('site').choices:
+            site_len = len(site_url[1])
+            if(url[0:site_len] == (site_url[1])):
+                site = site_url[0]
+
+        print(site)
+
+        initial_time = data.cell_value(video['initial_time_row'],
+                                      video['initial_time_column'])
+        source = data.cell_value(video['source_row'], video['source_column'])
+        print(source)
+        jam_row = video['jam_row_start']
+        site = data.cell_value(video['site_row'], video['site_column'])
+
+        print(bout)
+
+        #Sort by half then jam
+        jams = Jam.objects.filter(
+                                bout__id__exact=bout
+                         ).order_by(
+                                'half', 'number')
+        print(jams)
+
+        jam_data = {}
+
+        def parse_video_data(jam):
+            row = jam + video['jam_row_start']
+            jam_data['jam_number'] = \
+                data.cell_value(row, video['jam_number_column'])
+            jam_data['jam_start_time'] = \
+                data.cell_value(row, video['jam_start_time_column'])+initial_time
+            jam_data['jam_end_time'] = \
+                data.cell_value(row, video['jam_end_time_column'])+initial_time
+
+        #Get rows either by num_jams or parsing till cell empty
+        if(num_jams==None):
+            #currently not working
+            while(data.cell_type(
+                jam_row, video['jam_number_column'])==xlrd.XL_CELL_NUMBER):
+                jam_row = jam_row + 1
+                parse_video_data(row)
+                self.add_video(url=url, initial_seconds=initial_time,
+                           start_seconds=jam_data['jam_start_time'],
+                           end_seconds=jam_data['jam_end_time'],
+                           source=source, jam=jams[jam], bout=bout)
+        else:
+            for jam in range(0, num_jams):
+                parse_video_data(jam=jam)
+                print(jam)
+                print(source)
+                print(site)
+                self.add_video(url=url, site=site,
+                               initial_seconds=jam_data['jam_start_time'],
+                               start_seconds=jam_data['jam_start_time'],
+                               end_seconds=jam_data['jam_end_time'],
+                               source=source, jam=jams[jam], bout=bout)
+
+
 
     #Implement
     @classmethod
     def from_wftda_sheet(cls, path):
         pass
 
-def import_video_info(base_url, path):
-    video_info = video_importer.from_path(path=path)
+    def add_video(self, url, site, initial_seconds, start_seconds, end_seconds,
+                  source, jam, bout):
+        bout = Bout.objects.get(pk=bout)
+        #Seems that there may be a better way to create a datetime object with
+        #more than 60 seconds
+        initial_datetime = datetime.datetime(1, 1, 1, 0, 0, 0, 0) + \
+                           datetime.timedelta(seconds=initial_seconds)
+
+        start_datetime = datetime.datetime(1, 1,1,0,0,0,0) + \
+                           datetime.timedelta(seconds=start_seconds)
+        end_datetime = datetime.datetime(1, 1,1,0,0,0,0) + \
+                       datetime.timedelta(seconds=end_seconds)
+
+        v = Video.objects.get_or_create(url=url, initial_time=initial_datetime,
+                                        source=source, site=site)
+        v_to_j = VideoToJam.objects.get_or_create(start_time=start_datetime,
+                                                  end_time=end_datetime,
+                                                  video=v[0], jam=jam)
+
+
+def import_video_info(path, num_jams=None, base_url=None):
+    video_info = video_importer()
+    video_info.from_invented_format(path=path, num_jams=num_jams)
 
 def import_wftda_stats(path):
     #Create importer
@@ -267,8 +356,9 @@ def import_wftda_stats(path):
 if __name__ == '__main__':
     print('Starting player_list population script...')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
-    from player_list.models import Player, Bout, PlayerToBout, Jam, PlayerToJam
+    from player_list.models import Player, Bout, PlayerToBout, Jam, \
+                                   PlayerToJam, Video, VideoToJam
     #populate()
-    import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
+    #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
     import_video_info(path='../2014.04.12 DLF vs TR Getsome Video Time.xls',
                       num_jams=1)

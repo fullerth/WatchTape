@@ -7,5 +7,14 @@
 {% endblock header_block %}
 
 {% block content_block %}
-    VIDEO HERE SUKKA!
+    {% load jams_by_video %}
+
+    <div id="video">
+    <a href={{ video.url }}>{{ video }}</a>
+    </div>
+
+    <div id="jams_by_video">
+    {% jams_by_video video.id %}
+    </div>
+
 {% endblock content_block %}

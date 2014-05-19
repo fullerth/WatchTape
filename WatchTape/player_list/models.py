@@ -15,9 +15,15 @@ class Bout(models.Model):
         return("%s on %s" % (self.location, self.date))
 
 class Video(models.Model):
-    url = models.URLField(max_length=200)
-    start_time = models.TimeField(auto_now=False, auto_now_add=False)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False)
+    SITES = (
+             ('vimeo', '''http://vimeo.com'''),
+             ('youtube', '''http://youtube.com'''),
+             ('', 'unknown'),
+            )
+    url = models.URLField(max_length=255)
+    initial_time = models.TimeField(auto_now=False, auto_now_add=False)
+    source = models.CharField(max_length=200)
+    site = models.CharField(max_length = 7, choices=SITES)
 
     def __str__(self):
         return("Video {0}".format(self.id))
@@ -27,16 +33,27 @@ class Jam(models.Model):
     half = models.IntegerField(default=1)
     bout = models.ForeignKey(Bout)
     players = models.ManyToManyField(Player, through='PlayerToJam')
-    videos = models.ManyToManyField(Video)
+    videos = models.ManyToManyField(Video, through='VideoToJam')
 
     def __str__(self):
         return("Jam #{0}".format(self.number))
+
+class VideoToJam(models.Model):
+    start_time = models.TimeField(auto_now=False, auto_now_add=False)
+    end_time = models.TimeField(auto_now=False, auto_now_add=False)
+    video = models.ForeignKey(Video)
+    jam = models.ForeignKey(Jam)
+
+    def __str__(self):
+        return("Video#{0} for Jam #{1}".format(self.video.id, self.jam.id))
+
+
 
 class PlayerToJam(models.Model):
     POSITIONS = (
                  ('B', 'Blocker'),
                  ('J', 'Jammer'),
-                 ('P', 'Pivot')
+                 ('P', 'Pivot'),
                 )
     player = models.ForeignKey(Player)
     jam = models.ForeignKey(Jam)

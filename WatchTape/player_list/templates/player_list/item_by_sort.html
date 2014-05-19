@@ -1,22 +1,26 @@
-<!DOCTYPE html>
+{% load lookup %}
 
-<html>
-    <head>
+    <div id='{{ sort_name }}_header'>
         <title>{{ item_name }} by {{ sort_name }}</title>
-    </head>
+    </div>
 
-    <body>
+    <div id='{{ sort_name }}_context'>
         <h1>{{ item_name }} by {{ sort_name }}</h1>
 
         {% if items %}
         <ul>
             {% for item in items %}
                 <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
+                    <ul>
+                        {% for subitem in subitems|lookup:item %}
+                            <li>test</li>
+                        {% endfor %}
+                    </ul>
             {% endfor %}
+
         </ul>
         {% else %}
         <h2>Error {{ item_name }} has no {{ sort_name }}</h2>
         {% endif %}
 
-    </body>
-</html>
+    </div>
