@@ -35,6 +35,13 @@ echo
 echo Installing pip...
 sudo python3.3 /vagrant/get-pip.py
 
+#install all pip packages
+#echo
+#echo
+#echo Installing pip requirements
+#sudo pip3 install -r requirements.txt
+
+
 #install Django
 echo  
 echo  
@@ -64,5 +71,11 @@ echo
 echo
 echo Installing xlrd
 sudo pip3 install xlrd
+
+#install django-debug-toolbar
+echo
+echo
+echo Installing django-debug-toolbar
+sudo pip3 install django-debug-toolbar
 
 echo Install Finished

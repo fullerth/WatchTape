@@ -28,6 +28,9 @@ TEMPLATE_DIRS = os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape')
 
 ALLOWED_HOSTS = []
 
+#DEBUG TOOLBAR SETTINGS
+INTERNAL_IPS = ('10.0.2.2')
+
 
 # Application definition
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'player_list',
+    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
