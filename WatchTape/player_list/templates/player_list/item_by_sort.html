@@ -1,4 +1,4 @@
-{% load lookup %}
+ {% load include_video_by_jam_sublist %}
 
     <div id='{{ sort_name }}_header'>
         <title>{{ item_name }} by {{ sort_name }}</title>
@@ -9,13 +9,12 @@
 
         {% if items %}
         <ul>
+            <li>
             {% for item in items %}
                 <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
-                    <ul>
-                        {% for subitem in subitems|lookup:item %}
-                            <li>test</li>
-                        {% endfor %}
-                    </ul>
+                    {% if include_video_subitems %}
+                        {% videos_by_jam_sublist item.id %}
+                    {% endif %}
             {% endfor %}
 
         </ul>

@@ -20,7 +20,7 @@ class Video(models.Model):
              ('youtube', '''http://youtube.com'''),
              ('', 'unknown'),
             )
-    url = models.URLField(max_length=255)
+    base_url = models.URLField()
     initial_time = models.TimeField(auto_now=False, auto_now_add=False)
     source = models.CharField(max_length=200)
     site = models.CharField(max_length = 7, choices=SITES)
@@ -41,6 +41,7 @@ class Jam(models.Model):
 class VideoToJam(models.Model):
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
+    url = models.URLField(max_length=255)
     video = models.ForeignKey(Video)
     jam = models.ForeignKey(Jam)
 
