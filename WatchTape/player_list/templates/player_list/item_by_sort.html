@@ -12,9 +12,7 @@
             {% for item in items %}
                 <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
                     <ul>
-                        {% for subitem in subitems|lookup:item %}
-                            <li>test</li>
-                        {% endfor %}
+                        <li>Always Display this Sublist</li>
                     </ul>
             {% endfor %}
 
