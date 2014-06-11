@@ -11,9 +11,11 @@
         <ul>
             {% for item in items %}
                 <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
+                    {% if include_video_by_jams %}
                     <ul>
-                        <li>Always Display this Sublist</li>
+                        <li>stuff here: {{ include_video_by_jams}}</li>
                     </ul>
+                    {% endif %}
             {% endfor %}
 
         </ul>

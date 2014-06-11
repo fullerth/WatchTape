@@ -43,6 +43,7 @@ class VideoToJam(models.Model):
     end_time = models.TimeField(auto_now=False, auto_now_add=False)
     video = models.ForeignKey(Video)
     jam = models.ForeignKey(Jam)
+    timecode_url = models.URLField(max_length=255)
 
     def __str__(self):
         return("Video#{0} for Jam #{1}".format(self.video.id, self.jam.id))

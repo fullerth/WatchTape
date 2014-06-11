@@ -327,26 +327,27 @@ class video_importer:
     def add_video(self, url, site, initial_seconds, start_seconds, end_seconds,
                   source, jam, bout):
         bout = Bout.objects.get(pk=bout)
-        #Seems that there may be a better way to create a datetime object with
-        #more than 60 seconds
-        initial_datetime = datetime.datetime(1, 1, 1, 0, 0, 0, 0) + \
-                           datetime.timedelta(seconds=initial_seconds)
-
-        start_datetime = datetime.datetime(1, 1,1,0,0,0,0) + \
-                           datetime.timedelta(seconds=start_seconds)
-        end_datetime = datetime.datetime(1, 1,1,0,0,0,0) + \
-                       datetime.timedelta(seconds=end_seconds)
 
         v = Video.objects.get_or_create(url=url, initial_time=initial_datetime,
-                                        source=source, site=site)
-        v_to_j = VideoToJam.objects.get_or_create(start_time=start_datetime,
-                                                  end_time=end_datetime,
-                                                  video=v[0], jam=jam)
+                                        source=source, site=site)[0]
+
+        timecode_url = jam_url_builder(base_url=url, start_time='3m25s',
+                                       site='Vimeo')
+        v_to_j = VideoToJam.objects.get_or_create(start_time='3m25s',
+                                                  end_time='4m50s',
+                                                  video=v, jam=jam,
+                                                  timecode_url=timecode_url)
+
+def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
+        if(site=='Vimeo'):
+            #Should raise an exception if stop_time is defined as vimeo does
+            #not support a stop time
+            return base_url+'#t='+start_time
 
 
 def import_video_info(path, num_jams=None, base_url=None):
     video_info = video_importer()
-    video_info.from_invented_format(path=path, num_jams=num_jams)
+    #video_info.from_invented_format(path=path, num_jams=num_jams)
 
 def import_wftda_stats(path):
     #Create importer

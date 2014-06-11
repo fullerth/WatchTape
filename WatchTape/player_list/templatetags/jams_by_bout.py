@@ -10,8 +10,13 @@ def jams_by_bout(bout_id):
     jams = Jam.objects.filter(bout__id__exact=bout_id)
     bout = get_object_or_404(Bout, pk=bout_id)
     videos = VideoToJam.objects.filter(jam__in=jams)
+    temp_video = VideoToJam.objects.filter(id__exact=1)
+    print(temp_video)
+    print(temp_video.timecode_url)
+
     print('videos: {0}'.format(videos))
     context = {'sort' : bout_id, 'items' : jams,
                'sort_name' : bout, 'item_name' : 'Jams',
-               'url_prefix' : 'jam', 'subitems' : videos}
+               'url_prefix' : 'jam', 'subitems' : videos,
+               'include_video_by_jams' : temp_video}
     return context
