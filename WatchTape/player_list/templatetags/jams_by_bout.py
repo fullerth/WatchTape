@@ -10,7 +10,7 @@ def jams_by_bout(bout_id):
     jams = Jam.objects.filter(bout__id__exact=bout_id)
     bout = get_object_or_404(Bout, pk=bout_id)
     videos = VideoToJam.objects.filter(jam__in=jams)
-    temp_video = VideoToJam.objects.filter(id__exact=1)
+    temp_video = VideoToJam.objects.filter(id__exact=1)[0]
     print(temp_video)
     print(temp_video.timecode_url)
 
