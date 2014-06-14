@@ -10,9 +10,10 @@ def jams_by_bout(bout_id):
     jams = Jam.objects.filter(bout__id__exact=bout_id)
     bout = get_object_or_404(Bout, pk=bout_id)
     videos = VideoToJam.objects.filter(jam__in=jams)
-    temp_video = VideoToJam.objects.filter(id__exact=1)[0]
+    temp_video = VideoToJam.objects.filter(jam__id__in=jams)
     print(temp_video)
-    print(temp_video.timecode_url)
+    print(temp_video[0].timecode_url)
+    print(temp_video[1].timecode_url)
 
     print('videos: {0}'.format(videos))
     context = {'sort' : bout_id, 'items' : jams,
