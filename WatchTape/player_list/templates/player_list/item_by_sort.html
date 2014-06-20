@@ -9,21 +9,28 @@
 
         {% if items %}
         <ul>
-            {% for item in items %}
-                <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
-                    {% if include_video_by_jams %}
-                    <ul>
-                        {% for subitem in include_video_by_jams %}
-                        <li>
-                        <a href="{{ subitem.timecode_url }}">
-                        {{ subitem }}
-                        </a>
 
-                        </li>
-                        {% endfor %}
+            {% if subitems %}
+
+                {% for item, subitems in items %}
+
+                    <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
+                    <ul>
+                    {% for subitem in subitems %}
+                        <li><a href="{{subitem.timecode_url}}">{{ subitem }}</a></li>
+                    {% endfor %}
                     </ul>
-                    {% endif %}
-            {% endfor %}
+                {% endfor %}
+
+            {% else %}
+
+                {% for item in items %}
+                    <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
+                {% endfor %}
+
+            {% endif %}
+
+
 
         </ul>
         {% else %}
