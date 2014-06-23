@@ -7,6 +7,9 @@ import re
 #for wftda stats book importer
 import xlrd
 
+#for video to jam importer
+import json
+
 class wftda_importer_Mar_2014:
     #Note all offsets are zero-indexed, subtract 1 from excel row/column values
 
@@ -235,88 +238,15 @@ class video_importer:
     def __init__(self):
         pass
 
-    def from_invented_format(self, path, num_jams=None):
-        #Add 1 to values to get xls row/column
-        video = \
-        {'sheet_name' : 'Sheet1',
-         'url_row' : 0, 'url_column' : 1,
-         'bout_id_row' : 1, 'bout_id_column' : 1,
-         'initial_time_row' : 2, 'initial_time_column' : 1,
-         'source_row' : 3, 'source_column' : 1,
-         'site_row' : 4, 'site_column' : 1,
-         'jam_row_start' : 6, 'jam_number_column' : 0,
-         'jam_start_time_column' : 1, 'jam_end_time_column' : 2,}
 
-        w = xlrd.open_workbook(path)
-        data = w.sheet_by_name(video['sheet_name'])
-
-        bout_id = int(data.cell_value(video['bout_id_row'],
-                                      video['bout_id_column']))
-
-        print(int(bout_id))
-
-        bout = Bout.objects.filter(id__exact=bout_id)
-
-        url = data.cell_value(video['url_row'], video['url_column'])
-        site = ''
-
-        for site_url in Video._meta.get_field('site').choices:
-            site_len = len(site_url[1])
-            if(url[0:site_len] == (site_url[1])):
-                site = site_url[0]
-
-        print(site)
-
-        initial_time = data.cell_value(video['initial_time_row'],
-                                      video['initial_time_column'])
-        source = data.cell_value(video['source_row'], video['source_column'])
-        print(source)
-        jam_row = video['jam_row_start']
-        site = data.cell_value(video['site_row'], video['site_column'])
-
-        print(bout)
-
-        #Sort by half then jam
-        jams = Jam.objects.filter(
-                                bout__id__exact=bout
-                         ).order_by(
-                                'half', 'number')
-        print(jams)
-
-        jam_data = {}
-
-        def parse_video_data(jam):
-            row = jam + video['jam_row_start']
-            jam_data['jam_number'] = \
-                data.cell_value(row, video['jam_number_column'])
-            jam_data['jam_start_time'] = \
-                data.cell_value(row, video['jam_start_time_column'])+initial_time
-            jam_data['jam_end_time'] = \
-                data.cell_value(row, video['jam_end_time_column'])+initial_time
-
-        #Get rows either by num_jams or parsing till cell empty
-        if(num_jams==None):
-            #currently not working
-            while(data.cell_type(
-                jam_row, video['jam_number_column'])==xlrd.XL_CELL_NUMBER):
-                jam_row = jam_row + 1
-                parse_video_data(row)
-                self.add_video(url=url, initial_seconds=initial_time,
-                           start_seconds=jam_data['jam_start_time'],
-                           end_seconds=jam_data['jam_end_time'],
-                           source=source, jam=jams[jam], bout=bout)
-        else:
-            for jam in range(0, num_jams):
-                parse_video_data(jam=jam)
-                print(jam)
-                print(source)
-                print(site)
-                self.add_video(url=url, site=site,
-                               initial_seconds=jam_data['jam_start_time'],
-                               start_seconds=jam_data['jam_start_time'],
-                               end_seconds=jam_data['jam_end_time'],
-                               source=source, jam=jams[jam], bout=bout)
-
+    def from_json_file(self, filename):
+        try:
+            f = open(filename)
+            data = json.load(f)
+        except ValueError as e:
+            print("JSON formatting error: {0}".format(e))
+        except FileNotFoundError as e:
+            print("File does not exist: {0}. Error: {1}".format(filename, e))
 
 
     #Implement
@@ -361,5 +291,5 @@ if __name__ == '__main__':
                                    PlayerToJam, Video, VideoToJam
     #populate()
     #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
-    import_video_info(path='../2014.04.12 DLF vs TR Getsome Video Time.xls',
+    import_video_info(path='../RatVsJet2014.json',
                       num_jams=1)
