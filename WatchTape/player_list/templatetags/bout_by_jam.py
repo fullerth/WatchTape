@@ -1,7 +1,7 @@
 from django import template
 from django.shortcuts import get_object_or_404
 
-from player_list.models import Bout, Jam, JamToBout
+from player_list.models import Bout, Jam #JamToBout
 
 register = template.Library()
 

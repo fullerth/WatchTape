@@ -224,6 +224,8 @@ class wftda_importer_Mar_2014:
         return p_to_b
 
     def add_jam(self, number, half, bout):
+        print("Adding with Jam {0} to half {1} of bout {2}".format(
+                                                            number, half, bout))
         j = Jam.objects.get_or_create(number=number, half=half, bout=bout)[0]
         return j
 
@@ -290,6 +292,6 @@ if __name__ == '__main__':
     from player_list.models import Player, Bout, PlayerToBout, Jam, \
                                    PlayerToJam, Video, VideoToJam
     #populate()
-    #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
-    import_video_info(path='../RatVsJet2014.json',
-                      num_jams=1)
+    import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
+    #import_video_info(path='../RatVsJet2014.json',
+    #                  num_jams=1)
