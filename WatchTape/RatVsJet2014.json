@@ -1,5 +1,6 @@
 {"bout" : {"id" : 1},
-"video" : {"url" : "http://vimeo.com/97709660"},
+"video" : {"url" : "http://vimeo.com/97709660", "site" : "Vimeo",
+            "source" : "Papa Getsome"},
 
 "Half 1" :
 [
@@ -50,76 +51,51 @@
 },
 {
 "number" :  10,
-"Start" : "1h41m34s",
-"End" : "1h42m07"
-},
-{
-"number" :  11,
-"Start" : "1h42m37s",
-"End" : "1h44m37s"
-},
-{
-"number" :  12,
-"Start" : "1h45m08s",
-"End" : "1h47m08s"
-},
-{
-"number" :  13,
-"Start" : "1h47m40s",
-"End" : "1h49m40s"
-},
-{
-"number" :  14,
 "Start" : "1h51m32s",
 "End" : "1h52m27s"
 },
 {
-"number" :  15,
+"number" :  11,
 "Start" : "1h52m57s",
 "End" : "1h53m22s"
 },
 {
-"number" :  16,
+"number" :  12,
 "Start" : "1h53m52s",
 "End" : "1h55m04s"
 },
 {
-"number" :  17,
+"number" :  13,
 "Start" : "1h55m35s",
 "End" : "1h56m53s"
 },
 {
-"number" :  18,
+"number" :  14,
 "Start" : "1h57m24s",
 "End" : "1h59m24s"
 },
 {
-"number" :  19,
+"number" :  15,
 "Start" : "1h59m55s",
 "End" : "2h00m30s"
 },
 {
-"number" :  20,
-"Start" : "2h01mXs",
-"End" : "XhXmXs"
-},
-{
-"number" :  21,
+"number" :  16,
 "Start" : "2h03m28s",
 "End" : "2h05m28s"
 },
 {
-"number" :  22,
+"number" :  17,
 "Start" : "2h07m05s",
 "End" : "2h09m05s"
 },
 {
-"number" :  23,
+"number" :  18,
 "Start" : "2h09m35s",
 "End" : "2h10m03s"
 },
 {
-"number" :  24,
+"number" :  19,
 "Start" : "2h10m34s",
 "End" : "2h11m34s"
 }

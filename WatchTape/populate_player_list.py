@@ -236,19 +236,52 @@ class wftda_importer_Mar_2014:
 
 class video_importer:
 
-    #times is a dict containing jam # and start time from offset in seconds
     def __init__(self):
         pass
 
+    def add_video(self, url, site, start, end,
+                  source, jam, bout):
 
-    def from_json_file(self, filename):
+
+        v = Video.objects.get_or_create(url=url,
+                                        source=source, site=site)[0]
+
+        timecode_url = jam_url_builder(base_url=url, start_time=start,
+                                       site='Vimeo')
+        v_to_j = VideoToJam.objects.get_or_create(start_time=start,
+                                                  end_time=end,
+                                                  video=v, jam=jam,
+                                                  timecode_url=timecode_url)
+
+    def add_video_to_jam(self, jam_data, half, data):
+        bout = Bout.objects.get(pk=data['bout']['id'])
+        jam = Jam.objects.filter(
+                            number=jam_data['number']
+                        ).filter(
+                            bout__id=bout.id
+                        ).filter(
+                            half=half)[0]
+        print("{0} in half {1}".format(jam, half))
+        self.add_video(url=data['video']['url'],
+                       site = data['video']['site'],
+                       start=jam_data['Start'], end=jam_data['End'],
+                       source=data['video']['source'], jam=jam,
+                       bout=bout)
+
+    def from_json_file(self, path):
         try:
-            f = open(filename)
-            data = json.load(f)
+            f = open(path)
+            self.data = json.load(f)
         except ValueError as e:
             print("JSON formatting error: {0}".format(e))
         except FileNotFoundError as e:
-            print("File does not exist: {0}. Error: {1}".format(filename, e))
+            print("File does not exist: {0}. Error: {1}".format(path, e))
+
+        for jam_data in self.data['Half 1']:
+            self.add_video_to_jam(jam_data=jam_data, data=self.data, half=1)
+
+        for jam_data in self.data['Half 2']:
+            self.add_video_to_jam(jam_data=jam_data, data=self.data, half=2)
 
 
     #Implement
@@ -256,19 +289,8 @@ class video_importer:
     def from_wftda_sheet(cls, path):
         pass
 
-    def add_video(self, url, site, initial_seconds, start_seconds, end_seconds,
-                  source, jam, bout):
-        bout = Bout.objects.get(pk=bout)
 
-        v = Video.objects.get_or_create(url=url, initial_time=initial_datetime,
-                                        source=source, site=site)[0]
 
-        timecode_url = jam_url_builder(base_url=url, start_time='3m25s',
-                                       site='Vimeo')
-        v_to_j = VideoToJam.objects.get_or_create(start_time='3m25s',
-                                                  end_time='4m50s',
-                                                  video=v, jam=jam,
-                                                  timecode_url=timecode_url)
 
 def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
         if(site=='Vimeo'):
@@ -277,9 +299,9 @@ def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
             return base_url+'#t='+start_time
 
 
-def import_video_info(path, num_jams=None, base_url=None):
+def import_video_info(path):
     video_info = video_importer()
-    #video_info.from_invented_format(path=path, num_jams=num_jams)
+    video_info.from_json_file(path=path)
 
 def import_wftda_stats(path):
     #Create importer
@@ -292,6 +314,7 @@ if __name__ == '__main__':
     from player_list.models import Player, Bout, PlayerToBout, Jam, \
                                    PlayerToJam, Video, VideoToJam
     #populate()
-    import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
-    #import_video_info(path='../RatVsJet2014.json',
-    #                  num_jams=1)
+    #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
+    import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')
+
+    import_video_info(path='RatVsJet2014.json')
