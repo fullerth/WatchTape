@@ -4,6 +4,12 @@ class Player(models.Model):
     name = models.CharField(max_length=200)
     number = models.IntegerField(default = 0)
 
+    def _get_url(self):
+        '''Construct the URL for this object'''
+        return '/player/{0}'.format(self.id)
+    url = property(_get_url)
+
+
     def __str__(self):
         return("%s #%s" % (self.name, self.number))
 

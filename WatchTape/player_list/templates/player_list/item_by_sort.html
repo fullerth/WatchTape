@@ -14,10 +14,10 @@
 
                 {% for item, subitems in items %}
 
-                    <li><a href="/watchtape/{{ url_prefix }}/{{ item.id }}/">{{ item }}</a></li>
+                    <li><a href="{{ item.url }}">{{ item }}</a></li>
                     <ul>
                     {% for subitem in subitems %}
-                        <li><a href="{{subitem.timecode_url}}">{{ subitem }}</a></li>
+                        <li><a href="{{ subitem.timecode_url }}">{{ subitem }}</a></li>
                     {% endfor %}
                     </ul>
                 {% endfor %}
