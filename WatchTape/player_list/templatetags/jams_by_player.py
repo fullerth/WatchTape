@@ -10,10 +10,14 @@ def jams_by_player(player_id):
     jams = Jam.objects.filter(playertojam__player__id__exact=player_id)
     player = get_object_or_404(Player, pk=player_id)
 
+    #jam_id_list = []
     videos = []
 
     for jam in jams:
+            #jam_id_list.append(jam.id)
             videos.append(VideoToJam.objects.filter(jam__id__exact=jam.id))
+
+    #videos = VideoToJam.objects.filter(jam__id__in=jam_id_list)
 
     item_subitem_zip = zip(jams, videos)
     item_subitem_tuple = list(item_subitem_zip)

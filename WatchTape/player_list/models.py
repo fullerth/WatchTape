@@ -6,7 +6,7 @@ class Player(models.Model):
 
     def _get_url(self):
         '''Construct the URL for this object'''
-        return '/player/{0}'.format(self.id)
+        return '/watchtape/player/{0}'.format(self.id)
     url = property(_get_url)
 
 
@@ -31,6 +31,11 @@ class Bout(models.Model):
     location = models.CharField(max_length=200)
     players = models.ManyToManyField(Player, through='PlayerToBout')
 
+    def _get_url(self):
+        '''Construct the URL for this object'''
+        return '/watchtape/bout/{0}'.format(self.id)
+    url = property(_get_url)
+
     def __str__(self):
         return("%s on %s" % (self.location, self.date))
 
@@ -40,6 +45,11 @@ class Jam(models.Model):
     players = models.ManyToManyField(Player, through='PlayerToJam')
     videos = models.ManyToManyField(Video, through='VideoToJam')
     bout = models.ForeignKey(Bout)
+
+    def _get_url(self):
+        '''Construct the URL for this object'''
+        return '/watchtape/jam/{0}'.format(self.id)
+    url = property(_get_url)
 
     def __str__(self):
         return("Jam #{0}".format(self.number))
@@ -52,6 +62,11 @@ class VideoToJam(models.Model):
     video = models.ForeignKey(Video)
     jam = models.ForeignKey(Jam)
     timecode_url = models.URLField(max_length=255)
+
+    def _get_url(self):
+        '''Should construct url based on site, for now return timecode url'''
+        return self.timecode_url
+    url = property(_get_url)
 
     def __str__(self):
         return("Video#{0} for Jam #{1}".format(self.video.id, self.jam.id))
