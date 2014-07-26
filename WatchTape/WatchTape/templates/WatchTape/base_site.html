@@ -5,6 +5,9 @@
         <title> {% block title %} Watch Tape {% endblock title %} </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <!-- Custom styles for this template -->
+        <link href="{{STATIC_URL}}WatchTape/WatchTape.css" rel="stylesheet">
+
     </head>
 
     <body>
@@ -17,15 +20,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">WatchTape</a>
         </div>
+        {% block navbar_block %}
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">Jams</a></li>
+            <li><a href="#contact">Players</a></li>
           </ul>
         </div><!--/.nav-collapse -->
+        {% endblock navbar_block %}
       </div>
     </div>
     <div class="row">
@@ -47,6 +52,11 @@
         {% endblock footer_block %}
     </footer>
 
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
     </body>
 </html>
 
