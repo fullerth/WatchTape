@@ -52,7 +52,7 @@ class Jam(models.Model):
     url = property(_get_url)
 
     def __str__(self):
-        return("Jam #{0}".format(self.number))
+        return("Half #{1}, Jam #{0}".format(self.number, self.half))
 
 
 

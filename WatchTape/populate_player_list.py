@@ -36,6 +36,8 @@ class wftda_importer_Mar_2014:
                'away_pivot_column' : 32, 'away_blockerA_column' : 36,
                'away_blockerB_column' : 40, 'away_blockerC_column' : 44}
 
+
+
     #Keep track of players we've added already to allow for easy retrieval
     stored_roster_home = dict()
     stored_roster_away = dict()
