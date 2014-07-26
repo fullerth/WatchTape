@@ -16,9 +16,14 @@
 
     <hr>
 
-    <div id="jams_by_player">
-    {% jams_by_player player.id %}
+    <div id="jams_by_player_half_1">
+    {% jams_by_player player.id 1%}
     </div>
+
+    <div id="jams_by_player_half_2">
+    {% jams_by_player player.id 2%}
+    </div>
+
 
 {% endblock content_block %}
 

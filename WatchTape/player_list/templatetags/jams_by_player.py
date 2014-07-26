@@ -6,21 +6,23 @@ from player_list.models import Jam, Player, VideoToJam
 register = template.Library()
 
 @register.inclusion_tag('player_list/item_by_sort.html')
-def jams_by_player(player_id):
-    jams = Jam.objects.filter(playertojam__player__id__exact=player_id)
+def jams_by_player(player_id, half):
+    jams = Jam.objects.filter(playertojam__player__id__exact=player_id
+                             ).filter(half=half)
     player = get_object_or_404(Player, pk=player_id)
 
-    #jam_id_list = []
     videos = []
 
-    for jam in jams:
-            #jam_id_list.append(jam.id)
-            videos.append(VideoToJam.objects.filter(jam__id__exact=jam.id))
+    half = half+0
+    print('{0}'.format(half))
 
-    #videos = VideoToJam.objects.filter(jam__id__in=jam_id_list)
+    for jam in jams:
+            videos.append(VideoToJam.objects.filter(jam__id__exact=jam.id).
+                                             filter(jam__half__exact=half))
 
     item_subitem_zip = zip(jams, videos)
     item_subitem_tuple = list(item_subitem_zip)
+
 
 
     context = {'sort' : player_id, 'items' : item_subitem_tuple,
