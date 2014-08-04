@@ -58,14 +58,8 @@ class Jam(models.Model):
 
 
 class VideoToJam(models.Model):
-<<<<<<< HEAD
     start_time = models.CharField(max_length=200)
     end_time = models.CharField(max_length=200)
-=======
-    start_time = models.TimeField(auto_now=False, auto_now_add=False)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False)
-    url = models.URLField(max_length=255)
->>>>>>> a6fc2da07ff031b67fef78bd245b5651d1d27655
     video = models.ForeignKey(Video)
     jam = models.ForeignKey(Jam)
     timecode_url = models.URLField(max_length=255)
