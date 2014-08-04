@@ -1,11 +1,11 @@
 {% load lookup %}
 
-    <div id='{{ sort_name }}_header'>
-        <title>{{ item_name }} by {{ sort_name }}</title>
+    <div id='{{ item_name }}_{{ sort_name }}_header'>
+    <h1>{{ item_name }} by {{ sort_name }}</h1>
     </div>
 
     <div id='{{ sort_name }}_context'>
-        <h1>{{ item_name }} by {{ sort_name }}</h1>
+
 
         {% if items %}
         <ul>
