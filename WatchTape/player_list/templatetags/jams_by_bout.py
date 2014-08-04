@@ -21,4 +21,5 @@ def jams_by_bout(bout_id):
     context = {'sort' : bout_id, 'items' : item_subitem_tuple,
                'sort_name' : bout, 'item_name' : 'Jams',
                'url_prefix' : 'jam', 'subitems' : True}
+
     return context
