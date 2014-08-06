@@ -1,0 +1,47 @@
+{% extends "base_site.html" %}
+
+{% block title %}Video of A Bout{% endblock title %}
+
+{% block head_block %}
+<script>
+$('#myTab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+</script>
+{% endblock head_block %}
+
+{% block content_block %}
+
+    <div class="container">
+        <div id="video_player" class="embed-responsive embed-responsive-16by9">
+            <iframe src="//player.vimeo.com/video/97709660"
+                    width="500" height="281" frameborder="0"
+                    webkitallowfullscreen mozallowfullscreen allowfullscreen
+                    class="embed-responsive-item">
+            </iframe>
+            <p><a href="http://vimeo.com/97709660">
+            Edited Key Arena Rain vs Silicon and Rat vs Jet June 7th 2014
+            </a> from <a href="http://vimeo.com/mayjalookvideo">Mike Evans</a> on
+            <a href="https://vimeo.com">Vimeo</a>.</p>
+        </div>
+    </div>
+
+    <!-- Nav Tabs -->
+    <div id="jam_info_tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#players" role="tab" data-toggle="tab">
+                Players</a></li>
+            <li class=""><a href="#filters" role="tab" data-toggle="tab">
+                Filters</a></li>
+        </ul>
+    </div>
+
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane active" id="players">Players here</div>
+        <div class="tab-pane" id="filters">Filters here</div>
+    </div>
+
+
+
+{% endblock content_block %}

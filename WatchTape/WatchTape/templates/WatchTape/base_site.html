@@ -9,7 +9,7 @@
         <!--link href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"-->
         <!-- Custom styles for this template -->
         <link href="{{STATIC_URL}}WatchTape/WatchTape.css" rel="stylesheet">
-
+        {% block head_block %} {% endblock head_block %}
     </head>
 
     <body>
@@ -34,17 +34,17 @@
         {% endblock navbar_block %}
       </div>
     </div>
-    <!-->
+
     <div class="row">
-        <div class="col-md-6 col-md-offset-3"> -->
+        <div class="col-md-6 col-md-offset-3">
             <div id="header">
                 {% block header_block %}Watch Tape {% endblock header_block %}
             </div>
             <div id="content">
                 {% block content_block %} {% endblock content_block %}
             </div>
-<!-->        </div>
-    </div> -->
+        </div>
+    </div>
 
 
 </p>

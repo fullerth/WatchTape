@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'player_list',
+    'video_player',
     'debug_toolbar',
 )
 
