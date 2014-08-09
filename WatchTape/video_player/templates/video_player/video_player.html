@@ -11,12 +11,12 @@ $('#myTab a').click(function (e) {
   $(this).tab('show')
 })
 
-function getVideoTime() {
-    alert("You wanted to get the video time, but instead you got this box!");
-}
+
 
 timing_data = {{ times }}
 </script>
+
+<script src="{{ STATIC_URL }}video_player/video_player.js"></script>
 {% endblock head_block %}
 
 {% block content_block %}

@@ -94,4 +94,8 @@ STATICFILES_DIRS = (
                  os.path.dirname(BASE_DIR),
                  'WatchTape/WatchTape/static',
     ),
+    os.path.join(
+                 os.path.dirname(BASE_DIR),
+                 'WatchTape/video_player/static',
+    ),
 )
