@@ -1,13 +1,21 @@
 {% extends "base_site.html" %}
 
+{% load players_by_jam %}
+
 {% block title %}Video of A Bout{% endblock title %}
 
 {% block head_block %}
-<script>
+<script type="text/javascript">
 $('#myTab a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
 })
+
+function getVideoTime() {
+    alert("You wanted to get the video time, but instead you got this box!");
+}
+
+timing_data = {{ times }}
 </script>
 {% endblock head_block %}
 
@@ -15,10 +23,11 @@ $('#myTab a').click(function (e) {
 
     <div class="container">
         <div id="video_player" class="embed-responsive embed-responsive-16by9">
-            <iframe src="//player.vimeo.com/video/97709660"
+            <iframe src="//player.vimeo.com/video/97709660?api=1&player_id=vimeo_player"
                     width="500" height="281" frameborder="0"
                     webkitallowfullscreen mozallowfullscreen allowfullscreen
-                    class="embed-responsive-item">
+                    class="embed-responsive-item"
+                    id="vimeo_player">
             </iframe>
             <p><a href="http://vimeo.com/97709660">
             Edited Key Arena Rain vs Silicon and Rat vs Jet June 7th 2014
@@ -28,7 +37,7 @@ $('#myTab a').click(function (e) {
     </div>
 
     <!-- Nav Tabs -->
-    <div id="jam_info_tabs">
+    <div id="jam_info_tabs" class="col-md-2">
         <ul class="nav nav-tabs" role="tablist">
             <li class="active"><a href="#players" role="tab" data-toggle="tab">
                 Players</a></li>
@@ -38,10 +47,18 @@ $('#myTab a').click(function (e) {
     </div>
 
     <div id="myTabContent" class="tab-content">
-        <div class="tab-pane active" id="players">Players here</div>
+        <div class="tab-pane active" id="players">{% players_by_jam 1 %}</div>
         <div class="tab-pane" id="filters">Filters here</div>
     </div>
 
-
+    <input id="getVideoTime" type="button" value="getVideoTime">
 
 {% endblock content_block %}
+
+{% block end_script %}
+    var videoTimeButton = document.getElementById("getVideoTime");
+    if (videoTimeButton.addEventListener)
+        videoTimeButton.addEventListener("click", getVideoTime, false);
+    else if (videoTimeButton.attachEvent)
+        videoTimeButton.attachEvent('onclick', getVideoTime);
+{% endblock end_script %}

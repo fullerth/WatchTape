@@ -35,17 +35,14 @@
       </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div id="header">
-                {% block header_block %}Watch Tape {% endblock header_block %}
-            </div>
-            <div id="content">
-                {% block content_block %} {% endblock content_block %}
-            </div>
+    <div class="container-fluid">
+        <div id="header">
+            {% block header_block %}Watch Tape {% endblock header_block %}
+        </div>
+        <div id="content">
+            {% block content_block %} {% endblock content_block %}
         </div>
     </div>
-
 
 </p>
 
@@ -56,6 +53,11 @@
         </a>
         {% endblock footer_block %}
     </footer>
+
+    <script>
+        {% block end_script %}
+        {% endblock end_script %}
+    </script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
