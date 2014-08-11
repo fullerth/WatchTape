@@ -21,9 +21,6 @@ def view_video_player(request, video_id):
         print(jam_video.start_seconds)
         times.append(jam_video.start_seconds)
 
-
-
-
     js_jams = simplejson.dumps(times)
 
     context = {'times' : times }

@@ -1,6 +1,13 @@
 //Vimeo API onPlayProgress handler
-function play_tick() {
-    console.log('play_tick called');
+current_jam = 0;
+function play_tick(data, id) {
+    if(current_jam == timing_data.length) {
+        current_jam = timing_data.length
+    }
+    else if(timing_data[current_jam] < data.seconds) {
+        current_jam++;
+        console.log(current_jam)
+    }
 }
 
 //Setup for Vimeo API
