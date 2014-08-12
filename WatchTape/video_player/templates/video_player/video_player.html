@@ -56,26 +56,12 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
                 <div class="item active">
-                    {% players_by_jam 1 header_properties="hidden" %}
                 </div>
+                {% for jam in jams %}
                 <div class="item">
-                    {% players_by_jam 2 header_properties="hidden" %}
+                    {% players_by_jam jam.id header_properties="hidden" %}
                 </div>
-                <div class="item">
-                    {% players_by_jam 3 header_properties="hidden" %}
-                </div>
-                <div class="item">
-                    {% players_by_jam 4 header_properties="hidden" %}
-                </div>
-                <div class="item">
-                    {% players_by_jam 5 header_properties="hidden" %}
-                </div>
-                <div class="item">
-                    {% players_by_jam 6 header_properties="hidden" %}
-                </div>
-                <div class="item">
-                    {% players_by_jam 7 header_properties="hidden" %}
-                </div>
+                {% endfor %}
 
             </div>
 

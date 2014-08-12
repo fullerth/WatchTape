@@ -9,9 +9,13 @@ from django.utils import simplejson
 
 #/video_player/video/<video_id>
 def view_video_player(request, video_id):
-    video = get_object_or_404(Video.objects.select_related('VideoToJam'), pk=video_id)
+    video = get_object_or_404(Video.objects.select_related(
+                                                'VideoToJam'
+                                          ).select_related(
+                                                'Jams'
+                                          ), pk=video_id)
 #    bout = Bout(Bout, pk=bout_id)
-#    jams = Jam.objects.select_related('videos').filter(bout__id__exact=bout_id)
+    jams = Jam.objects.filter(videos__id__exact=video_id)
 
     jam_videos = VideoToJam.objects.filter(video__id__exact=video_id)
 
@@ -23,5 +27,5 @@ def view_video_player(request, video_id):
 
     js_jams = simplejson.dumps(times)
 
-    context = {'times' : times }
+    context = {'times' : times, 'jams' : jams }
     return render(request, 'video_player/video_player.html', context)
