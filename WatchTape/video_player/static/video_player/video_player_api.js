@@ -8,13 +8,17 @@ function play_tick(data, id)
     }
     else
     {
-        while(timing_data[current_jam] < data.seconds)
+        //currently simply changing 30 seconds behind. This will be a slightly
+        //random timing for jams with timeouts or injury
+        while((timing_data[current_jam]-30) < data.seconds)
         {
             current_jam++;
         }
         var jam_str = "Jam Number "
         document.getElementById('jam_number').textContent =
                     jam_str.concat(current_jam);
+        var jam_carousel = $('.carousel').carousel();
+        jam_carousel.carousel(current_jam)
     }
 }
 
