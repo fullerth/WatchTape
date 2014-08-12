@@ -1,13 +1,25 @@
 //Vimeo API onPlayProgress handler
 current_jam = 0;
-function play_tick(data, id) {
-    if(current_jam == timing_data.length) {
+function play_tick(data, id)
+{
+    if(current_jam >= timing_data.length)
+    {
         current_jam = timing_data.length
     }
-    else if(timing_data[current_jam] < data.seconds) {
-        current_jam++;
-        console.log(current_jam)
+    else
+    {
+        while(timing_data[current_jam] < data.seconds)
+        {
+            current_jam++;
+        }
+        var jam_str = "Jam Number "
+        document.getElementById('jam_number').textContent =
+                    jam_str.concat(current_jam);
     }
+}
+
+function reset_jam(data, id) {
+    current_jam = 0;
 }
 
 //Setup for Vimeo API
@@ -36,10 +48,9 @@ $(document).ready(function() {
                 }
 
 
-                function onFinish() {
-                        froogaloop.addEvent('finish', function(data) {
-                            console.log('finish');
-                        });
+                function setupResets() {
+                        froogaloop.addEvent('finish', reset_jam);
+                        froogaloop.addEvent('seek', reset_jam)
                 }
 
                 function onPlayProgress() {
@@ -47,7 +58,7 @@ $(document).ready(function() {
                 }
 
                 onPlay();
-                onFinish();
+                setupResets();
                 onPlayProgress();
             }
         });
