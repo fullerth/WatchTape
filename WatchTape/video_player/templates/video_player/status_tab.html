@@ -1,0 +1,17 @@
+{% load players_by_jam %}
+
+<div id="jam_number">Jam Number XX</div>
+<div id = "jam_carousel" class="carousel slide" data-ride="carousel"
+     data-interval="false">
+<div id="JamXStats">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                </div>
+                {% for jam in jams %}
+                <div class="item">
+                    {% players_by_jam jam.id header_properties="hidden" %}
+                </div>
+                {% endfor %}
+            </div>
+</div>
