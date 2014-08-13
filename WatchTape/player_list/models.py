@@ -55,7 +55,46 @@ class Jam(models.Model):
     def __str__(self):
         return("Half #{1}, Jam #{0}".format(self.number, self.half))
 
-
+class Penalty(models.Model):
+    BACK_BLOCK = 'B'
+    HIGH_BLOCK = 'A'
+    LOW_BLOCK = 'L'
+    ELBOWS = 'E'
+    FOREARMS = 'F'
+    BLOCKING_WITH_HEAD = 'H'
+    MULTI_PLAYER = 'M'
+    OUT_OF_BOUNDS_BLOCK = 'O' #Also covers out of bounds assists
+    OUT_OF_BOUNDS_ASSIST = 'O'
+    DIRECTION_OF_PLAY = 'C'
+    OUT_OF_PLAY = 'P'
+    CUTTING = 'X'
+    SKATING_OUT_OF_BOUNDS = 'S'
+    ILLEGAL_PROCEDURE = 'I'
+    INSUBORDINATION = 'N'
+    DELAY_OF_GAME = 'Z'
+    GROSS_MISCONDUCT = 'G'
+    WFTDA_PENALTIES = (
+                       (BACK_BLOCK, 'Back Block'),
+                       (HIGH_BLOCK, 'High Block'),
+                       (LOW_BLOCK, 'Low Block'),
+                       (ELBOWS, 'Elbows'),
+                       (FOREARMS, 'Forearms'),
+                       (BLOCKING_WITH_HEAD, 'Blocking With Head'),
+                       (MULTI_PLAYER, 'Multi-Player'),
+                       (OUT_OF_BOUNDS_BLOCK, 'Out of Bounds Block/Assist'),
+                       (DIRECTION_OF_PLAY, 'Direction of Play'),
+                       (OUT_OF_PLAY, 'Out of Play'),
+                       (CUTTING, 'Cutting'),
+                       (SKATING_OUT_OF_BOUNDS, 'Skating out of bounds'),
+                       (ILLEGAL_PROCEDURE, 'Illegal Procedure'),
+                       (INSUBORDINATION, 'Insubordination'),
+                       (DELAY_OF_GAME, 'Delay of Game'),
+                       (GROSS_MISCONDUCT, 'Gross Misconduct'),
+                    )
+    penalty = models.CharField(max_length=2, choices=WFTDA_PENALTIES)
+    player = models.ForeignKey(Player)
+    jam_called = models.ForeignKey(Jam, related_name='penalty_jam_called')
+    jam_released = models.ForeignKey(Jam, related_name='penalty_jam_released')
 
 class VideoToJam(models.Model):
     def _timecode_validator(self, timecode):
