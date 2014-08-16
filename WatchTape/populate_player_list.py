@@ -14,17 +14,29 @@ class wftda_importer_Mar_2014:
     #Note all offsets are zero-indexed, subtract 1 from excel row/column values
 
      #bout information
-    bout = {'sheet_name': 'IGRF', 'venue_row' : 2, 'venue_column' : 1,
-            'date_row' : 4, 'date_column' : 1, 'city_row' : 2,
-            'city_column' : 7, 'state_row' : 2, 'state_column' : 9}
+    bout = {
+            'sheet_name': 'IGRF',
+            'venue_row'       : 2,      'venue_column'       : 1,
+            'date_row'        : 4,      'date_column'        : 1,
+            'city_row'        : 2,      'city_column'        : 7,
+            'state_row'       : 2,      'state_column'       : 9,
+            'home_league_row' : 7,      'home_league_column' : 1,
+            'away_league_row' : 7,      'away_league_column' : 7,
+            'home_team_row'   : 8,      'home_team_column'   : 1,
+            'away_team_row'   : 8,      'away_team_column'   : 7,
+            }
 
     #roster information
-    roster = {'sheet_name':'IGRF', 'row_start': 10, 'row_end':29,
-              'home_number_column': 1, 'home_name_column' : 2,
-              'away_number_column': 7, 'away_name_column': 8,
-              'team_name_row' : 8, 'league_name_row': 7,
-              'home_team_name_column' : 1, 'home_league_name_column' : 1,
-              'away_team_name_column' : 7, 'away_league_name_column' : 7}
+    roster = {'sheet_name':'IGRF',
+              'row_start'             : 10,     'row_end'                 :29,
+              'home_number_column'    : 1,      'home_name_column'        : 2,
+              'away_number_column'    : 7,      'away_name_column'        : 8,
+
+              'home_league_row'       : 7,      'home_league_column' : 1,
+              'away_league_row'       : 7,      'away_league_column' : 7,
+              'home_team_row'         : 8,      'home_team_column'   : 1,
+              'away_team_row'         : 8,      'away_team_column'   : 7,
+            }
 
     #lineups information
     lineups = {'sheet_name':'Lineups', 'first_half_row_start' : 3,
@@ -62,6 +74,22 @@ class wftda_importer_Mar_2014:
         bout_datetime = datetime.datetime(bout_date[0], bout_date[1],
                                           bout_date[2], bout_date[3],
                                           bout_date[4], bout_date[5], )
+
+        bout_home_league = bout_sheet.cell_value(self.bout['home_league_row'],
+                                                 self.bout['home_league_column'])
+        bout_home_team = bout_sheet.cell_value(self.bout['home_team_row'],
+                                               self.bout['home_team_column'])
+        bout_away_league = bout_sheet.cell_value(self.bout['away_league_row'],
+                                                 self.bout['away_league_column'])
+        bout_away_team = bout_sheet.cell_value(self.bout['away_team_row'],
+                                                 self.bout['away_team_column'])
+
+        (self.home_league_id, self.home_team_id) = self.add_league_team(
+                                                league_name=bout_home_league,
+                                                team_name=bout_home_team)
+        (self.away_league_id, self.away_team_id) = self.add_league_team(
+                                                league_name=bout_away_league,
+                                                team_name=bout_away_team)
 
         self.bout_id = self.add_bout(date=bout_datetime, location=venue_name)
 
@@ -236,6 +264,13 @@ class wftda_importer_Mar_2014:
                                                    position=position)[0]
         return p_to_j
 
+    def add_league_team(self, league_name, team_name):
+        team = Team.objects.get_or_create(name=team_name)[0]
+        league = League.objects.get_or_create(name=league_name, teams_id=team.id)[0]
+
+
+        return(league, team)
+
 class video_importer:
 
     def __init__(self):
@@ -314,7 +349,8 @@ if __name__ == '__main__':
     print('Starting player_list population script...')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
     from player_list.models import Player, Bout, PlayerToBout, Jam, \
-                                   PlayerToJam, Video, VideoToJam
+                                   PlayerToJam, Video, VideoToJam, \
+                                   League, Team
     #populate()
     #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
     import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')

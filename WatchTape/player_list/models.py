@@ -31,6 +31,10 @@ class Bout(models.Model):
     date = models.DateField('date played')
     location = models.CharField(max_length=200)
     players = models.ManyToManyField(Player, through='PlayerToBout')
+    home_roster = models.ForeignKey('Roster', related_name='home_roster',
+                                    null=True)
+    away_roster = models.ForeignKey('Roster', related_name='away_roster',
+                                    null=True)
 
     def _get_url(self):
         '''Construct the URL for this object'''
@@ -54,6 +58,29 @@ class Jam(models.Model):
 
     def __str__(self):
         return("Half #{1}, Jam #{0}".format(self.number, self.half))
+
+class League(models.Model):
+    name = models.CharField(max_length=200)
+    teams = models.ForeignKey('Team')
+
+    def __str__(self):
+        return(self.name)
+
+class Team(models.Model):
+    name = models.CharField(max_length=200)
+    players = models.ManyToManyField(Player, blank=True, null=True)
+    rosters = models.ManyToManyField('Roster', blank=True, null=True)
+
+    def __str__(self):
+        return(self.name)
+
+class Roster(models.Model):
+    players = models.ManyToManyField(Player)
+
+
+    def __str__(self):
+        return("Roster for {0} in {1}".format(self.team, self.bout))
+
 
 class Penalty(models.Model):
     BACK_BLOCK = 'B'
