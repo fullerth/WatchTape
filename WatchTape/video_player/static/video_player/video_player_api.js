@@ -61,8 +61,13 @@ $(document).ready(function() {
                     froogaloop.addEvent('playProgress', play_tick);
                 }
 
+                function set_starting_time() {
+                    froogaloop.api('seekTo',timing_data[0]-10)
+                }
+
                 onPlay();
                 setupResets();
                 onPlayProgress();
+                set_starting_time();
             }
         });

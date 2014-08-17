@@ -11,9 +11,9 @@
                 {% for jam in jams %}
                 <div class="item">
                     <div class = "row">
-                        <div class = "col-xs-4"> HOME </div>
+                        <div class = "col-xs-4"> HOME  {{ home_team }} </div>
                         <div class = "col-xs-4"></div>
-                        <div class = "col-xs-4"> AWAY </div>
+                        <div class = "col-xs-4"> AWAY  {{ away_team }} </div>
                     </div>
                     {% players_by_jam jam.id header_properties="hidden" %}
                 </div>
