@@ -1,6 +1,6 @@
 from django.contrib import admin
 from player_list.models import Player, Bout, Video, Jam, VideoToJam, \
-                               PlayerToJam, PlayerToBout, League, Team, Roster
+                               PlayerToJam, PlayerToRoster, League, Team, Roster
 
 class PlayerInline(admin.StackedInline):
     model = Player
@@ -16,5 +16,5 @@ admin.site.register(Team)
 
 admin.site.register(VideoToJam)
 admin.site.register(PlayerToJam)
-admin.site.register(PlayerToBout)
+admin.site.register(PlayerToRoster)
 admin.site.register(Roster)

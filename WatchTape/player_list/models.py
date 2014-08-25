@@ -30,11 +30,8 @@ class Video(models.Model):
 class Bout(models.Model):
     date = models.DateField('date played')
     location = models.CharField(max_length=200)
-    players = models.ManyToManyField(Player, through='PlayerToBout')
-    home_roster = models.ForeignKey('Roster', related_name='home_roster',
-                                    null=True)
-    away_roster = models.ForeignKey('Roster', related_name='away_roster',
-                                    null=True)
+    home_roster = models.ForeignKey('Roster', related_name='home_roster')
+    away_roster = models.ForeignKey('Roster', related_name='away_roster')
 
     def _get_url(self):
         '''Construct the URL for this object'''
@@ -69,17 +66,17 @@ class League(models.Model):
 class Team(models.Model):
     name = models.CharField(max_length=200)
     players = models.ManyToManyField(Player, blank=True, null=True)
-    rosters = models.ManyToManyField('Roster', blank=True, null=True)
+
 
     def __str__(self):
         return(self.name)
 
 class Roster(models.Model):
-    players = models.ManyToManyField(Player)
-
+    team = models.ForeignKey(Team)
+    players = models.ManyToManyField(Player, through='PlayerToRoster')
 
     def __str__(self):
-        return("Roster for {0} in {1}".format(self.team, self.bout))
+        return("Roster id {0} for {1}".format(self.id, self.team))
 
 
 class Penalty(models.Model):
@@ -199,9 +196,9 @@ class PlayerToJam(models.Model):
     def __str__(self):
         return("{0} in {1}".format(self.player.name, self.jam))
 
-class PlayerToBout(models.Model):
+class PlayerToRoster(models.Model):
     player = models.ForeignKey(Player)
-    bout = models.ForeignKey(Bout)
+    roster = models.ForeignKey(Roster)
     captain = models.BooleanField(default=False)
 
     def __str__(self):

@@ -91,7 +91,9 @@ class wftda_importer_Mar_2014:
                                                 league_name=bout_away_league,
                                                 team_name=bout_away_team)
 
-        self.bout_id = self.add_bout(date=bout_datetime, location=venue_name)
+        self.bout_id = self.add_bout(date=bout_datetime, location=venue_name,
+                                     home_team_id = self.home_team_id.id,
+                                     away_team_id = self.away_team_id.id)
 
     def import_roster(self):
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
@@ -116,8 +118,8 @@ class wftda_importer_Mar_2014:
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
 
-                self.add_player_to_bout(player=rostered_player, bout =
-                                        self.bout_id, captain=captain)
+                self.add_player_to_roster(player=rostered_player, roster =
+                                        self.bout_id.home_roster, captain=captain)
 
                 self.stored_roster_home[player_number] = rostered_player
 
@@ -130,8 +132,8 @@ class wftda_importer_Mar_2014:
                               self.roster['away_name_column'])
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
-                self.add_player_to_bout(player=rostered_player, bout =
-                                        self.bout_id)
+                self.add_player_to_roster(player=rostered_player, roster =
+                                        self.bout_id.away_roster, captain=captain)
 
                 self.stored_roster_away[player_number] = rostered_player
 
@@ -244,13 +246,21 @@ class wftda_importer_Mar_2014:
         p = Player.objects.get_or_create(name=name, number=number)[0]
         return p
 
-    def add_bout(self, date, location):
-        b = Bout.objects.get_or_create(date=date, location=location)[0]
+    def add_bout(self, date, location, home_team_id, away_team_id):
+        (home_roster, away_roster) = self.create_rosters(home_team_id,
+                                                         away_team_id)
+        print("called create_rosters")
+        print(home_roster.id)
+        print(away_roster.id)
+        b = Bout.objects.get_or_create(date=date, location=location,
+                                       home_roster_id=home_roster.id,
+                                       away_roster_id=away_roster.id)[0]
         return b
 
-    def add_player_to_bout(self, player, bout, captain=False):
-        p_to_b = PlayerToBout.objects.get_or_create(player=player, bout=bout,
-                                                    captain=captain)[0]
+    def add_player_to_roster(self, player, roster, captain=False):
+        p_to_b = PlayerToRoster.objects.get_or_create(player=player,
+                                                      roster=roster,
+                                                      captain=captain)[0]
         return p_to_b
 
     def add_jam(self, number, half, bout):
@@ -267,9 +277,15 @@ class wftda_importer_Mar_2014:
     def add_league_team(self, league_name, team_name):
         team = Team.objects.get_or_create(name=team_name)[0]
         league = League.objects.get_or_create(name=league_name, teams_id=team.id)[0]
-
-
         return(league, team)
+
+    def create_rosters(self, home_team, away_team):
+        home_roster = Roster(team_id = home_team)
+        away_roster = Roster(team_id = away_team)
+        home_roster.save()
+        away_roster.save()
+
+        return(home_roster, away_roster)
 
 class video_importer:
 
@@ -327,8 +343,6 @@ class video_importer:
         pass
 
 
-
-
 def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
         if(site=='Vimeo'):
             #Should raise an exception if stop_time is defined as vimeo does
@@ -348,9 +362,9 @@ def import_wftda_stats(path):
 if __name__ == '__main__':
     print('Starting player_list population script...')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
-    from player_list.models import Player, Bout, PlayerToBout, Jam, \
+    from player_list.models import Player, Bout, PlayerToRoster, Jam, \
                                    PlayerToJam, Video, VideoToJam, \
-                                   League, Team
+                                   League, Team, Roster
     #populate()
     #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
     import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')
