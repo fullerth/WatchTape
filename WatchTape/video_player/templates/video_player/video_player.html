@@ -36,39 +36,39 @@
             </a> from <a href="http://vimeo.com/mayjalookvideo">Mike Evans</a> on
             <a href="https://vimeo.com">Vimeo</a>.</p>
         </div>
-    </div>
-
-    <!-- Nav Tabs -->
-    <div id="jam_info_tabs" class="col-md-2">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#players" role="tab" data-toggle="tab">
-                Players</a></li>
-            <li class=""><a href="#filters" role="tab" data-toggle="tab">
-                Filters</a></li>
-        </ul>
-    </div>
-
-    <div id="myTabContent" class="tab-content">
-        <div class="tab-pane active" id="players">
-
-            {% include "video_player\status_tab.html" %}
 
 
-            <!-- Controls
-            <a class="left carousel-control" href="#jam_carousel" role="button"
-            data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-            </a>
-            <a class="right carousel-control" href="#jam_carousel" role="button"
-            data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-            </a> -->
+        <!-- Nav Tabs -->
+        <div id="jam_info_tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#players" role="tab" data-toggle="tab">
+                    Players</a></li>
+                <li class=""><a href="#filters" role="tab" data-toggle="tab">
+                    Filters</a></li>
+            </ul>
         </div>
+
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active" id="players">
+
+                {% include "video_player\status_tab.html" %}
+
+
+                <!-- Controls
+                <a class="left carousel-control" href="#jam_carousel" role="button"
+                data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#jam_carousel" role="button"
+                data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a> -->
+            </div>
+            </div>
+            <div class="tab-pane" id="filters">Filters here</div>
         </div>
-        <div class="tab-pane" id="filters">Filters here</div>
+
     </div>
-
-
 {% endblock content_block %}
 
 {% block end_script %}

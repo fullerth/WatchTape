@@ -11,11 +11,21 @@
                 {% for jam in jams %}
                 <div class="item">
                     <div class = "row">
-                        <div class = "col-xs-4"> HOME  {{ home_team }} </div>
-                        <div class = "col-xs-4"></div>
-                        <div class = "col-xs-4"> AWAY  {{ away_team }} </div>
+                        <div class = "col-xs-4">
+                        <h3 class="text-center">HOME</h3>
+                        {% home_players_by_jam jam.id header_properties="hidden" %}
+                        </div>
+                        <div class = "col-xs-4">
+                        
+                        </div>
+                        <div class = "col-xs-4">
+                        <h3 class="text-center">AWAY</h3>
+                        {% away_players_by_jam jam.id header_properties="hidden" %}
+                        </div>
                     </div>
+                    {% comment %}
                     {% players_by_jam jam.id header_properties="hidden" %}
+                    {% endcomment %}
                 </div>
                 {% endfor %}
             </div>

@@ -26,9 +26,6 @@ def view_video_player(request, video_id):
 
 
     bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
-    print(bout.id)
-    home_team = Team.objects.filter(roster__home_roster__id__exact=bout.id)
-    print(home_team)
 
-    context = {'times' : times, 'jams' : jams,  }
+    context = {'times' : times, 'jams' : jams,}
     return render(request, 'video_player/video_player.html', context)
