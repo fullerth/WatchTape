@@ -39,14 +39,25 @@ class wftda_importer_Mar_2014:
             }
 
     #lineups information
-    lineups = {'sheet_name':'Lineups', 'first_half_row_start' : 3,
-               'first_half_row_end' : 40, 'second_half_row_start' : 49,
-               'second_half_row_end' : 86, 'jam_number_column' : 0,
-               'home_jammer_column' : 2, 'home_pivot_column' : 6,
-               'home_blockerA_column' : 10, 'home_blockerB_column' : 14,
-               'home_blockerC_column' : 18, 'away_jammer_column' : 28,
-               'away_pivot_column' : 32, 'away_blockerA_column' : 36,
-               'away_blockerB_column' : 40, 'away_blockerC_column' : 44}
+    lineups = {'sheet_name':'Lineups',
+               'first_half_row_start'  : 3, 'first_half_row_end'    : 40,
+               'second_half_row_start' : 49,'second_half_row_end'   : 86,
+               'jam_number_column'     : 0,
+               'home_jammer_column'    : 2, 'home_pivot_column'     : 6,
+               'home_blockerA_column'  : 10, 'home_blockerB_column' : 14,
+               'home_blockerC_column'  : 18,
+               'away_jammer_column'    : 28, 'away_pivot_column'    : 32,
+               'away_blockerA_column'  : 36, 'away_blockerB_column' : 40,
+               'away_blockerC_column'  : 44}
+
+    #Score sheet info
+    scores = {'sheet_name':'Score',
+              'first_half_row_start'     : 3,  'first_half_row_end'       : 40,
+              'second_half_row_start'    : 50, 'second_half_row_end'      : 87,
+              'jam_number_column'        : 0,
+              'home_team_jam_total_col'  : 16, 'away_team_jam_total_col'  : 34,
+              'home_team_bout_total_col' : 17, 'away_team_bout_total_col' : 35,
+              }
 
 
 
@@ -62,6 +73,7 @@ class wftda_importer_Mar_2014:
         self.import_bout()
         self.import_roster()
         self.import_lineups()
+        self.import_scores()
 
     def import_bout(self):
         bout_sheet = self.stats.sheet_by_name(self.bout['sheet_name'])
@@ -169,6 +181,23 @@ class wftda_importer_Mar_2014:
                 print("{0} in half {1}".format(jam_id, half))
 
                 self.add_lineup_to_jam(jam_id=jam_id, lineup_dict=lineup_dict)
+
+    def import_scores(self):
+        score_sheet = self.stats.sheet_by_name(self.scores['sheet_name'])
+        for jam in (i for j in (range(self.scores['first_half_row_start'],
+                                      self.scores['first_half_row_end']),
+                                range(self.scores['second_half_row_start'],
+                                      self.scores['second_half_row_end']))
+                    for i in j):
+            #Only process the rows that have a number in the jam total cell
+            #TODO: add an elif to handle star passes as those use "SP" in the
+            #jam cell
+            if(score_sheet.cell_type(jam, self.scores['jam_number_column'])
+                                           == xlrd.XL_CELL_NUMBER):
+                print("Processing score row: {0}".format(jam))
+            elif(score_sheet.cell_value(jam, self.scores['jam_number_column'])
+                 == "SP"):
+                print("Processing star pass in row: {0}".format(jam))
 
     def add_lineup_to_jam(self, jam_id, lineup_dict):
         self.add_player_to_jam(jam=jam_id,

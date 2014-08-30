@@ -47,6 +47,12 @@ class Jam(models.Model):
     players = models.ManyToManyField(Player, through='PlayerToJam')
     videos = models.ManyToManyField(Video, through='VideoToJam')
     bout = models.ForeignKey(Bout)
+    #Scores for the teams at the start of the jam
+    home_score_start = models.IntegerField(default=0)
+    away_score_start = models.IntegerField(default=0)
+    #Points scored for the teams during this jam
+    home_points_jam = models.IntegerField(default=0)
+    away_points_jam = models.IntegerField(default=0)
 
     def _get_url(self):
         '''Construct the URL for this object'''
