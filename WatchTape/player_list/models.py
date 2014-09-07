@@ -30,8 +30,10 @@ class Video(models.Model):
 class Bout(models.Model):
     date = models.DateField('date played')
     location = models.CharField(max_length=200)
-    home_roster = models.ForeignKey('Roster', related_name='home_roster')
-    away_roster = models.ForeignKey('Roster', related_name='away_roster')
+    home_roster = models.ForeignKey('Roster', related_name='home_roster',
+                                    blank=True, null=True)
+    away_roster = models.ForeignKey('Roster', related_name='away_roster',
+                                    blank=True, null=True)
 
     def _get_url(self):
         '''Construct the URL for this object'''
@@ -47,12 +49,14 @@ class Jam(models.Model):
     players = models.ManyToManyField(Player, through='PlayerToJam')
     videos = models.ManyToManyField(Video, through='VideoToJam')
     bout = models.ForeignKey(Bout)
-    #Scores for the teams at the start of the jam
-    home_score_start = models.IntegerField(default=0)
-    away_score_start = models.IntegerField(default=0)
-    #Points scored for the teams during this jam
-    home_points_jam = models.IntegerField(default=0)
-    away_points_jam = models.IntegerField(default=0)
+
+    home_jam_score = models.IntegerField(default=0)
+    away_jam_score = models.IntegerField(default=0)
+    home_cumulative_score = models.IntegerField(default=0)
+    away_cumulative_score = models.IntegerField(default=0)
+
+    home_star_pass = models.BooleanField(default=False)
+    away_star_pass = models.BooleanField(default=False)
 
     def _get_url(self):
         '''Construct the URL for this object'''
