@@ -54,7 +54,7 @@ class wftda_importer_Mar_2014:
     scores = {'sheet_name':'Score',
               'first_half_row_start'     : 3,  'first_half_row_end'       : 40,
               'second_half_row_start'    : 50, 'second_half_row_end'      : 87,
-              'jam_number_column'        : 0,
+              'jam_number_column'        : 0,  'away_jam_number_column'   : 19,
               'home_team_jam_total_col'  : 16, 'away_team_jam_total_col'  : 35,
               'home_team_bout_total_col' : 17, 'away_team_bout_total_col' : 36,
               }
@@ -211,10 +211,15 @@ Total: Home {3}:{4} Away".format(jam, home_jam_score,
                                                   away_jam_score,
                                                   home_cumulative_score,
                                                   away_cumulative_score))
+            #SP cells used for passing team, SP* used for team that does not pass
             elif(score_sheet.cell_value(jam, self.scores['jam_number_column'])
                  == "SP"):
                 if(debug):
-                    print("Processing star pass in row: {0}".format(jam))
+                    print("Processing home star pass in row: {0}".format(jam))
+            elif(score_sheet.cell_value(jam,
+                            self.scores['away_jam_number_column']) == "SP"):
+                if(debug):
+                    print("Processing away star pass in row: {0}".format(jam))
 
     def add_lineup_to_jam(self, jam_id, lineup_dict):
         self.add_player_to_jam(jam=jam_id,
