@@ -23,7 +23,7 @@ def order_players(unordered_players):
     '''Orders a set of one teams worth of players for a jam into
     jammer, pivot, then blockers order'''
     print("unordered:{0}".format(unordered_players))
-    jammer = unordered_players.filter(playertojam__position = 'J')
+    jammer = unordered_players.filter(playertojam__position = PlayerToJam.Jammer)
     print("jammer:{0}".format(jammer))
     pivot = unordered_players.filter(playertojam__position = 'P')
     blockers = unordered_players.filter(playertojam__position = 'B')

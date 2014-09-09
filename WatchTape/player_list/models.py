@@ -194,10 +194,13 @@ class VideoToJam(models.Model):
 
 
 class PlayerToJam(models.Model):
+    BLOCKER = 'B'
+    JAMMER = 'J'
+    PIVOT = 'P'
     POSITIONS = (
-                 ('B', 'Blocker'),
-                 ('J', 'Jammer'),
-                 ('P', 'Pivot'),
+                 (BLOCKER, 'Blocker'),
+                 (JAMMER, 'Jammer'),
+                 (PIVOT, 'Pivot'),
                 )
     player = models.ForeignKey(Player)
     jam = models.ForeignKey(Jam)

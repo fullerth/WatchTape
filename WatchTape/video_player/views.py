@@ -3,7 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
-from player_list.models import Bout, Jam, Video, VideoToJam, Team
+from player_list.models import Bout, Jam, Video, VideoToJam, Team, Player, \
+                               PlayerToJam
 
 from django.utils import simplejson
 
@@ -24,8 +25,18 @@ def view_video_player(request, video_id):
         times.append(jam_video.start_seconds)
     js_jams = simplejson.dumps(times)
 
-
     bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
 
-    context = {'times' : times, 'jams' : jams,}
+    for jam in jams:
+        jammer = Player.objects.filter(
+                        roster__home_roster__jam__id__exact=jam.id
+                        ).filter(
+                        jam__id__exact=jam.id
+                        ).filter(
+                        playertojam__position__icontains = PlayerToJam.JAMMER
+                        )
+
+
+
+    context = {'times' : times, 'jams' : jams, 'jammer' : jammer}
     return render(request, 'video_player/video_player.html', context)
