@@ -28,15 +28,43 @@ def view_video_player(request, video_id):
     bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
 
     for jam in jams:
-        jammer = Player.objects.filter(
-                        roster__home_roster__jam__id__exact=jam.id
-                        ).filter(
-                        jam__id__exact=jam.id
-                        ).filter(
+        home_jammer = Player.objects.filter(
+                        roster__home_roster__jam__id__exact=jam.id,
+                        jam__id__exact=jam.id,
                         playertojam__position__icontains = PlayerToJam.JAMMER
+                        )[0]
+        home_pivot = Player.objects.filter(
+                        roster__home_roster__jam__id__exact=jam.id,
+                        jam__id__exact=jam.id,
+                        playertojam__position__icontains = PlayerToJam.PIVOT
+                        )[0]
+        home_blockers = Player.objects.filter(
+                        roster__home_roster__jam__id__exact=jam.id,
+                        jam__id__exact=jam.id,
+                        playertojam__position__icontains = PlayerToJam.BLOCKER
                         )
+        away_jammer = Player.objects.filter(
+                        roster__away_roster__jam__id__exact=jam.id,
+                        jam__id__exact=jam.id,
+                        playertojam__position__icontains = PlayerToJam.JAMMER
+                        )[0]
+        away_pivot = Player.objects.filter(
+                        roster__away_roster__jam__id__exact=jam.id,
+                        jam__id__exact=jam.id,
+                        playertojam__position__icontains = PlayerToJam.PIVOT
+                        )[0]
+        away_blockers = Player.objects.filter(
+                        roster__away_roster__jam__id__exact=jam.id,
+                        jam__id__exact=jam.id,
+                        playertojam__position__icontains = PlayerToJam.BLOCKER
+                        )
+        print("processing jam # {0}".format(jam.id))
+        print("home_blockers: {0}".format(home_blockers))
 
 
-
-    context = {'times' : times, 'jams' : jams, 'jammer' : jammer}
+    context = {'times' : times, 'jams' : jams,
+               'away_jammer' : away_jammer, 'away_pivot' : away_pivot,
+               'away_blockers' : away_blockers,
+               'home_jammer' : home_jammer, 'home_pivot' : home_pivot,
+               'home_blockers' : home_blockers }
     return render(request, 'video_player/video_player.html', context)

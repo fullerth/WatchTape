@@ -1,7 +1,30 @@
 <ul class="fa-ul">
-    <li><i class="fa-li fa fa-star fa-lg"></i>J{{ jammer }}</li>
-    <li><i class="fa-li fa fa-minus fa-lg"></i>P{{ Pivot }}</li>
-    <li>{{ Blocker }}B</li>
-    <li>{{ Blocker }}B</li>
-    <li>{{ Blocker }}B</li>
+    {% if team == "away" %}
+        {% if away_jammer %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ away_jammer.name }} #{{ away_jammer.number}}</li>
+        {% endif %}
+        {% if away_pivot %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ away_pivot.name }} #{{ away_pivot.number }}</li>
+        {% endif %}
+        <li>{{ away_blockers.0 }}</li>
+        <li>{{ away_blockers.1 }}</li>
+        <li>{{ away_blockers.2  }}</li>
+        {% if away_blockers.3 %}
+            <li>{{ away_blockers.3 }}</li>
+        {% endif %}
+    {% endif %}
+    {% if team == "home" %}
+        {% if home_jammer %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ home_jammer.name }} #{{ home_jammer.number}}</li>
+        {% endif %}
+        {% if home_pivot %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ home_pivot.name }} #{{ home_pivot.number }}</li>
+        {% endif %}
+        <li>{{ home_blockers.0 }}</li>
+        <li>{{ home_blockers.1 }}</li>
+        <li>{{ home_blockers.2  }}</li>
+        {% if home_blockers.3 %}
+            <li>{{ home_blockers.3 }}</li>
+        {% endif %}
+    {% endif %}
 </ul>
