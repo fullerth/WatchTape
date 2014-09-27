@@ -7,31 +7,31 @@
 
 <ul class="fa-ul">
     {% if team == "away" %}
-        {% if roster.3 %}
-            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.3 }}</li>
+        {% if roster.away_jammer %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.away_jammer }}</li>
         {% endif %}
-        {% if roster.4 %}
-            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.4 }}</li>
+        {% if roster.away_pivot %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.away_pivot }}</li>
         {% endif %}
-        <li>{{ roster.5.0 }}</li>
-        <li>{{ roster.5.1 }}</li>
-        <li>{{ roster.5.2 }}</li>
-        {% if roster.5.3 %}
-            <li>{{ roster.5.3 }}</li>
+        <li>{{ roster.away_blockers.0 }}</li>
+        <li>{{ roster.away_blockers.1 }}</li>
+        <li>{{ roster.away_blockers.2 }}</li>
+        {% if roster.away_blockers.3 %}
+            <li>{{ roster.away_blockers.3 }}</li>
         {% endif %}
     {% endif %}
     {% if team == "home" %}
-        {% if roster.0 %}
-            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.0 }}</li>
+        {% if roster.home_jammer %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.home_jammer }}</li>
         {% endif %}
-        {% if roster.1 %}
-            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.1 }}</li>
+        {% if roster.home_pivot %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.home_pivot }}</li>
         {% endif %}
-        <li>{{ roster.2.0 }}</li>
-        <li>{{ roster.2.1 }}</li>
-        <li>{{ roster.2.2  }}</li>
-        {% if roster.2.3 %}
-            <li>{{ roster.2.3 }}</li>
+        <li>{{ roster.home_blockers.0 }}</li>
+        <li>{{ roster.home_blockers.1 }}</li>
+        <li>{{ roster.home_blockers.2  }}</li>
+        {% if roster.home_blockers.3 %}
+            <li>{{ roster.home_blockers.3 }}</li>
         {% endif %}
     {% endif %}
 </ul>
