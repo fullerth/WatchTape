@@ -27,6 +27,10 @@ def view_video_player(request, video_id):
 
     bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
 
+    home_jammer = []
+    home_pivot = []
+    home_blockers = []
+
     for jam in jams:
         home_jammer = Player.objects.filter(
                         roster__home_roster__jam__id__exact=jam.id,
