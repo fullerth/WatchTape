@@ -8,12 +8,15 @@
             <div class="carousel-inner">
                 <div class="item active">
                 </div>
+                {% comment %}
                 {% for jam in jams %}
+                {% endcomment %}
+                {% for roster in rosters %}
                 <div class="item">
                     <div class = "row">
                         <div class = "col-xs-4">
                         <h3 class="text-center">HOME</h3>
-                        {% include "video_player/jam_roster_pane.html" with team="home"%}
+                        {% include "video_player/jam_roster_pane.html" with roster=roster team="home" %}
                         {% comment %}
                         {% home_players_by_jam jam.id header_properties="hidden" %}
                         {% endcomment %}

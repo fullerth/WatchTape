@@ -1,30 +1,37 @@
+<!-- roster.0 - home_jammer
+     roster.1 - home_pivot
+     roster.3 - home_blockers
+     roster.4 - away_jammer
+     roster.5 - away_pivot
+     roster.6 - away_blockers -->
+
 <ul class="fa-ul">
     {% if team == "away" %}
-        {% if away_jammer %}
-            <li><i class="fa-li fa fa-star fa-lg"></i>{{ away_jammer.name }} #{{ away_jammer.number}}</li>
+        {% if roster.3 %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.3 }}</li>
         {% endif %}
-        {% if away_pivot %}
-            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ away_pivot.name }} #{{ away_pivot.number }}</li>
+        {% if roster.4 %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.4 }}</li>
         {% endif %}
-        <li>{{ away_blockers.0 }}</li>
-        <li>{{ away_blockers.1 }}</li>
-        <li>{{ away_blockers.2  }}</li>
-        {% if away_blockers.3 %}
-            <li>{{ away_blockers.3 }}</li>
+        <li>{{ roster.5.0 }}</li>
+        <li>{{ roster.5.1 }}</li>
+        <li>{{ roster.5.2 }}</li>
+        {% if roster.5.3 %}
+            <li>{{ roster.5.3 }}</li>
         {% endif %}
     {% endif %}
     {% if team == "home" %}
-        {% if home_jammer %}
-            <li><i class="fa-li fa fa-star fa-lg"></i>{{ home_jammer.name }} #{{ home_jammer.number}}</li>
+        {% if roster.0 %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.0 }}</li>
         {% endif %}
-        {% if home_pivot %}
-            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ home_pivot.name }} #{{ home_pivot.number }}</li>
+        {% if roster.1 %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.1 }}</li>
         {% endif %}
-        <li>{{ home_blockers.0 }}</li>
-        <li>{{ home_blockers.1 }}</li>
-        <li>{{ home_blockers.2  }}</li>
-        {% if home_blockers.3 %}
-            <li>{{ home_blockers.3 }}</li>
+        <li>{{ roster.2.0 }}</li>
+        <li>{{ roster.2.1 }}</li>
+        <li>{{ roster.2.2  }}</li>
+        {% if roster.2.3 %}
+            <li>{{ roster.2.3 }}</li>
         {% endif %}
     {% endif %}
 </ul>
