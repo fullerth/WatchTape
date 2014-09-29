@@ -1,0 +1,24 @@
+
+<div class="row">
+    <div class="col-xs-5">
+        <h1 class="text-right">{{ jam.score.home_cumulative }}
+    </div>
+    <div class="col-xs-2">
+        <h1 class="text-center">-</h1>
+    </div>
+    <div class="col-xs-5">
+        <h1 class="text-left">{{ jam.score.away_cumulative }}</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-5">
+        <h3 class="text-right">{{ jam.score.home_jammer }}{% if jam.score.home_star_pass %}+{{jam.score.home_pivot}}{% endif %}</h3>
+    </div>
+    <div class="col-xs-2">
+        <h3 class="text-center">-</h3>
+    </div>
+    <div class="col-xs-5">
+        <h3 class="text-left">{{ jam.score.away_jammer }}{% if jam.score.away_star_pass %}+{{jam.score.away_pivot}}{% endif %}</h3>
+    </div>
+</div>
