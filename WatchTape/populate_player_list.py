@@ -186,40 +186,75 @@ class wftda_importer_Mar_2014:
                 self.add_lineup_to_jam(jam_id=jam_id, lineup_dict=lineup_dict)
 
     def import_scores(self, debug=False):
+        jam_number = 0
         score_sheet = self.stats.sheet_by_name(self.scores['sheet_name'])
-        for jam in (i for j in (range(self.scores['first_half_row_start'],
+        for row in (i for j in (range(self.scores['first_half_row_start'],
                                       self.scores['first_half_row_end']),
                                 range(self.scores['second_half_row_start'],
                                       self.scores['second_half_row_end']))
                     for i in j):
+            #figure out how to do this in the iterator for (jam, half)
+            if(row in range(self.scores['first_half_row_start'],
+                            self.scores['first_half_row_end']+1)):
+                half = 1
+            else:
+                half = 2
+
             #Only process the rows that have a number in the jam total cell
-            #TODO: add an elif to handle star passes as those use "SP" in the
-            #jam cell
-            if(score_sheet.cell_type(jam, self.scores['jam_number_column'])
+            if(score_sheet.cell_type(row, self.scores['jam_number_column'])
                                            == xlrd.XL_CELL_NUMBER):
-                home_jam_score = score_sheet.cell_value(jam,
+                jam_number = score_sheet.cell_value(row,
+                                            self.scores['jam_number_column'])
+                home_jam_score = score_sheet.cell_value(row,
                                         self.scores['home_team_jam_total_col'])
-                away_jam_score = score_sheet.cell_value(jam,
+                away_jam_score = score_sheet.cell_value(row,
                                         self.scores['away_team_jam_total_col'])
-                home_cumulative_score = score_sheet.cell_value(jam,
+                home_cumulative_score = score_sheet.cell_value(row,
                                         self.scores['home_team_bout_total_col'])
-                away_cumulative_score = score_sheet.cell_value(jam,
+                away_cumulative_score = score_sheet.cell_value(row,
                                         self.scores['away_team_bout_total_col'])
                 if(debug):
                     print("Score row: {0} | Jam: Home {1}:{2} Away | \
-Total: Home {3}:{4} Away".format(jam, home_jam_score,
+                        Total: Home {3}:{4} Away".format(row, home_jam_score,
                                                   away_jam_score,
                                                   home_cumulative_score,
                                                   away_cumulative_score))
-            #SP cells used for passing team, SP* used for team that does not pass
-            elif(score_sheet.cell_value(jam, self.scores['jam_number_column'])
-                 == "SP"):
-                if(debug):
-                    print("Processing home star pass in row: {0}".format(jam))
-            elif(score_sheet.cell_value(jam,
-                            self.scores['away_jam_number_column']) == "SP"):
-                if(debug):
-                    print("Processing away star pass in row: {0}".format(jam))
+                #SP cells used for passing team, SP* used for team that does not pass
+                if(score_sheet.cell_value(row+1, self.scores['jam_number_column'])
+                     == "SP"):
+                    home_pivot_score = score_sheet.cell_value(row+1,
+                                            self.scores['home_team_jam_total_col'])
+                    home_star_pass = True
+                    if(debug):
+                        print("Home star pass row: {0}, points: {1}".format(
+                                                        row, home_pivot_score))
+                else:
+                    home_pivot_score = 0
+                    home_star_pass = False
+
+                if(score_sheet.cell_value(row+1,
+                                self.scores['away_jam_number_column']) == "SP"):
+                    away_pivot_score = score_sheet.cell_value(row+1,
+                                            self.scores['away_team_jam_total_col'])
+                    away_star_pass = True
+                    if(debug):
+                        print("Away star pass row: {0}, points: {1}".format(
+                                                        row, away_pivot_score))
+                else:
+                    away_pivot_score = 0
+                    away_star_pass = False
+
+                self.add_score_to_jam(bout = self.bout_id,
+                                 half = half,
+                                 jam_number=jam_number,
+                                 home_jam_score=home_jam_score,
+                                 away_jam_score=away_jam_score,
+                                 home_cumulative_score=home_cumulative_score,
+                                 away_cumulative_score=away_cumulative_score,
+                                 home_pivot_score = home_pivot_score,
+                                 away_pivot_score = away_pivot_score,
+                                 home_star_pass = home_star_pass,
+                                 away_star_pass = away_star_pass)
 
     def add_lineup_to_jam(self, jam_id, lineup_dict):
         self.add_player_to_jam(jam=jam_id,
@@ -342,6 +377,22 @@ Total: Home {3}:{4} Away".format(jam, home_jam_score,
         roster.save()
 
         return roster
+
+    def add_score_to_jam(self, bout, half, jam_number, home_jam_score,
+                         away_jam_score, home_cumulative_score,
+                         away_cumulative_score, home_pivot_score,
+                         away_pivot_score, home_star_pass, away_star_pass):
+        j = Jam.objects.get(bout=bout, half=half, number=jam_number)
+        j.home_jammer_score = home_jam_score
+        j.away_jammer_score = away_jam_score
+        j.home_cumulative_score = home_cumulative_score
+        j.away_cumulative_score = away_cumulative_score
+        j.home_pivot_score = home_pivot_score
+        j.home_star_pass = home_star_pass
+        j.away_pivot_score = away_pivot_score
+        j.away_star_pass = away_star_pass
+        j.save()
+
 
 class video_importer:
 

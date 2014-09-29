@@ -50,8 +50,10 @@ class Jam(models.Model):
     videos = models.ManyToManyField(Video, through='VideoToJam')
     bout = models.ForeignKey(Bout)
 
-    home_jam_score = models.IntegerField(default=0)
-    away_jam_score = models.IntegerField(default=0)
+    home_jammer_score = models.IntegerField(default=0)
+    away_jammer_score = models.IntegerField(default=0)
+    home_pivot_score = models.IntegerField(default=0)
+    away_pivot_score = models.IntegerField(default=0)
     home_cumulative_score = models.IntegerField(default=0)
     away_cumulative_score = models.IntegerField(default=0)
 
