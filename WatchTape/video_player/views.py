@@ -27,42 +27,60 @@ def view_video_player(request, video_id):
 
     bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
 
-    rosters = []
+    jams_list = []
 
     for jam in jams:
-        roster = {}
-        roster['home_jammer'] = Player.objects.filter(
-                        roster__home_roster__jam__id__exact=jam.id,
-                        jam__id__exact=jam.id,
-                        playertojam__position__icontains = PlayerToJam.JAMMER
-                        )[0]
-        roster['home_pivot'] = Player.objects.filter(
-                        roster__home_roster__jam__id__exact=jam.id,
-                        jam__id__exact=jam.id,
-                        playertojam__position__icontains = PlayerToJam.PIVOT
-                        )[0]
-        roster['home_blockers'] = Player.objects.filter(
-                        roster__home_roster__jam__id__exact=jam.id,
-                        jam__id__exact=jam.id,
-                        playertojam__position__icontains = PlayerToJam.BLOCKER
-                        )
-        roster['away_jammer'] = Player.objects.filter(
-                        roster__away_roster__jam__id__exact=jam.id,
-                        jam__id__exact=jam.id,
-                        playertojam__position__icontains = PlayerToJam.JAMMER
-                        )[0]
-        roster['away_pivot'] = Player.objects.filter(
-                        roster__away_roster__jam__id__exact=jam.id,
-                        jam__id__exact=jam.id,
-                        playertojam__position__icontains = PlayerToJam.PIVOT
-                        )[0]
-        roster['away_blockers'] = Player.objects.filter(
-                        roster__away_roster__jam__id__exact=jam.id,
-                        jam__id__exact=jam.id,
-                        playertojam__position__icontains = PlayerToJam.BLOCKER
-                        )
-        rosters.append(roster)
+        jam_dict = {'roster' : create_roster_dict(jam),
+                    'score' : create_score_dict(jam),
+                    }
+        jams_list.append(jam_dict)
+
 
     context = {'times' : times, 'jams' : jams,
-               'rosters' : rosters}
+               'jams_list' : jams_list}
     return render(request, 'video_player/video_player.html', context)
+
+def create_roster_dict(jam):
+    roster = {}
+    roster['home_jammer'] = Player.objects.filter(
+                    roster__home_roster__jam__id__exact=jam.id,
+                    jam__id__exact=jam.id,
+                    playertojam__position__icontains = PlayerToJam.JAMMER
+                    )[0]
+    roster['home_pivot'] = Player.objects.filter(
+                    roster__home_roster__jam__id__exact=jam.id,
+                    jam__id__exact=jam.id,
+                    playertojam__position__icontains = PlayerToJam.PIVOT
+                    )[0]
+    roster['home_blockers'] = Player.objects.filter(
+                    roster__home_roster__jam__id__exact=jam.id,
+                    jam__id__exact=jam.id,
+                    playertojam__position__icontains = PlayerToJam.BLOCKER
+                    )
+    roster['away_jammer'] = Player.objects.filter(
+                    roster__away_roster__jam__id__exact=jam.id,
+                    jam__id__exact=jam.id,
+                    playertojam__position__icontains = PlayerToJam.JAMMER
+                    )[0]
+    roster['away_pivot'] = Player.objects.filter(
+                    roster__away_roster__jam__id__exact=jam.id,
+                    jam__id__exact=jam.id,
+                    playertojam__position__icontains = PlayerToJam.PIVOT
+                    )[0]
+    roster['away_blockers'] = Player.objects.filter(
+                    roster__away_roster__jam__id__exact=jam.id,
+                    jam__id__exact=jam.id,
+                    playertojam__position__icontains = PlayerToJam.BLOCKER
+                    )
+    return(roster)
+
+def create_score_dict(jam):
+    scores = {'home_cumulative' : jam.home_cumulative_score,
+              'away_cumulative' : jam.away_cumulative_score,
+              'home_jammer' : jam.home_jammer_score,
+              'away_jammer' : jam.away_jammer_score,
+              'home_pivot' : jam.home_pivot_score,
+              'away_pivot' : jam.away_pivot_score,
+              'home_star_pass' : jam.home_star_pass,
+              'away_star_pass' : jam.away_star_pass}
+    return(scores)

@@ -7,31 +7,31 @@
 
 <ul class="fa-ul">
     {% if team == "away" %}
-        {% if roster.away_jammer %}
-            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.away_jammer }}</li>
+        {% if jam.roster.away_jammer %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ jam.roster.away_jammer }}</li>
         {% endif %}
-        {% if roster.away_pivot %}
-            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.away_pivot }}</li>
+        {% if jam.roster.away_pivot %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ jam.roster.away_pivot }}</li>
         {% endif %}
-        <li>{{ roster.away_blockers.0 }}</li>
-        <li>{{ roster.away_blockers.1 }}</li>
-        <li>{{ roster.away_blockers.2 }}</li>
-        {% if roster.away_blockers.3 %}
-            <li>{{ roster.away_blockers.3 }}</li>
+        <li>{{ jam.roster.away_blockers.0 }}</li>
+        <li>{{ jam.roster.away_blockers.1 }}</li>
+        <li>{{ jam.roster.away_blockers.2 }}</li>
+        {% if jam.roster.away_blockers.3 %}
+            <li>{{ jam.roster.away_blockers.3 }}</li>
         {% endif %}
     {% endif %}
     {% if team == "home" %}
-        {% if roster.home_jammer %}
-            <li><i class="fa-li fa fa-star fa-lg"></i>{{ roster.home_jammer }}</li>
+        {% if jam.roster.home_jammer %}
+            <li><i class="fa-li fa fa-star fa-lg"></i>{{ jam.roster.home_jammer }}</li>
         {% endif %}
-        {% if roster.home_pivot %}
-            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ roster.home_pivot }}</li>
+        {% if jam.roster.home_pivot %}
+            <li><i class="fa-li fa fa-minus fa-lg"></i>{{ jam.roster.home_pivot }}</li>
         {% endif %}
-        <li>{{ roster.home_blockers.0 }}</li>
-        <li>{{ roster.home_blockers.1 }}</li>
-        <li>{{ roster.home_blockers.2  }}</li>
-        {% if roster.home_blockers.3 %}
-            <li>{{ roster.home_blockers.3 }}</li>
+        <li>{{ jam.roster.home_blockers.0 }}</li>
+        <li>{{ jam.roster.home_blockers.1 }}</li>
+        <li>{{ jam.roster.home_blockers.2  }}</li>
+        {% if jam.roster.home_blockers.3 %}
+            <li>{{ jam.roster.home_blockers.3 }}</li>
         {% endif %}
     {% endif %}
 </ul>
