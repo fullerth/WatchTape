@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 
 from player_list.models import Bout, Jam, Video, VideoToJam, Team, Player, \
-                               PlayerToJam
+                               PlayerToJam, Roster
 
 from django.utils import simplejson
 
@@ -25,7 +25,14 @@ def view_video_player(request, video_id):
         times.append(jam_video.start_seconds)
     js_jams = simplejson.dumps(times)
 
+    #There might be an issue here with videos containing more than one bout
     bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
+    home_roster = Roster.objects.get(home_roster=bout)
+    away_roster = Roster.objects.get(away_roster=bout)
+    home_players = home_roster.players
+    away_players = away_roster.players
+
+    print("home: {0}, away: {1}".format(home_players, away_players))
 
     jams_list = []
 

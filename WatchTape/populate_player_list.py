@@ -65,13 +65,15 @@ class wftda_importer_Mar_2014:
     stored_roster_home = dict()
     stored_roster_away = dict()
 
+    digits_re = re.compile(r'[0-9]*')
+
     def __init__(self, path):
 
         #location of workbook
         self.stats = xlrd.open_workbook(path)
 
         self.import_bout(debug=True)
-        self.import_roster()
+        self.import_roster(debug=True)
         self.import_lineups()
         self.import_scores(debug=True)
 
@@ -329,8 +331,10 @@ class wftda_importer_Mar_2014:
         return lineup
 
     def add_player(self, name, number):
-        p = Player.objects.get_or_create(name=name, number=number)[0]
-        return p
+            #Grab the first set of digits seen, should limit to 4
+            number = self.digits_re.search(number).group()
+            p = Player.objects.get_or_create(name=name, number=number)[0]
+            return p
 
     def add_bout(self, date, location, home_team_id, away_team_id, debug):
         b = Bout.objects.get_or_create(date=date, location=location)[0]
@@ -476,5 +480,8 @@ if __name__ == '__main__':
     #populate()
     #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
     import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')
+    import_wftda_stats(path = '../2014.08.05 RoT vs TheWorld.xlsx')
 
     import_video_info(path='RatVsJet2014.json')
+    import_video_info(path='RoTvThe World_8_5_14.json')
+
