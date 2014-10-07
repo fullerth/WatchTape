@@ -1,8 +1,7 @@
 {"bout" : {"id" : 2},
 "video" : {"url" : "http://vimeo.com/mayjalookvideo/review/102793113/3af7150f12", "site" : "Vimeo",
             "source" : "Papa Getsome"},
-"Bout 1: :
-{
+
 "Half 1" :
 [
 {
@@ -207,7 +206,7 @@
 },
 {
 "number" :  20,
-"Start" : "54m49s"
+"Start" : "54m49s",
 "End" : ""
 },
 {
@@ -217,4 +216,4 @@
 }
 ]
 }
-} 
+ 

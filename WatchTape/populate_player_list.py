@@ -74,7 +74,7 @@ class wftda_importer_Mar_2014:
 
         self.import_bout(debug=True)
         self.import_roster(debug=True)
-        self.import_lineups()
+        self.import_lineups(debug=True)
         self.import_scores(debug=True)
 
     def import_bout(self, debug=False):
@@ -113,7 +113,7 @@ class wftda_importer_Mar_2014:
     def import_roster(self, debug=False):
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
 
-        for player in range(self.roster['row_start'], self.roster['row_end']):
+        for player in range(self.roster['row_start'], self.roster['row_end']+1):
             if(roster_sheet.cell_type(player,
                                       self.roster['home_number_column'])
                                       != xlrd.XL_CELL_EMPTY):
@@ -132,6 +132,11 @@ class wftda_importer_Mar_2014:
                 player_name = name_tuple[0]
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
+                if(debug):
+                    try:
+                        print("added home player: {0}, captain: {1}".format(rostered_player, captain))
+                    except UnicodeEncodeError as e:
+                        print("Home player number {0} has bad name".format(player_number))
 
                 self.add_player_to_roster(player=rostered_player, roster =
                                         self.bout_id.home_roster, captain=captain)
@@ -143,10 +148,25 @@ class wftda_importer_Mar_2014:
                                               != xlrd.XL_CELL_EMPTY):
                 player_number = roster_sheet.cell_value(player,
                                 self.roster['away_number_column'])
-                player_name = roster_sheet.cell_value(player,
+                player_name_raw = roster_sheet.cell_value(player,
                               self.roster['away_name_column'])
+                #Remove \uc289 (� copyright symbol)
+                name_tuple = re.subn("[ ]+\uc2a9[ ]+$", '', player_name_raw)
+                #if replaced the copyright symbol, the player is a captain
+                captain = True if name_tuple[1] else False
+
+                #Do any other required name cleanup here
+                player_name = name_tuple[0]
+
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
+                if(debug):
+                    try:
+                        print("added away player: {0}, captain: {1}".format(rostered_player, captain))
+                    except UnicodeEncodeError as e:
+                        print("Away player number {0} has bad name".format(player_number))
+
+
                 self.add_player_to_roster(player=rostered_player, roster =
                                         self.bout_id.away_roster, captain=captain)
 
