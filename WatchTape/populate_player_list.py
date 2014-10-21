@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import logging
+import logging.config
+import argparse
 import os
 import datetime
 import re
@@ -9,6 +12,26 @@ import xlrd
 
 #for video to jam importer
 import json
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'default': {
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        __name__: {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    }
+}
+logging.config.dictConfig(LOGGING)
+log = logging.getLogger(__name__)
 
 class wftda_importer_Mar_2014:
     #Note all offsets are zero-indexed, subtract 1 from excel row/column values
@@ -72,12 +95,12 @@ class wftda_importer_Mar_2014:
         #location of workbook
         self.stats = xlrd.open_workbook(path)
 
-        self.import_bout(debug=True)
-        self.import_roster(debug=True)
+        self.import_bout()
+        self.import_roster()
         self.import_lineups()
-        self.import_scores(debug=True)
+        self.import_scores()
 
-    def import_bout(self, debug=False):
+    def import_bout(self):
         bout_sheet = self.stats.sheet_by_name(self.bout['sheet_name'])
         venue_name = bout_sheet.cell_value(self.bout['venue_row'],
                                            self.bout['venue_column'])
@@ -107,10 +130,9 @@ class wftda_importer_Mar_2014:
 
         self.bout_id = self.add_bout(date=bout_datetime, location=venue_name,
                                      home_team_id = self.home_team_id.id,
-                                     away_team_id = self.away_team_id.id,
-                                     debug=debug)
+                                     away_team_id = self.away_team_id.id)
 
-    def import_roster(self, debug=False):
+    def import_roster(self):
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
 
         for player in range(self.roster['row_start'], self.roster['row_end']):
@@ -152,7 +174,7 @@ class wftda_importer_Mar_2014:
 
                 self.stored_roster_away[player_number] = rostered_player
 
-    def import_lineups(self, debug=False):
+    def import_lineups(self):
         lineup_sheet = self.stats.sheet_by_name(self.lineups['sheet_name'])
 
         #import jams from both first and second half
@@ -166,11 +188,10 @@ class wftda_importer_Mar_2014:
             #jam cell
             if(lineup_sheet.cell_type(jam, self.lineups['jam_number_column'])
                                            == xlrd.XL_CELL_NUMBER):
-                if(debug):
-                    print("processing row: {0}".format(jam))
+                log.debug("processing row: {0}".format(jam))
 
                 lineup_dict = self.get_jam_lineup(lineup_sheet=lineup_sheet,
-                                                  jam=jam, debug=debug)
+                                                  jam=jam)
 
                 #figure out how to do this in the iterator for (jam, half)
                 if(jam in range(self.lineups['first_half_row_start'],
@@ -180,14 +201,12 @@ class wftda_importer_Mar_2014:
                     half = 2
 
                 jam_id = self.add_jam(number=lineup_dict['jam_number'],
-                                 half=half,
-                                 bout=self.bout_id, debug=debug)
-                if(debug):
-                    print("{0} in half {1}".format(jam_id, half))
+                                 half=half, bout=self.bout_id)
+                log.debug("{0} in half {1}".format(jam_id, half))
 
                 self.add_lineup_to_jam(jam_id=jam_id, lineup_dict=lineup_dict)
 
-    def import_scores(self, debug=False):
+    def import_scores(self):
         jam_number = 0
         score_sheet = self.stats.sheet_by_name(self.scores['sheet_name'])
         for row in (i for j in (range(self.scores['first_half_row_start'],
@@ -215,9 +234,8 @@ class wftda_importer_Mar_2014:
                                         self.scores['home_team_bout_total_col'])
                 away_cumulative_score = score_sheet.cell_value(row,
                                         self.scores['away_team_bout_total_col'])
-                if(debug):
-                    print("Score row: {0} | Jam: Home {1}:{2} Away | \
-                        Total: Home {3}:{4} Away".format(row, home_jam_score,
+                log.debug("Score row: {0} | Jam: Home {1}:{2} Away | Total: Home {3}:{4} Away".format(
+                                                  row, home_jam_score,
                                                   away_jam_score,
                                                   home_cumulative_score,
                                                   away_cumulative_score))
@@ -227,8 +245,7 @@ class wftda_importer_Mar_2014:
                     home_pivot_score = score_sheet.cell_value(row+1,
                                             self.scores['home_team_jam_total_col'])
                     home_star_pass = True
-                    if(debug):
-                        print("Home star pass row: {0}, points: {1}".format(
+                    log.debug("Home star pass row: {0}, points: {1}".format(
                                                         row, home_pivot_score))
                 else:
                     home_pivot_score = 0
@@ -239,8 +256,7 @@ class wftda_importer_Mar_2014:
                     away_pivot_score = score_sheet.cell_value(row+1,
                                             self.scores['away_team_jam_total_col'])
                     away_star_pass = True
-                    if(debug):
-                        print("Away star pass row: {0}, points: {1}".format(
+                    log.debug("Away star pass row: {0}, points: {1}".format(
                                                         row, away_pivot_score))
                 else:
                     away_pivot_score = 0
@@ -301,7 +317,7 @@ class wftda_importer_Mar_2014:
                           position="B")
 
 
-    def get_jam_lineup(self, lineup_sheet, jam, debug):
+    def get_jam_lineup(self, lineup_sheet, jam):
         lineup = dict()
         lineup['jam_number'] = lineup_sheet.cell_value(jam,
                              self.lineups['jam_number_column'])
@@ -325,8 +341,7 @@ class wftda_importer_Mar_2014:
                                 self.lineups['away_blockerB_column'])
         lineup['away_blockerC'] = lineup_sheet.cell_value(jam,
                                 self.lineups['away_blockerC_column'])
-        if(debug):
-            print(lineup)
+        log.debug(lineup)
 
         return lineup
 
@@ -336,7 +351,7 @@ class wftda_importer_Mar_2014:
             p = Player.objects.get_or_create(name=name, number=number)[0]
             return p
 
-    def add_bout(self, date, location, home_team_id, away_team_id, debug):
+    def add_bout(self, date, location, home_team_id, away_team_id):
         b = Bout.objects.get_or_create(date=date, location=location)[0]
 
         if(b.home_roster is None):
@@ -346,9 +361,8 @@ class wftda_importer_Mar_2014:
             b.away_roster = self.add_roster(away_team_id)
             b.save()
 
-        if(debug):
-            print("home roster id: {0}".format(b.home_roster.id))
-            print("away roster id: {0}".format(b.away_roster.id))
+        log.debug("home roster id: {0}".format(b.home_roster.id))
+        log.debug("away roster id: {0}".format(b.away_roster.id))
 
         return b
 
@@ -358,9 +372,8 @@ class wftda_importer_Mar_2014:
                                                       captain=captain)[0]
         return p_to_b
 
-    def add_jam(self, number, half, bout, debug):
-        if(debug):
-            print("Adding with Jam {0} to half {1} of bout {2}".format(
+    def add_jam(self, number, half, bout):
+        log.debug("Adding with Jam {0} to half {1} of bout {2}".format(
                                                             number, half, bout))
         j = Jam.objects.get_or_create(number=number, half=half, bout=bout)[0]
         return j
@@ -425,8 +438,7 @@ class video_importer:
                             bout__id=bout.id
                         ).filter(
                             half=half)[0]
-        if(debug):
-            print("{0} in half {1}".format(jam, half))
+        log.debug("{0} in half {1}".format(jam, half))
         self.add_video(url=data['video']['url'],
                        site = data['video']['site'],
                        start=jam_data['Start'], end=jam_data['End'],
@@ -438,9 +450,9 @@ class video_importer:
             f = open(path)
             self.data = json.load(f)
         except ValueError as e:
-            print("JSON formatting error: {0}".format(e))
+            log.error("JSON formatting error: {0}".format(e))
         except FileNotFoundError as e:
-            print("File does not exist: {0}. Error: {1}".format(path, e))
+            log.error("File does not exist: {0}. Error: {1}".format(path, e))
 
         for jam_data in self.data['Half 1']:
             self.add_video_to_jam(jam_data=jam_data, data=self.data, half=1)
@@ -449,16 +461,8 @@ class video_importer:
             self.add_video_to_jam(jam_data=jam_data, data=self.data, half=2)
 
 
-    #Implement
-    @classmethod
-    def from_wftda_sheet(cls, path):
-        pass
-
-
 def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
         if(site=='Vimeo'):
-            #Should raise an exception if stop_time is defined as vimeo does
-            #not support a stop time
             return base_url+'#t='+start_time
 
 
@@ -472,8 +476,9 @@ def import_wftda_stats(path):
 
 
 if __name__ == '__main__':
-    print('Starting player_list population script...')
+    log.debug('Starting player_list population script...')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
+
     from player_list.models import Player, Bout, PlayerToRoster, Jam, \
                                    PlayerToJam, Video, VideoToJam, \
                                    League, Team, Roster
