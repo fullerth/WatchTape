@@ -51,7 +51,7 @@ class wftda_importer_Mar_2014:
 
     #roster information
     roster = {'sheet_name':'IGRF',
-              'row_start'             : 10,     'row_end'                 :29,
+              'row_start'             : 10,     'row_end'                 : 30,
               'home_number_column'    : 1,      'home_name_column'        : 2,
               'away_number_column'    : 7,      'away_name_column'        : 8,
 
@@ -135,13 +135,15 @@ class wftda_importer_Mar_2014:
     def import_roster(self):
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
 
-        for player in range(self.roster['row_start'], self.roster['row_end']):
-            if(roster_sheet.cell_type(player,
-                                      self.roster['home_number_column'])
-                                      != xlrd.XL_CELL_EMPTY):
-                player_number = roster_sheet.cell_value(player,
+        #IGRF forms may have more than 14 players for a non-sanctioned bout
+        #This is currently set to import 20 players
+        for player_row in range(self.roster['row_start'], self.roster['row_end']):
+            log.debug("Importing Player Row: {0}".format(player_row))
+            if(roster_sheet.cell_type(player_row,
+                                      self.roster['home_number_column']) != xlrd.XL_CELL_EMPTY):
+                player_number = roster_sheet.cell_value(player_row,
                                 self.roster['home_number_column'])
-                player_name_raw = roster_sheet.cell_value(player,
+                player_name_raw = roster_sheet.cell_value(player_row,
                                   self.roster['home_name_column'])
 
 
@@ -152,6 +154,11 @@ class wftda_importer_Mar_2014:
 
                 #Do any other required name cleanup here
                 player_name = name_tuple[0]
+                log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
+                            player_name,
+                            player_number,
+                            'home',
+                            captain))
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
 
@@ -161,18 +168,25 @@ class wftda_importer_Mar_2014:
                 self.stored_roster_home[player_number] = rostered_player
 
 
-            if(roster_sheet.cell_type(player, self.roster['away_number_column'])
+            if(roster_sheet.cell_type(player_row, self.roster['away_number_column'])
                                               != xlrd.XL_CELL_EMPTY):
-                player_number = roster_sheet.cell_value(player,
+                player_number = roster_sheet.cell_value(player_row,
                                 self.roster['away_number_column'])
-                player_name = roster_sheet.cell_value(player,
+                player_name = roster_sheet.cell_value(player_row,
                               self.roster['away_name_column'])
+                log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
+                            player_name,
+                            player_number,
+                            'away',
+                            captain))
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
                 self.add_player_to_roster(player=rostered_player, roster =
                                         self.bout_id.away_roster, captain=captain)
 
                 self.stored_roster_away[player_number] = rostered_player
+            #increment the player_row
+            player_row+=1
 
     def import_lineups(self):
         lineup_sheet = self.stats.sheet_by_name(self.lineups['sheet_name'])
