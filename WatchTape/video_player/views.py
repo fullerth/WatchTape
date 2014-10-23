@@ -16,7 +16,12 @@ def view_video_player(request, video_id):
                                                 'Jams'
                                           ), pk=video_id)
 
-    jams = Jam.objects.filter(videos__id__exact=video_id)
+    jams = Jam.objects.select_related(
+                                      'PlayerToJam'
+                                      ).select_related(
+                                      'Player'
+                                      ).filter(
+                                      videos__id__exact=video_id)
 
     jam_videos = VideoToJam.objects.filter(video__id__exact=video_id)
 
@@ -44,7 +49,7 @@ def view_video_player(request, video_id):
 
 
     context = {'times' : times, 'jams' : jams,
-               'jams_list' : jams_list}
+               'jams_list' : jams_list, 'video' : video}
     return render(request, 'video_player/video_player.html', context)
 
 def create_roster_dict(jam):

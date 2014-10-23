@@ -26,18 +26,7 @@
 
 
     <div class="container">
-        <div id="video_player" class="embed-responsive embed-responsive-16by9">
-            <iframe src="//player.vimeo.com/video/97709660?api=1&player_id=vimeo_player"
-                    width="500" height="281" frameborder="0"
-                    webkitallowfullscreen mozallowfullscreen allowfullscreen
-                    class="embed-responsive-item"
-                    id="vimeo_player">
-            </iframe>
-            <p><a href="http://vimeo.com/97709660">
-            Edited Key Arena Rain vs Silicon and Rat vs Jet June 7th 2014
-            </a> from <a href="http://vimeo.com/mayjalookvideo">Mike Evans</a> on
-            <a href="https://vimeo.com">Vimeo</a>.</p>
-        </div>
+        {{ video.embed_code | safe }}
 
 
         <!-- Nav Tabs -->

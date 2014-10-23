@@ -424,11 +424,12 @@ class video_importer:
         pass
 
     def add_video(self, url, site, start, end,
-                  source, jam, bout):
+                  source, jam, bout, embed_code):
 
 
         v = Video.objects.get_or_create(url=url,
-                                        source=source, site=site)[0]
+                                        source=source, site=site,
+                                        embed_code=embed_code)[0]
 
         timecode_url = jam_url_builder(base_url=url, start_time=start,
                                        site='Vimeo')
@@ -451,7 +452,8 @@ class video_importer:
                        site = data['video']['site'],
                        start=jam_data['Start'], end=jam_data['End'],
                        source=data['video']['source'], jam=jam,
-                       bout=bout)
+                       bout=bout,
+                       embed_code=data['video']['embed_code'])
 
     def from_json_file(self, path):
         try:
@@ -500,8 +502,8 @@ if __name__ == '__main__':
     #populate()
     #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
     import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')
-    import_wftda_stats(path = '../2014.08.05 RoT vs TheWorld.xlsx')
+    #import_wftda_stats(path = '../2014.08.05 RoT vs TheWorld.xlsx')
 
     import_video_info(path='RatVsJet2014.json')
-    import_video_info(path='RoTvThe World_8_5_14.json')
+    #import_video_info(path='RoTvThe World_8_5_14.json')
 
