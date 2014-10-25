@@ -1,6 +1,11 @@
 {% load players_by_jam %}
 
-<p class="text-center" id="jam_number">Jam Number XX</p>
+<div id="JamHeader" class="row">
+
+        <p class="text-center" id="jam_number">Jam Number XX</p>
+
+</div>
+
 <div id = "jam_carousel" class="carousel slide" data-ride="carousel"
      data-interval="false">
 <div id="JamXStats">
@@ -28,5 +33,12 @@
                     {% endcomment %}
                 </div>
                 {% endfor %}
+                  <!-- Controls -->
+  <a class="left carousel-control" href="#jam_carousel" role="button" data-slide="prev" id="prev_jam">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#jam_carousel" role="button" data-slide="next" id="next_jam">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
             </div>
 </div>

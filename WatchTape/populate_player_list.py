@@ -172,6 +172,9 @@ class wftda_importer_Mar_2014:
                 self.stored_roster_home[player_number] = rostered_player
 
 
+            #This should be refactored as a function to add home or away
+            #Or at least change the variable names so away team is not defined
+            #with home team values in case of a bug
             if(roster_sheet.cell_type(player_row, self.roster['away_number_column'])
                                               != xlrd.XL_CELL_EMPTY):
                 player_number = roster_sheet.cell_value(player_row,
@@ -184,7 +187,7 @@ class wftda_importer_Mar_2014:
                 #if replaced the copyright symbol, the player is a captain
                 captain = True if name_tuple[1] else False
 
-                pplayer_name = name_tuple[0]
+                player_name = name_tuple[0]
 
                 try:
                     log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
