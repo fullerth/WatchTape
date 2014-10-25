@@ -1,4 +1,5 @@
 from django.db import models
+import re
 
 class Player(models.Model):
     name = models.CharField(max_length=200)
@@ -23,6 +24,7 @@ class Video(models.Model):
     url = models.URLField(max_length=255)
     source = models.CharField(max_length=200)
     site = models.CharField(max_length = 7, choices=SITES)
+    embed_code = models.CharField(max_length=2000)
 
     def __str__(self):
         return("Video {0}".format(self.id))

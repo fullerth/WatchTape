@@ -142,6 +142,7 @@ class wftda_importer_Mar_2014:
             if(roster_sheet.cell_type(player_row,
                                       self.roster['home_number_column']) != xlrd.XL_CELL_EMPTY):
                 player_number = roster_sheet.cell_value(player_row,
+
                                 self.roster['home_number_column'])
                 player_name_raw = roster_sheet.cell_value(player_row,
                                   self.roster['home_name_column'])
@@ -154,11 +155,14 @@ class wftda_importer_Mar_2014:
 
                 #Do any other required name cleanup here
                 player_name = name_tuple[0]
-                log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
+                try:
+                    log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
                             player_name,
                             player_number,
                             'home',
                             captain))
+                except UnicodeEncodeError as e:
+                    log.debut("Home player number {0} has bad name".format(player_number))
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
 
@@ -172,15 +176,29 @@ class wftda_importer_Mar_2014:
                                               != xlrd.XL_CELL_EMPTY):
                 player_number = roster_sheet.cell_value(player_row,
                                 self.roster['away_number_column'])
-                player_name = roster_sheet.cell_value(player_row,
+
+                player_name_raw = roster_sheet.cell_value(player_row,
                               self.roster['away_name_column'])
-                log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
+                #Remove \uc289 (� copyright symbol)
+                name_tuple = re.subn("[ ]+\uc2a9[ ]+$", '', player_name_raw)
+                #if replaced the copyright symbol, the player is a captain
+                captain = True if name_tuple[1] else False
+
+                pplayer_name = name_tuple[0]
+
+                try:
+                    log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
                             player_name,
                             player_number,
                             'away',
                             captain))
+                except UnicodeEncodeError as e:
+                    log.debug("Away Player Number {0} has bad name".format(player_number))
+
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
+
+
                 self.add_player_to_roster(player=rostered_player, roster =
                                         self.bout_id.away_roster, captain=captain)
 
@@ -431,11 +449,12 @@ class video_importer:
         pass
 
     def add_video(self, url, site, start, end,
-                  source, jam, bout):
+                  source, jam, bout, embed_code):
 
 
         v = Video.objects.get_or_create(url=url,
-                                        source=source, site=site)[0]
+                                        source=source, site=site,
+                                        embed_code=embed_code)[0]
 
         timecode_url = jam_url_builder(base_url=url, start_time=start,
                                        site='Vimeo')
@@ -457,7 +476,8 @@ class video_importer:
                        site = data['video']['site'],
                        start=jam_data['Start'], end=jam_data['End'],
                        source=data['video']['source'], jam=jam,
-                       bout=bout)
+                       bout=bout,
+                       embed_code=data['video']['embed_code'])
 
     def from_json_file(self, path):
         try:
@@ -499,8 +519,8 @@ if __name__ == '__main__':
     #populate()
     #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
     import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')
-    import_wftda_stats(path = '../2014.08.05 RoT vs TheWorld.xlsx')
+    #import_wftda_stats(path = '../2014.08.05 RoT vs TheWorld.xlsx')
 
     import_video_info(path='RatVsJet2014.json')
-    import_video_info(path='RoTvThe World_8_5_14.json')
+    #import_video_info(path='RoTvThe World_8_5_14.json')
 
