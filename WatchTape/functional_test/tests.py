@@ -5,6 +5,9 @@ from pyvirtualdisplay import Display
 
 from player_list.views import view_bout_info
 
+#Initial User Story
+#Foo opens the a video_player to 
+
 class BoutInfoTest(TestCase):
 
     def setUp(self):
@@ -17,6 +20,9 @@ class BoutInfoTest(TestCase):
     def tearDown(self):
         self.browser.quit()
         self.display.stop()
+
+    def test_WorkingTests(self):
+        self.assert(True)
 
     def check_for_row_in_list_div(self, div_id, row_text):
         div = self.browser.find_element_by_id(div_id)

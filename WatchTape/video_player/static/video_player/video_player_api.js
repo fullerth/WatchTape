@@ -12,6 +12,7 @@ function play_tick(data, id)
         //random timing for jams with timeouts or injury
         while((timing_data[current_jam]-30) < data.seconds)
         {
+            console.log('activated jam fixer for jam ' + current_jam)
             current_jam++;
         }
         var jam_str = "Jam Number "
@@ -79,16 +80,30 @@ $(document).ready(function() {
 
 //Next Jam Carousel Button Handlers
 function next_jam(data, id) {
+
+    //Disable playProgress event handler while shuffling jams
+    froogaloop.addEvent('playProgress', null)
+
     current_jam++;
     froogaloop.api('seekTo',timing_data[current_jam])
+
+    //Re-enable playProgress event handler after jam shuffling complete
+    froogaloop.addEvent('playProgress', play_tick)
+
 }
 
 //Previous Jam Carousel Button Handlers
 function prev_jam(data, id) {
     console.log("prev_jam pressed")
+    //Disable playProgress event handler while shuffling jams
+    froogaloop.addEvent('playProgress', null)
+
     if(current_jam > 0)
     {
         current_jam--;
-        froogaloop.api('seekTo',timing_data[current_jam])
+        froogaloop.api('seekTo',timing_data[current_jam]+1)
     }
+
+    //Re-enable playProgress event handler after jam shuffling complete
+    froogaloop.addEvent('playProgress', play_tick)
 }
