@@ -1,5 +1,19 @@
 //Vimeo API onPlayProgress handler
-current_jam = 0;
+var current_jam = 0;
+var desired_jam = 0;
+var froogaloop
+
+function get_current_jam_number(data)
+{
+    jam = current_jam;
+    while((timing_data[jam]-30) < data.seconds)
+    {
+        console.log('activated jam fixer for jam ' + jam)
+        jam++;
+    }
+    return jam
+}
+
 function play_tick(data, id)
 {
     if(current_jam >= timing_data.length)
@@ -10,11 +24,15 @@ function play_tick(data, id)
     {
         //currently simply changing 30 seconds behind. This will be a slightly
         //random timing for jams with timeouts or injury
-        while((timing_data[current_jam]-30) < data.seconds)
+        current_jam = get_current_jam_number(data)
+
+        if(current_jam != desired_jam)
         {
-            console.log('activated jam fixer for jam ' + current_jam)
-            current_jam++;
+            console.log('current jam is ' + current_jam +' and desired jam is ' + desired_jam)
+//             current_jam = desired_jam
+//             froogaloop.api('seekTo',timing_data[desired_jam])
         }
+
         var jam_str = "Jam Number "
         document.getElementById('jam_number').textContent =
                     jam_str.concat(current_jam);
@@ -27,7 +45,10 @@ function reset_jam(data, id) {
     current_jam = 0;
 }
 
-var froogaloop
+function seek_video(data, id) {
+    current_jam = get_current_jam_number(data)
+    desired_jam = current_jam
+}
 
 //Setup for Vimeo API
 $(document).ready(function() {
@@ -56,7 +77,7 @@ $(document).ready(function() {
 
         function setupResets() {
                 froogaloop.addEvent('finish', reset_jam);
-                froogaloop.addEvent('seek', reset_jam)
+                froogaloop.addEvent('seek', seek_video)
         }
 
         function onPlayProgress() {
@@ -84,8 +105,8 @@ function next_jam(data, id) {
     //Disable playProgress event handler while shuffling jams
     froogaloop.addEvent('playProgress', null)
 
-    current_jam++;
-    froogaloop.api('seekTo',timing_data[current_jam])
+    desired_jam++;
+    froogaloop.api('seekTo',timing_data[desired_jam])
 
     //Re-enable playProgress event handler after jam shuffling complete
     froogaloop.addEvent('playProgress', play_tick)
@@ -94,15 +115,23 @@ function next_jam(data, id) {
 
 //Previous Jam Carousel Button Handlers
 function prev_jam(data, id) {
+    prev_jam_timeout = 3
+
     console.log("prev_jam pressed")
     //Disable playProgress event handler while shuffling jams
     froogaloop.addEvent('playProgress', null)
 
-    if(current_jam > 0)
+    if(desired_jam > 0)
     {
-        current_jam--;
-        froogaloop.api('seekTo',timing_data[current_jam]+1)
+        //If the back button is pushed with 3 seconds of the start of the jam
+        //Move to the previous jam, like a music player
+        if(data.seconds < timing_data[desired_jam] + prev_jam_timeout)
+        {
+            desired_jam--;
+        }
     }
+
+    froogaloop.api('seekTo',timing_data[desired_jam])
 
     //Re-enable playProgress event handler after jam shuffling complete
     froogaloop.addEvent('playProgress', play_tick)
