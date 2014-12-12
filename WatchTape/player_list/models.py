@@ -15,9 +15,11 @@ class Player(models.Model):
         return("%s #%s" % (self.name, self.number))
 
 class Video(models.Model):
+    VIMEO = 'vimeo'
+    YOUTUBE = 'youtube'
     SITES = (
-             ('vimeo', '''http://vimeo.com'''),
-             ('youtube', '''http://youtube.com'''),
+             (VIMEO, '''http://vimeo.com'''),
+             (YOUTUBE, '''http://youtube.com'''),
              ('', 'unknown'),
             )
 
