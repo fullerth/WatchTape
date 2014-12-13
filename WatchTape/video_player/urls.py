@@ -4,6 +4,8 @@ from video_player import views
 
 #already matched /watchtape/
 urlpatterns = patterns('',
-    url(r'^video_player/video/(?P<video_id>\d+)/$',
+    url(r'^video/(?P<video_id>\d+)/$',
         views.view_video_player, name='video_player'),
+    url(r'^stopwatch/(?P<video_id>\d+)/$',
+        views.view_stopwatch, name='stopwatch'),
     )

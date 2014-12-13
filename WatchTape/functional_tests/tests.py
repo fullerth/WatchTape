@@ -8,6 +8,10 @@ from selenium.webdriver.common.keys import Keys
 
 from pyvirtualdisplay import Display
 
+SCREEN_DUMP_LOCATION = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), 'screendumps'
+)
+
 class JamStopwatchTest(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
@@ -20,6 +24,10 @@ class JamStopwatchTest(LiveServerTestCase):
 
     @classmethod
     def tearDownClass(cls):
+        if cls.server_url == cls.live_server_url:
+            super().tearDownClass()
+
+    def tearDown(self):
         if not self._outcomeForDoCleanups.success:
             if not os.path.exists(SCREEN_DUMP_LOCATION):
                 os.makedirs(SCREEN_DUMP_LOCATION)
@@ -61,8 +69,8 @@ class JamStopwatchTest(LiveServerTestCase):
 
 
     def test_jam_stopwatch_exists_and_records_times(self):
-        # The protagonist opens a browser
-        self.browser.get(self.server_url + 'watchtape/video_player/stopwatch/1')
+        # The protagonist opens a browser to record some jam times
+        self.browser.get(self.server_url + '/watchtape/video_player/stopwatch/1')
 
         # They notice the page title and are presented with a video and a button
         assert 'Stopwatch' in self.browser.title

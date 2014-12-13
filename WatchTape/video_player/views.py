@@ -96,3 +96,7 @@ def create_score_dict(jam):
               'home_star_pass' : jam.home_star_pass,
               'away_star_pass' : jam.away_star_pass}
     return(scores)
+
+# Stopwatch Views
+def view_stopwatch(request, video_id):
+    pass
