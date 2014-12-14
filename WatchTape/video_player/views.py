@@ -99,4 +99,4 @@ def create_score_dict(jam):
 
 # Stopwatch Views
 def view_stopwatch(request, video_id):
-    pass
+    return render(request, 'video_player/stopwatch.html')
