@@ -517,13 +517,14 @@ if __name__ == '__main__':
                                    PlayerToJam, Video, VideoToJam, \
                                    League, Team, Roster
     #populate()
-    #import_wftda_stats(path = '../2014.04.12 DLF vs TR.xlsx')
-    import_wftda_stats(path = '../2014.06.07 AST vs JCRG.xlsx')
-    #import_wftda_stats(path = '../2014.08.05 RoT vs TheWorld.xlsx')
-    import_wftda_stats(path = '../2014.11.25 SW vs TR.xlsx')
+    #import_wftda_stats(path = '../bout_data/2014.04.12 DLF vs TR.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
+    #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
 
-
-    import_video_info(path='RatVsJet2014.json')
-    #import_video_info(path='RoTvThe World_8_5_14.json')
-    import_video_info(path='HomeTeam_Scrimmage_Nov_25_2014.json')
-    #import_video_info(path='RoTvThe World_8_5_14.json')
+    import_video_info(path='../bout_data/RatVsJet2014.json')
+    #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
+    import_video_info(path='../bout_data/HomeTeam_Scrimmage_Nov_25_2014.json')
+    #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
+    import_video_info(path='../bout_data/2014.12.09_Rat_HomeTeam_Scrimmage.json')
