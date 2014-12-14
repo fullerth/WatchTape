@@ -1,6 +1,7 @@
 {"bout" : {"id" : 2},
 "video" : {"url" : "http://vimeo.com/mayjalookvideo/review/100693555/685ff25f0d", "site" : "Vimeo",
-            "source" : "Papa Getsome"},
+            "source" : "Papa Getsome",
+            "embed_code" : "<div id=\"video_player\" class=\"embed-responsive embed-responsive-16by9\">\n<iframe src=\"//player.vimeo.com/video/113002248?api=1&player_id=vimeo_player\"\nwidth=\"500\" height=\"281\" frameborder=\"0\"\nwebkitallowfullscreen mozallowfullscreen allowfullscreen\nclass=\"embed-responsive-item\"\nid=\"vimeo_player\">\n</iframe>\n<p><a href=\"http://vimeo.com/97709660\">\nEdited Key Arena Rain vs Silicon and Rat vs Jet June 7th 2014\n</a> from <a href=\"http://vimeo.com/mayjalookvideo\">Mike Evans</a> on\n<a href=\"https://vimeo.com\">Vimeo</a>.</p>\n</div>"},
 "Bout 1: :
 {
 "Half 1" :
@@ -202,4 +203,4 @@
 }
 ]
 }
-} 
+}
