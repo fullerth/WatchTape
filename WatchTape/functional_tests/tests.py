@@ -74,9 +74,10 @@ class JamStopwatchTest(LiveServerTestCase):
 
         # They notice the page title and are presented with a video and a button
         assert 'Stopwatch' in self.browser.title
-        header_text = self.browser.find_element_by_id('id_jam_start')
+        jam_start_btn = self.browser.find_element_by_id('id_jam_start')
 
         # Fingers may twiddle as the video buffers before it auto starts
+        video = self.browser.find_element_by_id('')
         self.fail('Finish the test!')
 
         # The video plays, the faint clatter of skates through tiny speakers
