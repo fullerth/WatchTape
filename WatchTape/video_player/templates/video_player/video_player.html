@@ -26,7 +26,21 @@
 
 
     <div class="container">
-        {{ video.embed_code | safe }}
+        <div id="video_player" class="embed-responsive embed-responsive-16by9">
+
+            <iframe id="vimeo_player" src="{{ video.player_url }}?api=1&player_id=vimeo_player"
+            width="500" height="281" frameborder="0"
+            webkitallowfullscreen mozallowfullscreen
+            allowfullscreen class="embed-responsive-item">
+            </iframe>
+
+            {% comment %}
+            <iframe id="vimeo_player" src="//player.vimeo.com/video/114457425?player_id=vimeo_player&api=1" width="960" height="540" frameborder="0" title="Edited RCRG Scrimmage Dec 9th 2014" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+
+            {% endcomment %}
+
+        </div>
 
         <!-- Nav Tabs -->
         <div id="jam_info_tabs">

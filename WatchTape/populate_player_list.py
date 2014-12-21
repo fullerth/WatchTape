@@ -51,9 +51,9 @@ class wftda_importer_Mar_2014:
 
     #roster information
     roster = {'sheet_name':'IGRF',
-              'row_start'             : 10,     'row_end'                 : 30,
-              'home_number_column'    : 1,      'home_name_column'        : 2,
-              'away_number_column'    : 7,      'away_name_column'        : 8,
+              'row_start'             : 10,     'row_end'             : 30,
+              'home_number_column'    : 1,      'home_name_column'    : 2,
+              'away_number_column'    : 7,      'away_name_column'    : 8,
 
               'home_league_row'       : 7,      'home_league_column' : 1,
               'away_league_row'       : 7,      'away_league_column' : 7,
@@ -184,7 +184,7 @@ class wftda_importer_Mar_2014:
                 #if replaced the copyright symbol, the player is a captain
                 captain = True if name_tuple[1] else False
 
-                pplayer_name = name_tuple[0]
+                player_name = name_tuple[0]
 
                 try:
                     log.debug("Adding {0}#{1} to {2}, captain: {3}".format(
@@ -449,12 +449,12 @@ class video_importer:
         pass
 
     def add_video(self, url, site, start, end,
-                  source, jam, bout, embed_code):
+                  source, jam, bout, player_url):
 
 
         v = Video.objects.get_or_create(url=url,
                                         source=source, site=site,
-                                        embed_code=embed_code)[0]
+                                        player_url=player_url)[0]
 
         timecode_url = jam_url_builder(base_url=url, start_time=start,
                                        site='Vimeo')
@@ -477,7 +477,7 @@ class video_importer:
                        start=jam_data['Start'], end=jam_data['End'],
                        source=data['video']['source'], jam=jam,
                        bout=bout,
-                       embed_code=data['video']['embed_code'])
+                       player_url = data['video']['player_url'])
 
     def from_json_file(self, path):
         try:
@@ -517,13 +517,13 @@ if __name__ == '__main__':
                                    PlayerToJam, Video, VideoToJam, \
                                    League, Team, Roster
     #populate()
-    #import_wftda_stats(path = '../bout_data/2014.04.12 DLF vs TR.xlsx')
-    #import_wftda_stats(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
+    #import_wftda_stats(path =  '../bout_data/2014.04.12 DLF vs TR.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
     #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
     #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
 
-    #import_video_info(path='../bout_data/RatVsJet2014.json')
+    import_video_info(path='../bout_data/RatVsJet2014.json')
     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
     #import_video_info(path='../bout_data/HomeTeam_Scrimmage_Nov_25_2014.json')
     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
