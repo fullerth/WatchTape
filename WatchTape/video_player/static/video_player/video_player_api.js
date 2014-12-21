@@ -12,12 +12,13 @@ function play_tick(data, id)
         //random timing for jams with timeouts or injury
         while((timing_data[current_jam]-30) < data.seconds)
         {
+            //print("incrementing current jam")
             current_jam++;
         }
         var jam_str = "Jam Number "
         document.getElementById('jam_number').textContent =
                     jam_str.concat(current_jam);
-        var jam_carousel = $('.carousel').carousel();
+        var jam_carousel = $('.carousel').carousel()
         jam_carousel.carousel(current_jam)
     }
 }
