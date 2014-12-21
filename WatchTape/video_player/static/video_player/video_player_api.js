@@ -10,7 +10,7 @@ function play_tick(data, id)
     {
         //currently simply changing 30 seconds behind. This will be a slightly
         //random timing for jams with timeouts or injury
-        while((timing_data[current_jam]-30) < data.seconds)
+        while((timing_data[current_jam]-4.5) < data.seconds)
         {
             current_jam++;
         }

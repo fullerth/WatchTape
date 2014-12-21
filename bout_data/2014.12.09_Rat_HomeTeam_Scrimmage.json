@@ -1,13 +1,12 @@
 {
     "bout": {
-        "id": 3
+        "id": 1
     },
     "video": {
         "url": "https://vimeo.com/114457425",
+        "player_url" : "//player.vimeo.com/video/114457425",
         "source" : "Papa Getsome",
-        "site": "Vimeo",
-        "source": "Papa Getsome",
-        "embed_code" : "<div id=\"video_player\" class=\"embed-responsive embed-responsive-16by9\">\n<iframe src=\"//player.vimeo.com/video/114457425\" width=\"500\" height=\"281\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\n</div>"
+        "site": "Vimeo"
     },
     "Half 1": [
         {
@@ -206,3 +205,4 @@
         }
     ]
  }
+
