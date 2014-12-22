@@ -384,14 +384,17 @@ class wftda_importer_Mar_2014:
             return p
 
     def add_bout(self, date, location, home_team_id, away_team_id):
-        b = Bout.objects.get_or_create(date=date, location=location)[0]
-
-        if(b.home_roster is None):
+        try:
+            b = Bout.objects.get(date=date, location=location,
+                                 home_roster__id=home_team_id,
+                                 away_roster__id=away_team_id)
+        except Bout.DoesNotExist as e:
+            log.debug("Bout does not exist, creating")
+            b = Bout.objects.create(date=date, location=location)
+            b.away_roster = self.add_roster(away_team_id)
             b.home_roster = self.add_roster(home_team_id)
             b.save()
-        if(b.away_roster is None):
-            b.away_roster = self.add_roster(away_team_id)
-            b.save()
+            log.debug("{0} created".format(b))
 
         log.debug("home roster id: {0}".format(b.home_roster.id))
         log.debug("away roster id: {0}".format(b.away_roster.id))
@@ -464,6 +467,7 @@ class video_importer:
                                                   timecode_url=timecode_url)
 
     def add_video_to_jam(self, jam_data, half, data, debug=False):
+
         bout = Bout.objects.get(pk=data['bout']['id'])
         jam = Jam.objects.filter(
                             number=jam_data['number']
@@ -487,13 +491,14 @@ class video_importer:
             log.error("JSON formatting error: {0}".format(e))
         except FileNotFoundError as e:
             log.error("File does not exist: {0}. Error: {1}".format(path, e))
+        try:
+            for jam_data in self.data['Half 1']:
+                self.add_video_to_jam(jam_data=jam_data, data=self.data, half=1)
 
-        for jam_data in self.data['Half 1']:
-            self.add_video_to_jam(jam_data=jam_data, data=self.data, half=1)
-
-        for jam_data in self.data['Half 2']:
-            self.add_video_to_jam(jam_data=jam_data, data=self.data, half=2)
-
+            for jam_data in self.data['Half 2']:
+                self.add_video_to_jam(jam_data=jam_data, data=self.data, half=2)
+        except KeyError as e:
+            log.warning("{0} does not exist".format(e))
 
 def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
         if(site=='Vimeo'):
@@ -522,9 +527,13 @@ if __name__ == '__main__':
     #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
     #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
 
     import_video_info(path='../bout_data/RatVsJet2014.json')
     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
     #import_video_info(path='../bout_data/HomeTeam_Scrimmage_Nov_25_2014.json')
     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
     import_video_info(path='../bout_data/2014.12.09_Rat_HomeTeam_Scrimmage.json')
+    import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_DLF_TR.json')
+    import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_GD_SW.json')

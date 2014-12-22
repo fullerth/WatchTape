@@ -3,7 +3,7 @@ import re
 
 class Player(models.Model):
     name = models.CharField(max_length=200)
-    number = models.IntegerField(default = 0)
+    number = models.CharField(max_length=10)
 
     def _get_url(self):
         '''Construct the URL for this object'''
@@ -44,7 +44,8 @@ class Bout(models.Model):
     url = property(_get_url)
 
     def __str__(self):
-        return("%s on %s" % (self.location, self.date))
+        return("{0} vs {1} on {2}".format(self.home_roster.team,
+                                          self.away_roster.team, self.date))
 
 class Jam(models.Model):
     number = models.IntegerField(default=0)
@@ -69,7 +70,8 @@ class Jam(models.Model):
     url = property(_get_url)
 
     def __str__(self):
-        return("Half #{1}, Jam #{0}".format(self.number, self.half))
+        return("{2}, Half #{1}, Jam #{0}".format(self.number, self.half,
+                                                      self.bout))
 
 class League(models.Model):
     name = models.CharField(max_length=200)

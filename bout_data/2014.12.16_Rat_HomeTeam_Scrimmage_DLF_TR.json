@@ -1,6 +1,6 @@
 {
     "bout": {
-        "id": 1
+        "id": 3
     },
     "video": {
         "url": "https://vimeo.com/115041794",
@@ -87,122 +87,106 @@
         },
         {
             "number": 16,
-            "Start": "",
-            "End": ""
+            "Start": "18m02s",
+            "End": "19m28s"
         },
         {
             "number": 17,
-            "Start": "",
-            "End": ""
+            "Start": "19m53s",
+            "End": "20m33s"
         },
         {
             "number": 18,
-            "Start": "",
-            "End": ""
+            "Start": "20m54s",
+            "End": "21m19s"
         },
         {
             "number": 19,
-            "Start": "",
-            "End": ""
+            "Start": "21m41s",
+            "End": "22m41s"
+        },
+        {
+            "number": 20,
+            "Start": "23m05s",
+            "End": "25m06s"
+        },
+        {
+            "number": 21,
+            "Start": "25m29s",
+            "End": "26m05s"
+        },
+        {
+            "number": 22,
+            "Start": "26m28s",
+            "End": "26m58s"
+        },
+        {
+            "number": 23,
+            "Start": "27m20s",
+            "End": "27m47s"
         }
     ],
     "Half 2" : [
         {
             "number": 1,
-            "Start": "",
-            "End": ""
+            "Start": "28m42s",
+            "End": "29m24s"
         },
         {
             "number": 2,
-            "Start": "",
-            "End": ""
+            "Start": "29m48s",
+            "End": "30m15s"
         },
         {
             "number": 3,
-            "Start": "",
-            "End": ""
+            "Start": "30m36s",
+            "End": "31m31s"
         },
         {
             "number": 4,
-            "Start": "",
-            "End": ""
+            "Start": "31m55s",
+            "End": "32m49s"
         },
         {
             "number": 5,
-            "Start": "",
-            "End": ""
+            "Start": "33m10s",
+            "End": "33m44s"
         },
         {
             "number": 6,
-            "Start": "",
-            "End": ""
+            "Start": "34m08s",
+            "End": "35m10s"
         },
         {
             "number": 7,
-            "Start": "",
-            "End": ""
+            "Start": "35m32s",
+            "End": "37m33s"
         },
         {
             "number": 8,
-            "Start": "",
-            "End": ""
+            "Start": "37m03s",
+            "End": "39m00s"
         },
         {
             "number": 9,
-            "Start": "",
-            "End": ""
+            "Start": "39m24s",
+            "End": "39m55s"
         },
         {
             "number": 10,
-            "Start": "",
-            "End": ""
+            "Start": "40m17s",
+            "End": "41m15s"
         },
         {
             "number": 11,
-            "Start": "",
-            "End": ""
+            "Start": "41m38s",
+            "End": "42m10s"
         },
         {
             "number": 12,
-            "Start": "",
-            "End": "",
+            "Start": "42m31s",
+            "End": "43m07s",
             "Note" : ""
-        },
-        {
-            "number": 13,
-            "Start": "",
-            "End": ""
-        },
-        {
-            "number": 14,
-            "Start": "",
-            "End": ""
-        },
-        {
-            "number": 15,
-            "Start": "",
-            "End": ""
-        },
-        {
-            "number": 16,
-            "Start": "",
-            "End": ""
-        },
-        {
-            "number": 17,
-            "Start": "",
-            "End": ""
-        },
-        {
-            "number": 18,
-            "Start": "",
-            "End": ""
-        },
-        {
-            "number": 19,
-            "Start": "",
-            "End": ""
         }
     ]
  }
-
