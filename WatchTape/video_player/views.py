@@ -27,7 +27,6 @@ def view_video_player(request, video_id):
 
     times = []
     for jam_video in jam_videos:
-        print(jam_video)
         times.append(jam_video.start_seconds)
     js_jams = simplejson.dumps(times)
 
@@ -37,8 +36,6 @@ def view_video_player(request, video_id):
     away_roster = Roster.objects.get(away_roster=bout)
     home_players = home_roster.players
     away_players = away_roster.players
-
-    print("home: {0}, away: {1}".format(home_players, away_players))
 
     jams_list = []
 
