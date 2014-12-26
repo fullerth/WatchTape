@@ -21,4 +21,7 @@ touch .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 *add ssh-rsa to the authorized_keys file
 
-
+Creating virtualenv on Vagrant
+==============================
+Use the --always-copy option (http://stackoverflow.com/questions/24640819/protocol-error-setting-up-virtualenvironment-through-vagrant-on-ubuntu)
+virtualenv --python=python3.3 virtualenv/ --always-copy

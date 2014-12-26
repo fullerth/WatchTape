@@ -14,3 +14,4 @@ screendumps
 .scratchpad/
 *.pem
 *.ppk
+virtualenv/

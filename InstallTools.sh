@@ -7,31 +7,31 @@ echo Installing Firefox...
 sudo apt-get install firefox -y
 
 #install vim
-echo  
-echo  
+echo
+echo
 echo Installing Vim...
 echo sudo apt-get install vim -y
 sudo apt-get install vim -y
 
 #install Python 3.3
-echo  
-echo  
+echo
+echo
 echo Installing Python3.3...
 echo sudo apt-get install python-software-properties -y
 sudo apt-get install python-software-properties -y
-echo  
+echo
 echo sudo add-apt-repository ppa:fkrull/deadsnakes -y
 sudo add-apt-repository ppa:fkrull/deadsnakes -y
-echo  
+echo
 echo sudo apt-get update -y
 sudo apt-get update -y
-echo  
+echo
 echo sudo apt-get install python3.3 -y
 sudo apt-get install python3.3 -y
 
 #install pip
-echo  
-echo  
+echo
+echo
 echo Installing pip...
 sudo python3.3 /vagrant/get-pip.py
 
@@ -43,8 +43,8 @@ sudo python3.3 /vagrant/get-pip.py
 
 
 #install Django
-echo  
-echo  
+echo
+echo
 echo Installing Django...
 sudo pip3 install Django==1.6.1
 
@@ -52,7 +52,7 @@ sudo pip3 install Django==1.6.1
 echo
 echo
 echo Installing Selenium...
-sudo pip3 install --upgrade selenium 
+sudo pip3 install --upgrade selenium
 
 #install xvfb
 echo
@@ -71,6 +71,12 @@ echo
 echo
 echo Installing xlrd
 sudo pip3 install xlrd
+
+#install virtualenv
+echo
+echo
+echo Installing virtualenv
+sudo pip3 install virtualenv
 
 #install django-debug-toolbar
 echo
