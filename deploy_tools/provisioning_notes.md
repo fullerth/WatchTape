@@ -1,12 +1,34 @@
 Provisioning a new site
 =======================
+## Required packages:
+* nginx
+* Python 3
+* Git
+* pip
+* virtualenv
 
-## Adding nginx
-sudo apt-get install nginx
-sudo service nginx start
-## Adding other software
-sudo apt-get install git python3 python3-pip
-sudo pip3 install virtualenv
+e.g. on Ubuntu EC2
+    sudo apt-get install nginx git python3 python3-pip
+    sudo pip3 install virtualenv
+
+## Nginx Virtual Host config
+* see nginx.template.conf
+* replace SITENAME with, eg, staging.my-domain.com
+
+## Upstart Job
+* see gunicorn-upstart.template.conf
+* replace SITENAME with, eg, staging.my-domain.com
+
+## Folder structure:
+Assume we have a user accout at /home/username
+/home/username
+--sites
+    --SITENAME
+        --database
+        --source
+        --static
+        --virtualenv
+
 
 Adding a new user to EC2
 ========================
@@ -20,6 +42,7 @@ chmod 700 .ssh
 touch .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 *add ssh-rsa to the authorized_keys file
+
 
 Creating virtualenv on Vagrant
 ==============================
