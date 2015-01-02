@@ -84,4 +84,22 @@ echo
 echo Installing django-debug-toolbar
 sudo pip3 install django-debug-toolbar
 
+#install python2.7 and pip
+echo
+echo
+echo Installing python2.7 and pip
+sudo apt-get install python2.7 python-pip python-dev -y
+
+#install pycrpyto
+echo
+echo
+echo Installing pycrpyto
+sudo /usr/bin/pip install pycrpyto
+
+#install fabric
+echo
+echo
+echo Installing fabric
+sudo /usr/bin/pip install fabric
+
 echo Install Finished
