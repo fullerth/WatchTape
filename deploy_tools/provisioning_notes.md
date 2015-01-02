@@ -48,3 +48,14 @@ Creating virtualenv on Vagrant
 ==============================
 Use the --always-copy option (http://stackoverflow.com/questions/24640819/protocol-error-setting-up-virtualenvironment-through-vagrant-on-ubuntu)
 virtualenv --python=python3.3 virtualenv/ --always-copy
+
+After deploy script, to finish
+==============================
+sed "s/SITENAME/<site-deployed>/g" \
+    deploy_tools/nginx.template.conf | sudo tee \
+    /etc/nginx/sites-available/<site-deployed>
+
+sudo ln -s ../sites-available/<site-deployed> \
+    /etc/nginx/sites-enables/<site-deployed>
+
+
