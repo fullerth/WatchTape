@@ -1,5 +1,6 @@
 from django.db import models
 import re
+from datetime import date
 
 class Player(models.Model):
     name = models.CharField(max_length=200)
@@ -31,7 +32,7 @@ class Video(models.Model):
         return("Video {0}".format(self.id))
 
 class Bout(models.Model):
-    date = models.DateField('date played')
+    date = models.DateField('date played', default=date.today)
     location = models.CharField(max_length=200)
     home_roster = models.ForeignKey('Roster', related_name='home_roster',
                                     blank=True, null=True)
