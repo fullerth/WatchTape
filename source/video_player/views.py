@@ -8,6 +8,9 @@ from player_list.models import Bout, Jam, Video, VideoToJam, Team, Player, \
 
 from django.utils import simplejson
 
+def view_controller(request):
+    return render(request, 'video_player/controller.html')
+
 #/video_player/video/<video_id>
 def view_video_player(request, video_id):
     video = get_object_or_404(Video.objects.select_related(
