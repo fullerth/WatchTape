@@ -46,7 +46,7 @@ sudo python3.3 /vagrant/get-pip.py
 echo
 echo
 echo Installing Django...
-sudo pip3 install Django==1.6.1
+sudo pip3 install Django==1.7
 
 #install Selenium
 echo

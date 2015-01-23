@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape')
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape'),)
 
 ALLOWED_HOSTS = []
 
