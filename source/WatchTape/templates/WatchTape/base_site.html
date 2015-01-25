@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title> {% block title %} Watch Tape {% endblock title %} </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+        <!-- include Font Awesome -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="{{STATIC_URL}}WatchTape/WatchTape.css" rel="stylesheet">
+
+        {% block head_block %} {% endblock head_block %}
+    </head>
+
+    <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">WatchTape</a>
+        </div>
+        {% block navbar_block %}
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="https://github.com/fullerth/WatchTape/issues/new">Report Bug</a></li>
+          </ul>
+        </div>
+        {% endblock navbar_block %}
+      </div>
+    </div>
+
+    <div class="container-fluid">
+        <div id="header">
+            {% block header_block %} {% endblock header_block %}
+        </div>
+        <div id="content">
+            {% block content_block %} {% endblock content_block %}
+        </div>
+    </div>
+
+</p>
+
+    <footer>
+        {% block footer_block %}
+        {% endblock footer_block %}
+    </footer>
+
+    <script>
+        {% block end_script %}
+        {% endblock end_script %}
+    </script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!--script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script-->
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    </body>
+</html>
+
+

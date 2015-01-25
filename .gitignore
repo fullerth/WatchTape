@@ -7,6 +7,12 @@ __pycache__
 *~
 *~lock.*
 ~$*.xlsx
-screendumps/
 .project
 .pydevproject
+screendumps
+.settings/
+/scratchpad/
+*.pem
+*.ppk
+virtualenv/
+/static/

@@ -1,0 +1,72 @@
+{% extends "base_site.html" %}
+
+
+
+{% block title %}Video of A Bout{% endblock title %}
+
+{% block head_block %}
+
+<script type="text/javascript">timing_data = {{ times }}</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script src="{{ STATIC_URL }}video_player/video_player.js" type="text/javascript"></script>
+
+{% endblock head_block %}
+
+
+
+{% block content_block %}
+
+    <script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>
+
+    <script src="{{ STATIC_URL }}video_player/video_player_api.js" type="text/javascript"></script>
+
+    </body>
+
+
+    <div class="container">
+        <div id="video_player" class="embed-responsive embed-responsive-16by9">
+
+            <iframe id="vimeo_player" src="{{ video.player_url }}?api=1&player_id=vimeo_player"
+            width="500" height="281" frameborder="0" class="embed-responsive-item">
+            </iframe>
+
+        </div>
+
+        <!-- Nav Tabs -->
+        <div id="jam_info_tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#players" role="tab" data-toggle="tab">
+                    Players</a></li>
+                <li class=""><a href="#filters" role="tab" data-toggle="tab">
+                    Filters</a></li>
+            </ul>
+        </div>
+
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active" id="players">
+
+                {% include "video_player/status_tab.html" %}
+
+
+                <!-- Controls
+                <a class="left carousel-control" href="#jam_carousel" role="button"
+                data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#jam_carousel" role="button"
+                data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a> -->
+            </div>
+            </div>
+            <div class="tab-pane" id="filters">This is where you'll be able to
+            tick some boxes and filter the jams that will be shown by player</div>
+        </div>
+
+    </div>
+{% endblock content_block %}
+
+{% block end_script %}
+{% endblock end_script %}
