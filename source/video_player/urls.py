@@ -8,6 +8,6 @@ urlpatterns = patterns('',
         views.view_video_player, name='video_player'),
     url(r'^stopwatch/(?P<video_id>\d+)/$',
         views.view_stopwatch, name='stopwatch'),
-    url(r'^video_player/controller', views.view_controller,
-        name='video_controller'),
+    url(r'^jam_timer/bout/(?P<bout_id>\d+)/$', views.view_jam_timer,
+        name='video_jam_timer'),
     )

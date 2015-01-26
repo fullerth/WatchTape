@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^watchtape/', include('player_list.urls')),
-    url(r'^watchtape/video_player/', include('video_player.urls'))
+    url(r'^video_player/', include('video_player.urls'))
 
     #Can use the default bootstrap template to check if bootstrap is working
     #url(r'^template/', 'WatchTape.views.template', name='template'),

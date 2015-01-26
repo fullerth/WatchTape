@@ -11,6 +11,9 @@ import json
 def view_controller(request):
     return render(request, 'video_player/controller.html')
 
+def view_jam_timer(request, bout_id):
+    return render(request, 'video_player/stopwatch.html')
+
 #/video_player/video/<video_id>
 def view_video_player(request, video_id):
     video = get_object_or_404(Video.objects.select_related(
