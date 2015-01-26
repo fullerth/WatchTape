@@ -16,6 +16,7 @@ class JamTimerTest(FunctionalTest):
               ]
         self.browser.get(''.join(url))
 
-        print(self.browser.page_source)
+        #Foo sees that the jam times for the current jam are displayed
+        self.browser.find_element_by_id('id_jam_time_list')
 
         self.fail('finish the test')
