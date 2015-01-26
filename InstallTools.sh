@@ -84,6 +84,12 @@ echo
 echo Installing django-debug-toolbar
 sudo pip3 install django-debug-toolbar
 
+#install django-rest-framework
+echo
+echo
+echo Installing djangorestframework
+sudo pip3 install djangorestframework
+
 #install python2.7 and pip
 echo
 echo

@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'player_list',
     'video_player',
     'debug_toolbar',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
