@@ -1,7 +1,10 @@
+import unittest
+
 from .base import FunctionalTest
 
 from player_list.models import Bout
 
+@unittest.skip('Functionailty not currently implemented')
 class JamControlsTest(FunctionalTest):
     def setUp(self):
         super(JamControlsTest, self).setUp()
