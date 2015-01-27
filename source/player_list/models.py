@@ -2,6 +2,8 @@ from django.db import models
 import re
 from datetime import date
 
+from django.core.exceptions import ValidationError
+
 class Player(models.Model):
     name = models.CharField(max_length=200)
     number = models.CharField(max_length=10)
@@ -141,16 +143,15 @@ class Penalty(models.Model):
     jam_released = models.ForeignKey(Jam, related_name='penalty_jam_released')
 
 class VideoToJam(models.Model):
-    def _timecode_validator(self, timecode):
-        '''Times must be stored as strings XhYmZs where X, Y and Z are all ints
-           **** DOES NOT APPEAR TO BE WORKING, DON"T RELY ON IT****'''
+    def _timecode_validator(timecode):
+        '''Times must be stored as strings XhYmZs where X, Y and Z are all ints'''
         print('running validator on %s' % timecode)
         def _time_to_int(time):
             if time != '':
                 try:
                     int(time)
                 except ValueError as e:
-                    raise ValidationError(u'%s is not a valid time' % timecode)
+                    raise ValidationError(u'%s is not a valid time, use format XhYmZs' % timecode)
 
         time = timecode.split('h')
         _time_to_int(time[0])
