@@ -45,3 +45,16 @@ class test_VideoToJam(TestCase):
             video_to_jam.clean_fields(exclude=["start_time", "timecode_url"])
         video_to_jam.end_time = "16h18m320s"
         video_to_jam.clean_fields(exclude=["start_time", "timecode_url"])
+
+    def test_videotojam_returns_url(self):
+        video_to_jam = self.create_video_to_jam()
+        jam_start_time = "2m60s"
+        video_url = "http://test/video"
+        jam_url = ''.join([video_url, "#t=", jam_start_time])
+
+        video_to_jam.start_time = jam_start_time
+        video_to_jam.video.url = video_url
+        video_to_jam.video.save()
+        video_to_jam.save()
+
+        self.assertEqual(video_to_jam.timecode_url, jam_url)

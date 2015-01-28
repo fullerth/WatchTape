@@ -145,7 +145,6 @@ class Penalty(models.Model):
 class VideoToJam(models.Model):
     def _timecode_validator(timecode):
         '''Times must be stored as strings XhYmZs where X, Y and Z are all ints'''
-        print('running validator on %s' % timecode)
         def _time_to_int(time):
             if time != '':
                 try:
@@ -162,42 +161,20 @@ class VideoToJam(models.Model):
 
 
     start_time = models.CharField(max_length=200,
-                                  validators=[_timecode_validator])
+                                  validators=[_timecode_validator],
+                                  help_text="XhYmZs encoded start time of the jam"
+                                 )
+
     end_time = models.CharField(max_length=200,
-                                validators=[_timecode_validator])
-    video = models.ForeignKey(Video)
-    jam = models.ForeignKey(Jam)
-    timecode_url = models.URLField(max_length=255)
-
-    def _get_url(self):
-        '''Should construct url based on site, for now return timecode url'''
-        return self.timecode_url
-    url = property(_get_url)
-
-    def _start_time_in_seconds(self):
-        '''Return the start time in seconds, normally stored as XmYs'''
-        time = 0
-        time_str = self.start_time.split('h')
-        #Handle the case where only XmYs are present. If there is no hour,
-        #there will only be one item in the list containing the initial string.
-        if (time_str[0] != self.start_time):
-            time += int(time_str[0])*3600
-            time_str = time_str[1]
-        else:
-            time_str = time_str[0]
-        time_str = time_str.split('m')
-        #Handle case for only Ys present
-        if (time_str[0] != self.start_time):
-            time += int(time_str[0])*60
-            time_str = time_str[1]
-        else:
-            time_str = time_str[0]
-        time_str = time_str.split('s')
-        time += int(time_str[0])
-
-        return time
-
-    start_seconds = property(_start_time_in_seconds)
+                                validators=[_timecode_validator],
+                                help_text="XhYmZs encoded end time of the jam"
+                                )
+    video = models.ForeignKey(Video,
+                              help_text="Video containing the jam")
+    jam = models.ForeignKey(Jam,
+                            help_text="Jam object for times")
+    timecode_url = models.URLField(max_length=255,
+                                   help_text="URL link directly to this jam")
 
     def __str__(self):
         return("Video#{0} for Jam #{1}".format(self.video.id, self.jam.id))
