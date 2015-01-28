@@ -516,7 +516,12 @@ def import_wftda_stats(path):
 
 if __name__ == '__main__':
     log.debug('Starting player_list population script...')
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
+
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'WatchTape.settings'
+
+    from django import setup as setup
+    setup()
+
 
     from player_list.models import Player, Bout, PlayerToRoster, Jam, \
                                    PlayerToJam, Video, VideoToJam, \
