@@ -519,7 +519,7 @@ if __name__ == '__main__':
 
     os.environ['DJANGO_SETTINGS_MODULE'] = 'WatchTape.settings'
 
-    from django import setup as setup
+    from django import setup
     setup()
 
 
