@@ -3,6 +3,8 @@ from django.core.exceptions import ValidationError
 
 from player_list.models import VideoToJam, Video, Jam, Bout
 
+import unittest
+
 
 class test_VideoToJam(TestCase):
 
@@ -46,6 +48,7 @@ class test_VideoToJam(TestCase):
         video_to_jam.end_time = "16h18m320s"
         video_to_jam.clean_fields(exclude=["start_time", "timecode_url"])
 
+    @unittest.skip("Timecode URL generation not currently used, remove if not needed")
     def test_videotojam_returns_url(self):
         video_to_jam = self.create_video_to_jam()
         jam_start_time = "2m60s"

@@ -173,6 +173,7 @@ class VideoToJam(models.Model):
                               help_text="Video containing the jam")
     jam = models.ForeignKey(Jam,
                             help_text="Jam object for times")
+
     timecode_url = models.URLField(max_length=255,
                                    help_text="URL link directly to this jam")
 
