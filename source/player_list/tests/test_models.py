@@ -1,7 +1,5 @@
 from django.test import TestCase
 
-import test_VideoToJam
-
 from player_list.models import Bout
 
 class test_BoutTest(TestCase):
