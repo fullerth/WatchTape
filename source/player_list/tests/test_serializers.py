@@ -17,7 +17,7 @@ class VideoToJamSerializerTestCase(TestCase):
 
 
     def test_create_a_video_to_jam(self):
-        dict = _create_video_to_jam_data()
+        dict = self._create_video_to_jam_data()
         data = {'video': dict['video'], 'jam': dict['jam']}
         v_to_j_serializer = VideoToJamSerializer()
         v_to_j = v_to_j_serializer.create(data)
