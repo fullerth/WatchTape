@@ -3,8 +3,19 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
+from rest_framework.renderers import JSONRenderer
+
 from player_list.models import Player, Bout, PlayerToRoster, \
                                Jam, PlayerToJam, Video
+
+class JSONResponse(HttpResponse):
+    '''
+    An HttpResponse that renders content into JSON
+    '''
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
 
 #/player/<id>
 def view_player_info(request, player_id):

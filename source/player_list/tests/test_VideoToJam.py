@@ -5,10 +5,8 @@ from player_list.models import VideoToJam, Video, Jam, Bout
 
 import unittest
 
-
-class test_VideoToJam(TestCase):
-
-    def create_video_to_jam(self):
+class VideoToJamTestCase(TestCase):
+    def _create_video_to_jam(self):
         #Create surrounding data
         video = Video()
         video.save()
@@ -23,8 +21,9 @@ class test_VideoToJam(TestCase):
         return videotojam
 
 
+class test_VideoToJam(VideoToJamTestCase):
     def test_videotojam_created_with_defaults(self):
-        video_to_jam = self.create_video_to_jam()
+        video_to_jam = self._create_video_to_jam()
         video_to_jam.save()
 
         saved_v_to_j = VideoToJam.objects.all()[0]
@@ -32,7 +31,7 @@ class test_VideoToJam(TestCase):
         self.assertEqual(saved_v_to_j, video_to_jam)
 
     def test_videotojam_validation(self):
-        video_to_jam = self.create_video_to_jam()
+        video_to_jam = self._create_video_to_jam()
 
         #Test start_time validation
         video_to_jam.start_time = "foo"
@@ -50,7 +49,7 @@ class test_VideoToJam(TestCase):
 
     @unittest.skip("Timecode URL generation not currently used, remove if not needed")
     def test_videotojam_returns_url(self):
-        video_to_jam = self.create_video_to_jam()
+        video_to_jam = self._create_video_to_jam()
         jam_start_time = "2m60s"
         video_url = "http://test/video"
         jam_url = ''.join([video_url, "#t=", jam_start_time])
