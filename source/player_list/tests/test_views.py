@@ -13,12 +13,25 @@ class test_ViewVideoToJam(VideoToJamTestCase):
         video_to_jam_1 = self._create_video_to_jam()
         video_to_jam_2 = self._create_video_to_jam()
 
-        response = c.get('/videotojam/')
+        response = c.get('/watchtape/videotojam/')
 
         print(response.content)
 
-        self.assertContains(response.content, video_to_jam_1)
-        self.assertContains(response.content, video_to_jam_2)
+        v_to_j_1_json = {'id' : video_to_jam_1.id,
+                                               'video' : video_to_jam_1.video.id,
+                                               'jam' : video_to_jam_1.jam.id,
+                                               'start_time' : video_to_jam_1.start_time,
+                                               'end_time' : video_to_jam_1.end_time}
+        v_to_j_2_json = {'id' : video_to_jam_2.id,
+                                               'video' : video_to_jam_2.video.id,
+                                               'jam' : video_to_jam_2.jam.id,
+                                               'start_time' : video_to_jam_2.start_time,
+                                               'end_time' : video_to_jam_2.end_time}
+
+        print(v_to_j_2_json)
+
+        #self.assertContains(response, v_to_j_1_json)
+        self.assertContains(response, v_to_j_2_json)
 
 
 class test_JsonResponse(TestCase):

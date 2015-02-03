@@ -5,7 +5,7 @@ from player_list.models import VideoToJam
 class VideoToJamSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoToJam
-        fields = ('id', )
+        fields = ('id', 'video', 'jam', 'start_time', 'end_time')
 
 
 #     pk = serializers.IntegerField(read_only=True)

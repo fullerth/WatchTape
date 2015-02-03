@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404
-
 from django.http import HttpResponse
 from django.template import RequestContext, loader
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.renderers import JSONRenderer
 
 from player_list.models import Player, Bout, PlayerToRoster, \
-                               Jam, PlayerToJam, Video
+                               Jam, PlayerToJam, Video, VideoToJam
+from player_list.serializers.VideoToJamSerializer import VideoToJamSerializer
 
 class JSONResponse(HttpResponse):
     '''
@@ -16,6 +17,16 @@ class JSONResponse(HttpResponse):
         content = JSONRenderer().render(data)
         kwargs['content_type'] = 'application/json'
         super(JSONResponse, self).__init__(content, **kwargs)
+
+@csrf_exempt
+def list_videotojam(request):
+    '''
+    List all videotojam objects, or create a new videotojam
+    '''
+    if request.method == 'GET':
+        videotojams = VideoToJam.objects.all()
+        serializer = VideoToJamSerializer(videotojams, many=True)
+        return JSONResponse(serializer.data)
 
 #/player/<id>
 def view_player_info(request, player_id):
