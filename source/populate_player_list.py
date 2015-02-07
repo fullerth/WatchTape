@@ -516,7 +516,12 @@ def import_wftda_stats(path):
 
 if __name__ == '__main__':
     log.debug('Starting player_list population script...')
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WatchTape.settings')
+
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'WatchTape.settings'
+
+    from django import setup
+    setup()
+
 
     from player_list.models import Player, Bout, PlayerToRoster, Jam, \
                                    PlayerToJam, Video, VideoToJam, \
@@ -529,6 +534,7 @@ if __name__ == '__main__':
     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
     import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
     import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
+    import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xls')
 
     import_video_info(path='../bout_data/RatVsJet2014.json')
     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
@@ -537,3 +543,4 @@ if __name__ == '__main__':
     import_video_info(path='../bout_data/2014.12.09_Rat_HomeTeam_Scrimmage.json')
     import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_DLF_TR.json')
     import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_GD_SW.json')
+    import_video_info(path='../bout_data/2015.01.27_Rat_HomeTeam_Scrimmage_DLF_SW.json')
