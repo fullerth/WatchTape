@@ -307,47 +307,51 @@ class wftda_importer_Mar_2014:
                                  away_star_pass = away_star_pass)
 
     def add_lineup_to_jam(self, jam_id, lineup_dict):
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_home[
-                                      lineup_dict['home_jammer']],
-                          position="J")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_home[
-                                      lineup_dict['home_pivot']],
-                          position="P")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_home[
-                                      lineup_dict['home_blockerA']],
-                          position="B")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_home[
-                                      lineup_dict['home_blockerB']],
-                          position="B")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_home[
-                                      lineup_dict['home_blockerC']],
-                           position="B")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_away[
-                                      lineup_dict['away_jammer']],
-                          position="J")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_away[
-                                      lineup_dict['away_pivot']],
-                          position="P")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_away[
-                                      lineup_dict['away_blockerA']],
-                          position="B")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_away[
-                                      lineup_dict['away_blockerB']],
-                          position="B")
-        self.add_player_to_jam(jam=jam_id,
-                          player=self.stored_roster_away[
-                                      lineup_dict['away_blockerC']],
-                          position="B")
-
+        try:
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_home[
+                                          lineup_dict['home_jammer']],
+                              position="J")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_home[
+                                          lineup_dict['home_pivot']],
+                              position="P")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_home[
+                                          lineup_dict['home_blockerA']],
+                              position="B")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_home[
+                                          lineup_dict['home_blockerB']],
+                              position="B")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_home[
+                                          lineup_dict['home_blockerC']],
+                               position="B")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_away[
+                                          lineup_dict['away_jammer']],
+                              position="J")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_away[
+                                          lineup_dict['away_pivot']],
+                              position="P")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_away[
+                                          lineup_dict['away_blockerA']],
+                              position="B")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_away[
+                                          lineup_dict['away_blockerB']],
+                              position="B")
+            self.add_player_to_jam(jam=jam_id,
+                              player=self.stored_roster_away[
+                                          lineup_dict['away_blockerC']],
+                              position="B")
+        except KeyError as e:
+            log.info("Jam {0} did not have all positions fielded".format(
+                        jam_id)
+                     )
 
     def get_jam_lineup(self, lineup_sheet, jam):
         lineup = dict()
@@ -534,7 +538,7 @@ if __name__ == '__main__':
     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
     import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
     import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
-    import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xls')
+    import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xlsx')
 
     import_video_info(path='../bout_data/RatVsJet2014.json')
     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
