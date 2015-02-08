@@ -12,10 +12,10 @@ class test_ViewVideoToJam(VideoToJamTestCase):
 
         video_to_jam_1 = self._create_video_to_jam()
         video_to_jam_2 = self._create_video_to_jam()
+        video_to_jam_1.save()
+        video_to_jam_2.save()
 
         response = c.get('/watchtape/videotojam/')
-
-        print(response.content)
 
         v_to_j_1_json = {'id' : video_to_jam_1.id,
                                                'video' : video_to_jam_1.video.id,
@@ -28,10 +28,8 @@ class test_ViewVideoToJam(VideoToJamTestCase):
                                                'start_time' : video_to_jam_2.start_time,
                                                'end_time' : video_to_jam_2.end_time}
 
-        print(v_to_j_2_json)
-
-        #self.assertContains(response, v_to_j_1_json)
-        self.assertContains(response, v_to_j_2_json)
+        self.assertJSONEqual(response.content.decode(),
+                             [v_to_j_1_json, v_to_j_2_json])
 
 
 class test_JsonResponse(TestCase):

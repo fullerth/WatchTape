@@ -16,6 +16,9 @@ class JamTimerTest(FunctionalTest):
               ]
         self.browser.get(''.join(url))
 
+        #Foo sees the video_player page
+        self.assertIn("Stopwatch", self.browser.title)
+
         #Foo sees that the jam times for the current jam are displayed
         self.browser.find_element_by_id('id_jam_time_list')
 

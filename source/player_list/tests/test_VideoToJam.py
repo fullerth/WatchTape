@@ -47,6 +47,14 @@ class test_VideoToJam(VideoToJamTestCase):
         video_to_jam.end_time = "16h18m320s"
         video_to_jam.clean_fields(exclude=["start_time", "timecode_url"])
 
+    def test_videotojam_start_seconds(self):
+        video_to_jam = self._create_video_to_jam()
+
+        #Test start seconds (5h10m8s = 18608 seconds)
+        video_to_jam.start_time = "5h10m8s"
+
+        self.assertEqual(video_to_jam.start_seconds, 18608)
+
     @unittest.skip("Timecode URL generation not currently used, remove if not needed")
     def test_videotojam_returns_url(self):
         video_to_jam = self._create_video_to_jam()

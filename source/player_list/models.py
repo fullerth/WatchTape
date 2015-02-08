@@ -176,6 +176,30 @@ class VideoToJam(models.Model):
 
     timecode_url = models.URLField(max_length=255,
                                    help_text="URL link directly to this jam")
+    def _start_time_in_seconds(self):
+        '''Return the start time in seconds, normally stored as XmYs'''
+        time = 0
+        time_str = self.start_time.split('h')
+        #Handle the case where only XmYs are present. If there is no hour,
+        #there will only be one item in the list containing the initial string.
+        if (time_str[0] != self.start_time):
+            time += int(time_str[0])*3600
+            time_str = time_str[1]
+        else:
+            time_str = time_str[0]
+        time_str = time_str.split('m')
+        #Handle case for only Ys present
+        if (time_str[0] != self.start_time):
+            time += int(time_str[0])*60
+            time_str = time_str[1]
+        else:
+            time_str = time_str[0]
+        time_str = time_str.split('s')
+        time += int(time_str[0])
+
+        return time
+
+    start_seconds = property(_start_time_in_seconds)
 
     def __str__(self):
         return("Video#{0} for Jam #{1}".format(self.video.id, self.jam.id))
