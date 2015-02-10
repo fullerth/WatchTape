@@ -62,6 +62,14 @@ class test_ViewVideoToJam(VideoToJamTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertJSONEqual(response.content.decode(), data)
 
+    def test_get_invalid_videotojam_returns_404(self):
+        c = Client()
+
+        response = c.get('/watchtape/videotojam/1')
+
+        self.assertEqual(response.status_code, 404)
+
+
 
 class test_ViewVideoToJamDetail(VideoToJamTestCase):
     def test_invalid_videoToJam_404(self):
