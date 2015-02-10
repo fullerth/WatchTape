@@ -53,12 +53,15 @@ class test_ViewVideoToJam(VideoToJamTestCase):
                          content_type='application/json')
 
         v_to_j = VideoToJam.objects.all()[0]
-        self.assertEqual(v_to_j, data['start_time'])
-        self.assertEqual(v_to_j, data['end_time'])
+        self.assertEqual(v_to_j.start_time, data['start_time'],
+                         msg="Start Time field incorrectly set in database")
+        self.assertEqual(v_to_j.end_time, data['end_time'],
+                         msg="End Timd field incorrectly set in database")
 
 
         self.assertEqual(response.status_code, 201)
         self.assertJSONEqual(response.content.decode(), data)
+
 
 class test_ViewVideoToJamDetail(VideoToJamTestCase):
     def test_invalid_videoToJam_404(self):
