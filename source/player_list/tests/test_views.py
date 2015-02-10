@@ -1,5 +1,7 @@
 from django.test import TestCase, Client
 
+import json
+
 from rest_framework.renderers import JSONRenderer
 
 from player_list.models import VideoToJam
@@ -30,6 +32,41 @@ class test_ViewVideoToJam(VideoToJamTestCase):
 
         self.assertJSONEqual(response.content.decode(),
                              [v_to_j_1_json, v_to_j_2_json])
+
+    def test_create_new_videotojam(self):
+        c = Client()
+        video_to_jam = self._create_video_to_jam()
+        video_to_jam.start_time = '0h02m40s'
+        video_to_jam.end_time = '1h8m60s'
+
+        #Don't really like specifying the id here, but since this should
+        #always be the first object created it should be OK
+        data =  {  'id' : 1,
+                   'video' : video_to_jam.video.id,
+                   'jam' : video_to_jam.jam.id,
+                   'start_time' : video_to_jam.start_time,
+                   'end_time' : video_to_jam.end_time,
+                }
+
+        response = c.post('/watchtape/videotojam/',
+                         json.dumps(data),
+                         content_type='application/json')
+
+        v_to_j = VideoToJam.objects.all()[0]
+        self.assertEqual(v_to_j, data['start_time'])
+        self.assertEqual(v_to_j, data['end_time'])
+
+
+        self.assertEqual(response.status_code, 201)
+        self.assertJSONEqual(response.content.decode(), data)
+
+class test_ViewVideoToJamDetail(VideoToJamTestCase):
+    def test_invalid_videoToJam_404(self):
+        c = Client()
+
+        response = c.get('/watchtape/videotojam/1')
+
+        self.assertEqual(response.status_code, 404)
 
 
 class test_JsonResponse(TestCase):

@@ -4,6 +4,7 @@ from django.template import RequestContext, loader
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 from player_list.models import Player, Bout, PlayerToRoster, \
                                Jam, PlayerToJam, Video, VideoToJam
@@ -27,6 +28,14 @@ def list_videotojam(request):
         videotojams = VideoToJam.objects.all()
         serializer = VideoToJamSerializer(videotojams, many=True)
         return JSONResponse(serializer.data)
+
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = VideoToJamSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
 
 #/player/<id>
 def view_player_info(request, player_id):
