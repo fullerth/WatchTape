@@ -20,7 +20,7 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 @csrf_exempt
-def list_videotojam(request):
+def view_videotojam_list(request):
     '''
     List all videotojam objects, or create a new videotojam
     '''
@@ -36,6 +36,17 @@ def list_videotojam(request):
             serializer.save()
             return JSONResponse(serializer.data, status=201)
         return JSONResponse(serializer.errors, status=400)
+
+def view_videotojam_detail(request, videotojam_id):
+    '''
+    Detail view for a single video to jam object
+    '''
+    video_to_jam = get_object_or_404(VideoToJam, pk=videotojam_id)
+
+    if request.method == 'GET':
+        serializer = VideoToJamSerializer(video_to_jam)
+        return JSONResponse(serializer.data)
+
 
 #/player/<id>
 def view_player_info(request, player_id):

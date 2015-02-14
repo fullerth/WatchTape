@@ -12,6 +12,8 @@ urlpatterns = patterns('',
         name='jam_info'),
     url(r'^video/(?P<video_id>\d+)/$', views.view_video_info,
         name='video_info'),
-    url(r'^videotojam/$', views.list_videotojam,
-        name='list_videotojam')
+    url(r'^videotojam/$', views.view_videotojam_list,
+        name='videotojam_list'),
+    url(r'^videotojam/(?P<videotojam_id>\d+)/$', views.view_videotojam_detail,
+        name='videotojam_detail')
     )

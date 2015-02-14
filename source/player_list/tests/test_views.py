@@ -62,22 +62,25 @@ class test_ViewVideoToJam(VideoToJamTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertJSONEqual(response.content.decode(), data)
 
-    def test_get_invalid_videotojam_returns_404(self):
-        c = Client()
-
-        response = c.get('/watchtape/videotojam/1')
-
-        self.assertEqual(response.status_code, 404)
-
 
 
 class test_ViewVideoToJamDetail(VideoToJamTestCase):
     def test_invalid_videoToJam_404(self):
         c = Client()
 
-        response = c.get('/watchtape/videotojam/1')
+        response = c.get('/watchtape/videotojam/1/')
 
         self.assertEqual(response.status_code, 404)
+
+    def test_get_videotojam_detail(self):
+        c = Client()
+
+        v_to_j = self._create_video_to_jam()
+        v_to_j.save()
+
+        response = c.get('/watchtape/videotojam/{0}/'.format(v_to_j.id))
+
+        print(response.content)
 
 
 class test_JsonResponse(TestCase):
