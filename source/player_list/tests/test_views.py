@@ -4,7 +4,7 @@ import json
 
 from rest_framework.renderers import JSONRenderer
 
-from player_list.models import VideoToJam
+from player_list.models import VideoToJam, Jam, Video
 from player_list.views import JSONResponse
 from player_list.tests.test_VideoToJam import VideoToJamTestCase
 
@@ -65,6 +65,11 @@ class test_ViewVideoToJam(VideoToJamTestCase):
 
 
 class test_ViewVideoToJamDetail(VideoToJamTestCase):
+    def _videotojam_to_dict(self, v_to_j):
+        return({'id' : v_to_j.id, 'start_time' : v_to_j.start_time,
+                'end_time' : v_to_j.end_time, 'video' : v_to_j.video.id,
+                'jam' : v_to_j.jam.id})
+
     def test_invalid_videoToJam_404(self):
         c = Client()
 
@@ -80,8 +85,49 @@ class test_ViewVideoToJamDetail(VideoToJamTestCase):
 
         response = c.get('/watchtape/videotojam/{0}/'.format(v_to_j.id))
 
-        print(response.content)
+        expected_data = self._videotojam_to_dict(v_to_j)
 
+        self.assertJSONEqual(response.content.decode(), expected_data)
+
+    def test_put_videotojam_detail(self):
+        c = Client()
+
+        v_to_j = self._create_video_to_jam()
+        v_to_j.save()
+
+        new_v_to_j = self._create_video_to_jam()
+
+        #Create a new video to jam to easily create a new valid jam and video
+        #for use in the update
+        v_to_j.jam = new_v_to_j.jam
+        v_to_j.video = new_v_to_j.video
+        v_to_j.start_time = '0h5m22s'
+        v_to_j.end_time = '0h22m18s'
+
+        new_data = self._videotojam_to_dict(v_to_j)
+        expected_data = self._videotojam_to_dict(new_v_to_j)
+        expected_data['id'] = v_to_j.id
+        expected_data['start_time'] = v_to_j.start_time
+        expected_data['end_time'] = v_to_j.end_time
+
+        self.assertNotEqual(VideoToJam.objects.all()[0].jam.id,
+                            new_v_to_j.jam.id)
+
+        response = c.put('/watchtape/videotojam/{0}/'.format(v_to_j.id),
+                         data = json.dumps(new_data))
+
+        self.assertJSONEqual(response.content.decode(), expected_data)
+
+    def test_delete_videotojam_detail(self):
+        c = Client()
+
+        v_to_j = self._create_video_to_jam()
+        v_to_j.save()
+
+        response = c.delete('/watchtape/videotojam/{0}/'.format(v_to_j.id))
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(VideoToJam.objects.all()), 0)
 
 class test_JsonResponse(TestCase):
     def test_returns_content_type_json(self):

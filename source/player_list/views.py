@@ -29,13 +29,15 @@ def view_videotojam_list(request):
         serializer = VideoToJamSerializer(videotojams, many=True)
         return JSONResponse(serializer.data)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = VideoToJamSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JSONResponse(serializer.data, status=201)
         return JSONResponse(serializer.errors, status=400)
+
+
 
 def view_videotojam_detail(request, videotojam_id):
     '''
@@ -46,6 +48,19 @@ def view_videotojam_detail(request, videotojam_id):
     if request.method == 'GET':
         serializer = VideoToJamSerializer(video_to_jam)
         return JSONResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = VideoToJamSerializer(video_to_jam, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data)
+        return JSONResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        video_to_jam.delete()
+        return(HttpResponse(status=204))
+
 
 
 #/player/<id>
