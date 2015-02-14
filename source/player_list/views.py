@@ -3,23 +3,15 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from player_list.models import Player, Bout, PlayerToRoster, \
                                Jam, PlayerToJam, Video, VideoToJam
 from player_list.serializers.VideoToJamSerializer import VideoToJamSerializer
 
-class JSONResponse(HttpResponse):
-    '''
-    An HttpResponse that renders content into JSON
-    '''
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
-
-@csrf_exempt
+@api_view(['GET', 'POST'])
 def view_videotojam_list(request):
     '''
     List all videotojam objects, or create a new videotojam
@@ -27,18 +19,17 @@ def view_videotojam_list(request):
     if request.method == 'GET':
         videotojams = VideoToJam.objects.all()
         serializer = VideoToJamSerializer(videotojams, many=True)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = VideoToJamSerializer(data=data)
+        serializer = VideoToJamSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
+@api_view(['GET', 'PUT', 'DELETE'])
 def view_videotojam_detail(request, videotojam_id):
     '''
     Detail view for a single video to jam object
@@ -47,19 +38,18 @@ def view_videotojam_detail(request, videotojam_id):
 
     if request.method == 'GET':
         serializer = VideoToJamSerializer(video_to_jam)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = VideoToJamSerializer(video_to_jam, data=data)
+        serializer = VideoToJamSerializer(video_to_jam, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data)
-        return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         video_to_jam.delete()
-        return(HttpResponse(status=204))
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 

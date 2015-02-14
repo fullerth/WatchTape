@@ -2,10 +2,7 @@ from django.test import TestCase, Client
 
 import json
 
-from rest_framework.renderers import JSONRenderer
-
 from player_list.models import VideoToJam, Jam, Video
-from player_list.views import JSONResponse
 from player_list.tests.test_VideoToJam import VideoToJamTestCase
 
 class test_ViewVideoToJam(VideoToJamTestCase):
@@ -114,7 +111,8 @@ class test_ViewVideoToJamDetail(VideoToJamTestCase):
                             new_v_to_j.jam.id)
 
         response = c.put('/watchtape/videotojam/{0}/'.format(v_to_j.id),
-                         data = json.dumps(new_data))
+                         data = json.dumps(new_data),
+                         content_type='application/json')
 
         self.assertJSONEqual(response.content.decode(), expected_data)
 
@@ -128,18 +126,3 @@ class test_ViewVideoToJamDetail(VideoToJamTestCase):
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(len(VideoToJam.objects.all()), 0)
-
-class test_JsonResponse(TestCase):
-    def test_returns_content_type_json(self):
-        data = {}
-        response = JSONResponse(data)
-
-        expected_content_type = 'application/json'
-
-        self.assertEqual(response['CONTENT-TYPE'], expected_content_type)
-
-    def test_returns_json_formatted_data(self):
-        data = {'one' : 1, 'two': 2}
-        response = JSONResponse(data)
-
-        self.assertEqual(response.content, JSONRenderer().render(data))
