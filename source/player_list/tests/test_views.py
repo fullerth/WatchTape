@@ -17,15 +17,15 @@ class test_ViewVideoToJam(VideoToJamTestCase):
         response = c.get('/watchtape/videotojam/')
 
         v_to_j_1_json = {'id' : video_to_jam_1.id,
-                                               'video' : video_to_jam_1.video.id,
-                                               'jam' : video_to_jam_1.jam.id,
-                                               'start_time' : video_to_jam_1.start_time,
-                                               'end_time' : video_to_jam_1.end_time}
+                           'video' : video_to_jam_1.video.id,
+                           'jam' : video_to_jam_1.jam.id,
+                           'start_time' : video_to_jam_1.start_time,
+                           'end_time' : video_to_jam_1.end_time}
         v_to_j_2_json = {'id' : video_to_jam_2.id,
-                                               'video' : video_to_jam_2.video.id,
-                                               'jam' : video_to_jam_2.jam.id,
-                                               'start_time' : video_to_jam_2.start_time,
-                                               'end_time' : video_to_jam_2.end_time}
+                           'video' : video_to_jam_2.video.id,
+                           'jam' : video_to_jam_2.jam.id,
+                           'start_time' : video_to_jam_2.start_time,
+                           'end_time' : video_to_jam_2.end_time}
 
         self.assertJSONEqual(response.content.decode(),
                              [v_to_j_1_json, v_to_j_2_json])
