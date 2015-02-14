@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, url
 
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from player_list import views
 
 #already matched /watchtape/
@@ -17,3 +19,5 @@ urlpatterns = patterns('',
     url(r'^videotojam/(?P<videotojam_id>\d+)/$', views.view_videotojam_detail,
         name='videotojam_detail')
     )
+
+urlpatterns = format_suffix_patterns(urlpatterns)

@@ -4,6 +4,7 @@ import json
 
 from player_list.models import VideoToJam, Jam, Video
 from player_list.tests.test_VideoToJam import VideoToJamTestCase
+import player_list.views
 
 class test_ViewVideoToJam(VideoToJamTestCase):
     def test_get_list_of_all_videotojams(self):
@@ -59,7 +60,12 @@ class test_ViewVideoToJam(VideoToJamTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertJSONEqual(response.content.decode(), data)
 
+    def test_json_format_appending(self):
+        c = Client()
 
+        response = c.get('/watchtape/videotojam/.json')
+
+        self.assertEqual(response.status_code, 200)
 
 class test_ViewVideoToJamDetail(VideoToJamTestCase):
     def _videotojam_to_dict(self, v_to_j):
@@ -126,3 +132,13 @@ class test_ViewVideoToJamDetail(VideoToJamTestCase):
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(len(VideoToJam.objects.all()), 0)
+
+    def test_json_format_appending(self):
+        c = Client()
+
+        v_to_j = self._create_video_to_jam()
+        v_to_j.save()
+
+        response = c.get('/watchtape/videotojam/{0}/.json'.format(v_to_j.id))
+
+        self.assertEqual(response.status_code, 200)

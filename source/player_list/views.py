@@ -12,7 +12,7 @@ from player_list.models import Player, Bout, PlayerToRoster, \
 from player_list.serializers.VideoToJamSerializer import VideoToJamSerializer
 
 @api_view(['GET', 'POST'])
-def view_videotojam_list(request):
+def view_videotojam_list(request, format=None):
     '''
     List all videotojam objects, or create a new videotojam
     '''
@@ -30,7 +30,7 @@ def view_videotojam_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def view_videotojam_detail(request, videotojam_id):
+def view_videotojam_detail(request, videotojam_id, format=None):
     '''
     Detail view for a single video to jam object
     '''
