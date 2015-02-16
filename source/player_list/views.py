@@ -29,7 +29,9 @@ def view_videotojam_list(request, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+#Removing PUT and DELETE functionality until API authentication is enabled
+#@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET'])
 def view_videotojam_detail(request, videotojam_id, format=None):
     '''
     Detail view for a single video to jam object

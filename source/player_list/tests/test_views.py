@@ -1,6 +1,7 @@
-from django.test import TestCase, Client
-
 import json
+import unittest
+
+from django.test import TestCase, Client
 
 from player_list.models import VideoToJam, Jam, Video
 from player_list.tests.test_VideoToJam import VideoToJamTestCase
@@ -92,6 +93,7 @@ class test_ViewVideoToJamDetail(VideoToJamTestCase):
 
         self.assertJSONEqual(response.content.decode(), expected_data)
 
+    @unittest.skip("Removing PUT from endpoint until authentication is implemented")
     def test_put_videotojam_detail(self):
         c = Client()
 
@@ -122,6 +124,7 @@ class test_ViewVideoToJamDetail(VideoToJamTestCase):
 
         self.assertJSONEqual(response.content.decode(), expected_data)
 
+    @unittest.skip('Removing DELETE from VideoToJam detail endpoint until API authentication is implemented')
     def test_delete_videotojam_detail(self):
         c = Client()
 

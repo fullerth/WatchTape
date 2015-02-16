@@ -1,3 +1,6 @@
+import json
+import logging
+
 from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse
@@ -6,7 +9,7 @@ from django.template import RequestContext, loader
 from player_list.models import Bout, Jam, Video, VideoToJam, Team, Player, \
                                PlayerToJam, Roster
 
-import json
+logger = logging.getLogger(__name__)
 
 def view_controller(request):
     return render(request, 'video_player/controller.html')
@@ -37,11 +40,15 @@ def view_video_player(request, video_id):
     js_jams = json.dumps(times)
 
     #There might be an issue here with videos containing more than one bout
-    bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
-    home_roster = Roster.objects.get(home_roster=bout)
-    away_roster = Roster.objects.get(away_roster=bout)
-    home_players = home_roster.players
-    away_players = away_roster.players
+    try:
+        bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
+        home_roster = Roster.objects.get(home_roster=bout)
+        away_roster = Roster.objects.get(away_roster=bout)
+        home_players = home_roster.players
+        away_players = away_roster.players
+    except IndexError:
+        logger.warning("bout for video {0} could not be retrieved".format(
+                        video_id))
 
     jams_list = []
 

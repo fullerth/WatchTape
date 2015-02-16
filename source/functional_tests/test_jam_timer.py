@@ -12,7 +12,7 @@ class JamTimerTest(FunctionalTest):
 
         #Foo gets a list of all the current jam times for the bout
         url = [self.server_url,
-               '/video_player/jam_timer/bout/{0}'.format(bout.id),
+               '/video_player/jam_timer/bout/{0}/'.format(bout.id),
               ]
         self.browser.get(''.join(url))
 
