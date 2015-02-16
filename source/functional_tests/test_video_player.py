@@ -28,6 +28,17 @@ class VideoPlayerTest(FunctionalTest):
         #Foo sees the video_player page
         self.assertIn("Video of A Bout", self.browser.title)
 
+    def test_jam_timer_appears_when_no_videotojams(self):
+        video_player = self._create_video_player()
 
+        #Foo watches a video
+        url = [self.server_url,
+               '/video_player/video/{0}'.format(video_player['video'].id),
+               ]
+        self.browser.get(''.join(url))
+
+        #There is no video timing available for this video so the jam_timing
+        #button is displayed
+        timing_button = self.browser.find_element_by_id('id_jam_time_button')
 
 
