@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Javascript tests</title>
+    <link rel="stylesheet" href="qunit-1.17.1.css">
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+        <button id="id_jam_time_button" class="jam_time_button">Jam Time Button</button>
+    </div>
+
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="qunit-1.17.1.js"></script>
+    <script>
+/*global $, test, equal */
+
+test("smoke test", function () {
+    equal($('.jam_time_button').is(':visible'), true);
+    $('.jam_time_button').hide();
+    equal($('.jam_time_button').is(':visible'), false);
+});
+    </script>
+
+</body>
+</html>
