@@ -6,7 +6,11 @@
 
 {% block head_block %}
 
-<script type="text/javascript">timing_data = {{ times }}</script>
+<script type="text/javascript">
+{% if times %}
+timing_data = {{ times }}
+{% endif %}
+</script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
@@ -26,9 +30,11 @@
 
 
     <div class="container">
+        {% if video %}
         <div id="id_video_player">
         {{ video.embed_code | safe }}
         </div>
+        {% endif %}
 
         <!-- Nav Tabs -->
         <div id="jam_info_tabs">
@@ -65,4 +71,21 @@
 {% endblock content_block %}
 
 {% block end_script %}
+<script>
+function markCurrentVideoTime()
+{
+    console.log("Called Current Video Time")
+}
+
+$(document).ready(function() {
+    var jam_time_button = document.getElementById('id_jam_time_button')
+
+    if(jam_time_button) {
+        console.log("jam_time_button exists")
+        jam_time_button.onclick = function() {
+            console.log("Inline Current Video Time")
+        }
+    }
+});
+</script>
 {% endblock end_script %}
