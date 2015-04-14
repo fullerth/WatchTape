@@ -27,6 +27,11 @@ function reset_jam(data, id) {
     current_jam = 0;
 }
 
+function create_new_jam() {
+    retVal = $.post('watchtape/videotojam/')
+    console.log(retVal)
+}
+
 //Setup for Vimeo API
 $(document).ready(function() {
             // Listen for the ready event for any vimeo video players on the page

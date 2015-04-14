@@ -54,14 +54,15 @@
         {% endblock footer_block %}
     </footer>
 
-    {% block end_script %}
-    {% endblock end_script %}
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!--script src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script-->
+    {% block jquery_plugin_includes %}
+    {% endblock jquery_plugin_includes %}
+
+    {% block local_script_includes %}
+    {% endblock local_script_includes %}
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
