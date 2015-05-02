@@ -33,7 +33,7 @@ sudo apt-get install python3.3 -y
 echo
 echo
 echo Installing pip...
-sudo python3.3 /vagrant/get-pip.py
+sudo python3.3 ./get-pip.py
 
 #install all pip packages
 #echo
