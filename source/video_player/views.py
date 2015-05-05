@@ -110,4 +110,12 @@ def create_score_dict(jam):
 
 # Stopwatch Views
 def view_stopwatch(request, video_id):
-    return render(request, 'video_player/stopwatch.html')
+    video = get_object_or_404(Video.objects.select_related(
+                              'VideoToJam'
+                             ).select_related(
+                              'Jams'
+                             ), pk=video_id)
+    
+    context = { "video": video}
+    
+    return render(request, 'video_player/stopwatch.html', context)

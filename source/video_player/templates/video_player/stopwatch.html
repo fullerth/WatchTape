@@ -26,12 +26,13 @@ timing_data = {{ times }}
 
 
     <div class="container">
-        {% if video %}
-        <div id="id_video_player">
-        {{ video.embed_code | safe }}
+        
+        <div id="video_player" class="embed-responsive embed-responsive-16by9">
+            <iframe id="vimeo_player" src="{{ video.player_url }}?api=1&player_id=vimeo_player"
+            width="500" height="281" frameborder="0" class="embed-responsive-item">
+            </iframe>
         </div>
-        {% endif %}
-
+        
         <!-- Nav Tabs -->
         <div id="jam_info_tabs">
             <ul class="nav nav-tabs" role="tablist">
