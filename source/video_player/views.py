@@ -115,7 +115,12 @@ def view_stopwatch(request, video_id):
                              ).select_related(
                               'Jams'
                              ), pk=video_id)
+    jam_videos = VideoToJam.objects.filter(video__id__exact=video_id)
+
+    times = []
+    for jam_video in jam_videos:
+        times.append(jam_video.start_seconds)
     
-    context = { "video": video}
+    context = { "video": video, "times": times}
     
     return render(request, 'video_player/stopwatch.html', context)

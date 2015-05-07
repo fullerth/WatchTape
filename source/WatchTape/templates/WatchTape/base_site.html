@@ -13,6 +13,16 @@
         <!-- Custom styles for this template -->
         <link href="{{STATIC_URL}}WatchTape/WatchTape.css" rel="stylesheet">
 
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        {% block jquery_plugin_includes %}
+        {% endblock jquery_plugin_includes %}
+        
+        {% block local_script_includes %}
+        {% endblock local_script_includes %}
+
+        
         {% block head_block %} {% endblock head_block %}
     </head>
 
@@ -53,16 +63,6 @@
         {% block footer_block %}
         {% endblock footer_block %}
     </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    {% block jquery_plugin_includes %}
-    {% endblock jquery_plugin_includes %}
-
-    {% block local_script_includes %}
-    {% endblock local_script_includes %}
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

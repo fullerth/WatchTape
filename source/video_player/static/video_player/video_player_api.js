@@ -1,25 +1,34 @@
+var VideoPlayer = {}
+
 //Vimeo API onPlayProgress handler
-current_jam = 0;
+var current_jam = 0;
 function play_tick(data, id)
 {
-    if(current_jam >= timing_data.length)
+    try
     {
-        current_jam = timing_data.length
-    }
-    else
-    {
-        //currently simply changing 30 seconds behind. This will be a slightly
-        //random timing for jams with timeouts or injury
-        while((timing_data[current_jam]-4.5) < data.seconds)
+        if(current_jam >= timing_data.length)
         {
-            //print("incrementing current jam")
-            current_jam++;
+            current_jam = timing_data.length
         }
-        var jam_str = "Jam Number "
-        document.getElementById('jam_number').textContent =
-                    jam_str.concat(current_jam);
-        var jam_carousel = $('.carousel').carousel()
-        jam_carousel.carousel(current_jam)
+        else
+        {
+            //currently simply changing 30 seconds behind. This will be a slightly
+            //random timing for jams with timeouts or injury
+            while((timing_data[current_jam]-4.5) < data.seconds)
+            {
+                //print("incrementing current jam")
+                current_jam++;
+            }
+            var jam_str = "Jam Number "
+            document.getElementById('jam_number').textContent =
+                        jam_str.concat(current_jam);
+            var jam_carousel = $('.carousel').carousel()
+            jam_carousel.carousel(current_jam)
+        }
+    }
+    catch (e)
+    {
+        console.log(e)        
     }
 }
 
@@ -34,48 +43,47 @@ function create_new_jam() {
 
 //Setup for Vimeo API
 $(document).ready(function() {
-            // Listen for the ready event for any vimeo video players on the page
-            var player = $('#vimeo_player')[0];
-            if(player) {
-                $f(player).addEvent('ready', ready);
-            }
+    // Listen for the ready event for any vimeo video players on the page
+    var player = $('#vimeo_player')[0];
+    if(player) {
+        $f(player).addEvent('ready', ready);
+    }
 
-            function addEvent(element, eventName, callback) {
-                if (element.addEventListener) {
-                    element.addEventListener(eventName, callback, false);
-                }
-                else {
-                    element.attachEvent(eventName, callback, false);
-                }
-            }
+    function addEvent(element, eventName, callback) {
+        if (element.addEventListener) {
+            element.addEventListener(eventName, callback, false);
+        }
+        else {
+            element.attachEvent(eventName, callback, false);
+        }
+    }
 
-            function ready(player_id) {
-                console.log('ready!');
-                var froogaloop = $f(player_id);
+    function ready(player_id) {
+        console.log('ready!');
+        VideoPlayer.froogaloop = $f(player_id);
+        
+        function onPlay() {
+                VideoPlayer.froogaloop.addEvent('play', function(data) {
+                    console.log('play');
+                });
+        }
 
-                function onPlay() {
-                        froogaloop.addEvent('play', function(data) {
-                            console.log('play');
-                        });
-                }
+        function setupResets() {
+                VideoPlayer.froogaloop.addEvent('finish', reset_jam);
+                VideoPlayer.froogaloop.addEvent('seek', reset_jam);
+        }
 
+        function onPlayProgress() {
+            VideoPlayer.froogaloop.addEvent('playProgress', play_tick);
+        }
 
-                function setupResets() {
-                        froogaloop.addEvent('finish', reset_jam);
-                        froogaloop.addEvent('seek', reset_jam)
-                }
+        function set_starting_time() {
+            VideoPlayer.froogaloop.api('seekTo',timing_data[0]-10)
+        }
 
-                function onPlayProgress() {
-                    froogaloop.addEvent('playProgress', play_tick);
-                }
-
-                function set_starting_time() {
-                    froogaloop.api('seekTo',timing_data[0]-10)
-                }
-
-                onPlay();
-                setupResets();
-                onPlayProgress();
-                set_starting_time();
-            }
-        });
+        onPlay();
+        setupResets();
+        onPlayProgress();
+        set_starting_time();
+    }
+});
