@@ -17,6 +17,7 @@ class VideoPlayerTest(FunctionalTest):
         return video_player
 
     def test_video_player_title(self):
+        '''Test to make sure that a video only, with no video_to_jams will display'''
         video = self._create_video_player()['video']
 
         #Foo watches a video
