@@ -16,3 +16,4 @@ screendumps
 *.ppk
 virtualenv/
 /static/
+*.log
