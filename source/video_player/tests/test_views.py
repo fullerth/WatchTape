@@ -8,9 +8,11 @@ class VideoTaggingTests(TestCase):
         self.requestFactory = RequestFactory()
         
     def test_renders_page_without_any_video_to_jams(self):
-        video = Video()
-        video.save()
-        
+        '''
+        Create a request with data that contains no videotojam items
+        Verify that view_video_player renders the jam timing template
+        in the response
+        '''
         request = self.requestFactory.get('/video_player/video/{0}'.format(
                                                                     video.id))
         
