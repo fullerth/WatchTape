@@ -1,5 +1,7 @@
 from .base import FunctionalTest
 
+from selenium.common.exceptions import NoSuchElementException
+
 from player_list.models import Video, Jam, VideoToJam, Bout
 
 class VideoPlayerTest(FunctionalTest):
@@ -30,6 +32,7 @@ class VideoPlayerTest(FunctionalTest):
         self.assertIn("Video of A Bout", self.browser.title)
 
     def test_jam_list_appears(self):
+        '''Test to make sure that the jam list appears in the correct tab'''
         video_player = self._create_video_player()
 
         #Foo watches a video
@@ -38,7 +41,22 @@ class VideoPlayerTest(FunctionalTest):
                ]
         self.browser.get(''.join(url))
 
-        #There is no video timing available for this video so the jam_timing
-        #button is displayed
-        timing_button = self.browser.find_element_by_id('id_jam_time_button')
+        #There is a tab with jams displayed below the video
+        jam_tab = self.browser.find_element_by_id('id_jam_time_tab')
         
+        #Since there are no jams associated with this video the current data tab
+        #does not appear
+        with self.assertRaises(NoSuchElementException):
+            self.browser.find_element_by_id('id_id_current_jam_tab')
+        
+        #A button is now visible in the jam tab to add jam times
+        timing_button = jam_tab.find_element_by_id('id_jam_time_button')
+        
+        #The user clicks the button
+        
+        #The jam is added to the database with the current video time
+        
+        #The jam appears in the jam tab under the jam list
+        self.fail('finish the test!')
+
+    
