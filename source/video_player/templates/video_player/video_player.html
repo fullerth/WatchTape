@@ -28,6 +28,7 @@
     <div class="container">
         <div id="video_player" class="embed-responsive embed-responsive-16by9">
 
+            
             <iframe id="vimeo_player" src="{{ video.player_url }}?api=1&player_id=vimeo_player"
             width="500" height="281" frameborder="0" class="embed-responsive-item">
             </iframe>
@@ -37,30 +38,22 @@
         <!-- Nav Tabs -->
         <div id="jam_info_tabs">
             <ul class="nav nav-tabs" role="tablist">
+            {% if times %}
                 <li id="id_current_jam_tab" class="active"><a href="#players" role="tab" data-toggle="tab">
                     Current Jam</a></li>
+            {% endif %}
+                <li id="id_jam_time_tab" class><a href="#jam_info" role="tab" data-toggle="tab">Jam Info</a>
             </ul>
         </div>
 
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane active" id="players">
-
+            <div class="tab-pane" id="players">
                 {% include "video_player/status_tab.html" %}
-
-
-                <!-- Controls
-                <a class="left carousel-control" href="#jam_carousel" role="button"
-                data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                </a>
-                <a class="right carousel-control" href="#jam_carousel" role="button"
-                data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                </a> -->
             </div>
             </div>
-            <div class="tab-pane" id="filters">This is where you'll be able to
-            tick some boxes and filter the jams that will be shown by player</div>
+            <div class="tab-pane active" id="jam_info">
+                <button type="button" id="id_jam_time_button">Jam Start</button>
+            </div>
         </div>
 
     </div>
