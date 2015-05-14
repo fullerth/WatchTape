@@ -28,10 +28,11 @@
     <div class="container">
         <div id="video_player" class="embed-responsive embed-responsive-16by9">
 
-            
-            <iframe id="vimeo_player" src="{{ video.player_url }}?api=1&player_id=vimeo_player"
+            {% if video.player_url %}
+            <iframe id="id_vimeo_player" src="{{ video.player_url }}?api=1&player_id=id_vimeo_player"
             width="500" height="281" frameborder="0" class="embed-responsive-item">
             </iframe>
+            {% endif %}
 
         </div>
 
