@@ -57,6 +57,7 @@ class VideoPlayerTest(FunctionalTest):
         timing_button.click()
 
         #The jam is added to the database with the current video time
+        
 
         #The jam appears in the jam tab under the jam list
         self.fail('finish the test!')
