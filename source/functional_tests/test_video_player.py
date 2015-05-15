@@ -43,7 +43,8 @@ class VideoPlayerTest(FunctionalTest):
         self.VideoPlayerPageFactory(self.server_url, self.browser)
 
         #There is a tab with jams displayed below the video
-        jam_tab = self.browser.find_element_by_id('id_jam_time_tab')
+        self.browser.find_element_by_id('id_jam_time_tab')
+        jam_time_data = self.browser.find_element_by_id('id_jam_list_tab')
 
         #Since there are no jams associated with this video the current data tab
         #does not appear
@@ -57,7 +58,11 @@ class VideoPlayerTest(FunctionalTest):
         timing_button.click()
 
         #The jam is added to the database with the current video time
+        #This data is then displayed in the list of jams in the jam data tab
+        jam_times = jam_time_data.find_elements_by_tag_name('li')
         
+        #There should be one and only one jam in the list
+        self.assertEqual(len(jam_times), 1, "There should be one and only one jam time in the list")
 
         #The jam appears in the jam tab under the jam list
         self.fail('finish the test!')

@@ -43,15 +43,15 @@
                 <li id="id_current_jam_tab" class="active"><a href="#id_players" role="tab" data-toggle="tab">
                     Current Jam</a></li>
             {% endif %}
-                <li id="id_jam_time_tab" class><a href="#id_jam_info" role="tab" data-toggle="tab">Jam Info</a>
+                <li id="id_jam_time_tab" class><a href="#id_jam_list_tab" role="tab" data-toggle="tab">Jam Info</a>
             </ul>
         </div>
 
         <div id="myTabContent" class="tab-content">
-            <div class="tab-pane active" id="id_players">
+            <div class="tab-pane active" id="id_players_data_tab">
                 {% include "video_player/status_tab.html" %}
             </div>
-            <div class="tab-pane" id="id_jam_info">
+            <div class="tab-pane" id="id_jam_list_tab">
                 <button type="button" id="id_jam_time_button">Jam Start</button>
                 <div id="id_jam_list">
                     Jam List Here
