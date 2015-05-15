@@ -30,7 +30,7 @@ function reset_jam(data, id) {
 //Setup for Vimeo API
 $(document).ready(function() {
             // Listen for the ready event for any vimeo video players on the page
-            var player = $('#vimeo_player')[0];
+            var player = $('#id_vimeo_player')[0];
             $f(player).addEvent('ready', ready);
 
             function addEvent(element, eventName, callback) {
