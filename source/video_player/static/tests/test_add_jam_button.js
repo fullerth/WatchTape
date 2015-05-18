@@ -1,12 +1,19 @@
-// Let's test this function
-function isEven(val) {
-    return val % 2 === 0;
-}
-
-test('isEven()', function() {
-    ok(isEven(0), 'Zero is an even number');
-    ok(isEven(2), 'So is two');
-    ok(isEven(-4), 'So is negative four');
-    ok(!isEven(1), 'One is not an even number');
-    ok(!isEven(-7), 'Neither is negative seven');
-})
+test('initialize binds a WatchTape.VideoPlayer object with froogaloop defined', function() {
+    var currentTimeWasCalled = false;
+    var mockCurrentTimeFunction = function() {currentTimeWasCalled = true; };
+    var mockFroogaloop = {
+        api: function(method) {
+            if(method = 'CurrentTime') { 
+                mockCurrentTimeFunction()
+            }
+        }
+    };
+    
+    WatchTape.VideoPlayer.initialize(mockFroogaloop);
+    
+    equal(currentTimeWasCalled, false, 
+          'Check current time function is not called before click');
+    $('#id_jam_time').trigger('click');
+    equal(currentTimeWasCalled, true, 
+          'Check current time function is called after click');
+});
