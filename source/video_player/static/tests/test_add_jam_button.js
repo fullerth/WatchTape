@@ -13,7 +13,7 @@ test('initialize binds a WatchTape.VideoPlayer object with froogaloop defined', 
     
     equal(currentTimeWasCalled, false, 
           'Check current time function is not called before click');
-    $('#id_jam_time').trigger('click');
+    $('#id_jam_time_button').trigger('click');
     equal(currentTimeWasCalled, true, 
           'Check current time function is called after click');
 });
