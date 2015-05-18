@@ -29,46 +29,46 @@ function reset_jam(data, id) {
 
 //Setup for Vimeo API
 $(document).ready(function() {
-            // Listen for the ready event for any vimeo video players on the page
-            var player = $('#id_vimeo_player')[0];
-            $f(player).addEvent('ready', ready);
+    // Listen for the ready event for any vimeo video players on the page
+    var player = $('#id_vimeo_player')[0];
+    $f(player).addEvent('ready', ready);
 
-            function addEvent(element, eventName, callback) {
-                if (element.addEventListener) {
-                    element.addEventListener(eventName, callback, false);
-                }
-                else {
-                    element.attachEvent(eventName, callback, false);
-                }
-            }
+    function addEvent(element, eventName, callback) {
+        if (element.addEventListener) {
+            element.addEventListener(eventName, callback, false);
+        }
+        else {
+            element.attachEvent(eventName, callback, false);
+        }
+    }
 
-            function ready(player_id) {
-                console.log('ready!');
-                var froogaloop = $f(player_id);
+    function ready(player_id) {
+        console.log('ready!');
+        var froogaloop = $f(player_id);
 
-                function onPlay() {
-                        froogaloop.addEvent('play', function(data) {
-                            console.log('play');
-                        });
-                }
+        function onPlay() {
+                froogaloop.addEvent('play', function(data) {
+                    console.log('play');
+                });
+        }
 
 
-                function setupResets() {
-                        froogaloop.addEvent('finish', reset_jam);
-                        froogaloop.addEvent('seek', reset_jam)
-                }
+        function setupResets() {
+                froogaloop.addEvent('finish', reset_jam);
+                froogaloop.addEvent('seek', reset_jam)
+        }
 
-                function onPlayProgress() {
-                    froogaloop.addEvent('playProgress', play_tick);
-                }
+        function onPlayProgress() {
+            froogaloop.addEvent('playProgress', play_tick);
+        }
 
-                function set_starting_time() {
-                    froogaloop.api('seekTo',timing_data[0]-10)
-                }
+        function set_starting_time() {
+            froogaloop.api('seekTo',timing_data[0]-10)
+        }
 
-                onPlay();
-                setupResets();
-                onPlayProgress();
-                set_starting_time();
-            }
-        });
+        onPlay();
+        setupResets();
+        onPlayProgress();
+        set_starting_time();
+    }
+});
