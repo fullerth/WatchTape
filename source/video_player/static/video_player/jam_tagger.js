@@ -1,6 +1,7 @@
 var initialize = function(froogaloop) {
     $('#id_jam_time_button').on('click', function() {
         froogaloop.api('CurrentTime')
+        $.post('/')
     })
 }
 
