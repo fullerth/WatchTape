@@ -34,4 +34,5 @@ with the current time data from the video', function(){
     $('#id_jam_time_button').trigger('click');
     equal(requests.length, 1, 'check ajax request')
     equal(requests[0].url, urls.video_to_jam, 'check url')
+    equal(requests[0].method, 'POST')
 });
