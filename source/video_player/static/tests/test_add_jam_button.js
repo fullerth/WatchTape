@@ -29,7 +29,8 @@ froogaloop.api(\'CurrentTime\') object', function() {
 test(
 'initialize #id_jam_time_button onclick callback performs a $.post operation \
 with the current time data from the video', function(){
-
+    var videoTime = 22;
+    mockFroogaloop.api.withArgs('CurrentTime').returns(videoTime);
 
     WatchTape.VideoPlayer.initialize(mockFroogaloop, urls);
     $('#id_jam_time_button').trigger('click');
@@ -37,5 +38,5 @@ with the current time data from the video', function(){
     equal(requests.length, 1, 'check ajax request')
     equal(requests[0].url, urls.video_to_jam, 'check url')
     equal(requests[0].method, 'POST', 'check ajax request method')
-    equal(requests[0].requestBody, 'time=data', 'check ajax request data')
+    equal(requests[0].requestBody, 'time='+videoTime, 'check ajax request data')
 });
