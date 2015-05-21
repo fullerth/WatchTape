@@ -1,8 +1,11 @@
 var initialize = function(froogaloop, urls) {
     $('#id_jam_time_button').on('click', function() {
         time = froogaloop.api('CurrentTime')
-        resp = $.post(urls.video_to_jam, {'time' : time});
-        console.log(resp);
+        $.post(urls.video_to_jam, {'time' : time});
+
+        append_list = $('#id_jam_list')
+        new_item = $( "<li>New Item</li>" )
+        new_item.appendTo("#id_jam_list")
     })
 }
 

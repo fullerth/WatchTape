@@ -49,11 +49,12 @@ list', function(){
 
     WatchTape.VideoPlayer.initialize(mockFroogaloop, urls);
     jam_list = $('#id_jam_list');
-    items = jam_list.find('li')
 
+    items = jam_list.find('li')
     equal(items.length, 0, 'check jam list pre-click')
 
     $('#id_jam_time_button').trigger('click');
 
+    items = jam_list.find('li')
     equal(items.length, 1, 'check jam list post-click')
 });
