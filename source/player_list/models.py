@@ -161,10 +161,10 @@ class VideoToJam(models.Model):
     start_time = models.CharField(max_length=200,
                                   validators=[_timecode_validator])
     end_time = models.CharField(max_length=200,
-                                validators=[_timecode_validator])
+                                validators=[_timecode_validator], blank=True)
     video = models.ForeignKey(Video)
     jam = models.ForeignKey(Jam)
-    timecode_url = models.URLField(max_length=255)
+    timecode_url = models.URLField(max_length=255, blank=True)
 
     def _get_url(self):
         '''Should construct url based on site, for now return timecode url'''
