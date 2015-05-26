@@ -4,14 +4,11 @@ from player_list.models import VideoToJam, Video, Jam, Bout
 from django.core.exceptions import ValidationError
 
 class VideoToJamTest(TestCase):
-    def create_video_to_jam(self):
+    def create_video_to_jam(self, video_pk=1, bout_pk=1, jam_pk=1):
         data = {}
-        data['video'] = Video()
-        data['video'].save()
-        data['bout'] = Bout()
-        data['bout'].save()
-        data['jam'] = Jam(bout=data['bout'])
-        data['jam'].save()
+        data['video'] = Video.objects.create(pk=video_pk)
+        data['bout'] = Bout.objects.create(pk=bout_pk)
+        data['jam'] = Jam.objects.create(pk=jam_pk, bout=data['bout'])
         data['v_to_j'] = VideoToJam(video=data['video'], jam=data['jam'])
         return data
     
@@ -20,7 +17,7 @@ class VideoToJamTest(TestCase):
         data = self.create_video_to_jam()
         data['v_to_j'].save()
         
-    def test_video_to_jam_only_requires_a_start_time(self):
+    def test_only_requires_a_start_time(self):
         data = self.create_video_to_jam()
         try:
             data['v_to_j'].full_clean()
@@ -34,4 +31,4 @@ class VideoToJamTest(TestCase):
             self.assertEqual(e.message_dict['start_time'][0], 
                              'This field cannot be blank.',
                              'The start_time field error is not correct')
-        
+            
