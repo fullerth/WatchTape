@@ -37,7 +37,6 @@ class VideoToJamTest(TestCase):
                            '3h18s', '6h4m', '8m55s', 
                            '5h', '13m', '2s', ]
         for timecode in valid_timecodes:
-            print('testing {0}'.format(timecode))
             v_to_j._timecode_validator(timecode)
         
     def test_timecode_validator_with_invalid_timecodes(self):
@@ -48,6 +47,5 @@ class VideoToJamTest(TestCase):
         invalid_timecodes = ['foo', '', '22z15h18s', '7h4m3ss']
         for timecode in invalid_timecodes:
             with self.assertRaises(ValidationError):
-                print('testing {0}'.format(timecode))
                 v_to_j._timecode_validator(timecode)
                 
