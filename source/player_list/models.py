@@ -140,9 +140,7 @@ class Penalty(models.Model):
 
 class VideoToJam(models.Model):
     def _timecode_validator(self, timecode):
-        '''Times must be stored as strings XhYmZs where X, Y and Z are all ints
-           **** DOES NOT APPEAR TO BE WORKING, DON"T RELY ON IT****'''
-        print('running validator on %s' % timecode)
+        '''Times must be stored as strings XhYmZs where X, Y and Z are all ints'''
         def _time_to_int(time):
             if time != '':
                 try:

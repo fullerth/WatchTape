@@ -11,13 +11,8 @@ class VideoToJamTest(TestCase):
         data['jam'] = Jam.objects.create(pk=jam_pk, bout=data['bout'])
         data['v_to_j'] = VideoToJam(video=data['video'], jam=data['jam'])
         return data
-    
-    
-    def test_video_to_jam_creation(self):
-        data = self.create_video_to_jam()
-        data['v_to_j'].save()
         
-    def test_only_requires_a_start_time(self):
+    def test_full_clean_only_requires_a_start_time(self):
         data = self.create_video_to_jam()
         try:
             data['v_to_j'].full_clean()
@@ -31,4 +26,10 @@ class VideoToJamTest(TestCase):
             self.assertEqual(e.message_dict['start_time'][0], 
                              'This field cannot be blank.',
                              'The start_time field error is not correct')
-            
+
+    def test_timecode_validator(self):
+        data = self.create_video_to_jam()
+        
+        v_to_j = data['v_to_j']
+        
+        v_to_j._timecode_validator('0h5m10s')
