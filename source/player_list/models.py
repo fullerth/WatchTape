@@ -2,6 +2,8 @@ from django.db import models
 import re
 from datetime import date
 
+from django.core.exceptions import ValidationError
+
 class Player(models.Model):
     name = models.CharField(max_length=200)
     number = models.CharField(max_length=10)
@@ -139,22 +141,23 @@ class Penalty(models.Model):
     jam_released = models.ForeignKey(Jam, related_name='penalty_jam_released')
 
 class VideoToJam(models.Model):
+    _timecode_re = re.compile(r"^(?P<hour>\d*)h?(?P<min>\d*)m?(?P<sec>\d*)s?$")
+    
     def _timecode_validator(self, timecode):
-        '''Times must be stored as strings XhYmZs where X, Y and Z are all ints'''
-        def _time_to_int(time):
-            if time != '':
-                try:
-                    int(time)
-                except ValueError as e:
-                    raise ValidationError(u'%s is not a valid time' % timecode)
+        '''Times must be stored as strings XhYmZs where X, Y and Z are all \
+        optional ints'''
 
-        time = timecode.split('h')
-        _time_to_int(time[0])
-        time = time[1].split('m')
-        _time_to_int(time[0])
-        time = time[1].split('s')
-        _time_to_int(time[0])
+        match = self._timecode_re.match(timecode)
 
+        if(match == None or
+           (match.group('hour') == '' and 
+            match.group('min') == '' and 
+            match.group('sec') == '')):
+            raise ValidationError(
+                u'%s is not a valid time. \
+                Use format XhYmZs where X, Y and Z are optional integers, \
+                but at least one must be present' % 
+                timecode)
 
     start_time = models.CharField(max_length=200,
                                   validators=[_timecode_validator])

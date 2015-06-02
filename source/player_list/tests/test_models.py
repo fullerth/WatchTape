@@ -27,9 +27,27 @@ class VideoToJamTest(TestCase):
                              'This field cannot be blank.',
                              'The start_time field error is not correct')
 
-    def test_timecode_validator(self):
+    def test_timecode_validator_with_valid_timecodes(self):
         data = self.create_video_to_jam()
         
         v_to_j = data['v_to_j']
         
-        v_to_j._timecode_validator('0h5m10s')
+        #Check that this list of valid timecodes do not raise exceptions
+        valid_timecodes = ['0h5m10s', 
+                           '3h18s', '6h4m', '8m55s', 
+                           '5h', '13m', '2s', ]
+        for timecode in valid_timecodes:
+            print('testing {0}'.format(timecode))
+            v_to_j._timecode_validator(timecode)
+        
+    def test_timecode_validator_with_invalid_timecodes(self):
+        data = self.create_video_to_jam()
+        
+        v_to_j = data['v_to_j']
+        
+        invalid_timecodes = ['foo', '', '22z15h18s', '7h4m3ss']
+        for timecode in invalid_timecodes:
+            with self.assertRaises(ValidationError):
+                print('testing {0}'.format(timecode))
+                v_to_j._timecode_validator(timecode)
+                
