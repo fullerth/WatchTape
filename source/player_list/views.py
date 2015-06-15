@@ -1,31 +1,22 @@
-from django.shortcuts import render, get_object_or_404
-
 from django.http import HttpResponse
-from django.template import RequestContext, loader
 
-from player_list.models import Player, Bout, PlayerToRoster, \
-                               Jam, PlayerToJam, Video
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-#/player/<id>
-def view_player_info(request, player_id):
-    player = get_object_or_404(Player, pk=player_id)
-    context = { 'player' : player, }
-    return render(request, 'player_list/player.html', context)
+from player_list.models import VideoToJam
+from player_list.serializers.VideoToJamSerializer import VideoToJamSerializer
 
-#/bout/<id>
-def view_bout_info(request, bout_id):
-    bout = get_object_or_404(Bout, pk=bout_id)
-    context = { 'bout' : bout, }
-    return render(request, 'player_list/bout.html', context)
+@api_view(['GET', 'POST'])
+def viewvideotojam_list(request):
+    if request.method == 'POST':
+        serializer = VideoToJamSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    videotojams = VideoToJam.objects.all()
+    serializer = VideoToJamSerializer(videotojams, many=True)
+    return Response(serializer.data)
 
-#/jam/<id>
-def view_jam_info(request, jam_id):
-    jam = get_object_or_404(Jam, pk=jam_id)
-    context = {'jam' : jam, }
-    return render(request, 'player_list/jam.html', context)
-
-#/video/<id>
-def view_video_info(request, video_id):
-    video = get_object_or_404(Video, pk=video_id)
-    context = {'video' : video, }
-    return render(request, 'player_list/video.html', context)

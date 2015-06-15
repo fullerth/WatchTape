@@ -6,8 +6,6 @@ from datetime import datetime
 from selenium import webdriver
 from pyvirtualdisplay import Display
 
-from player_list.views import view_bout_info
-
 SCREEN_DUMP_LOCATION = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), 'screendumps'
 )
