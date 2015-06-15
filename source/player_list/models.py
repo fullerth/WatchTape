@@ -140,29 +140,33 @@ class Penalty(models.Model):
     jam_called = models.ForeignKey(Jam, related_name='penalty_jam_called')
     jam_released = models.ForeignKey(Jam, related_name='penalty_jam_released')
 
-class VideoToJam(models.Model):
-    _timecode_re = re.compile(r"^(?P<hour>\d*)h?(?P<min>\d*)m?(?P<sec>\d*)s?$")
+def _timecode_validator(timecode):
+    '''Times must be stored as strings XhYmZs where X, Y and Z are all \
+    optional ints'''
     
-    def _timecode_validator(self, timecode):
-        '''Times must be stored as strings XhYmZs where X, Y and Z are all \
-        optional ints'''
+    _timecode_re = re.compile(r"^(?P<hour>\d*)h?(?P<min>\d*)m?(?P<sec>\d*)s?$")
 
-        match = self._timecode_re.match(timecode)
 
-        if(match == None or
-           (match.group('hour') == '' and 
-            match.group('min') == '' and 
-            match.group('sec') == '')):
-            raise ValidationError(
-                u'%s is not a valid time. \
-                Use format XhYmZs where X, Y and Z are optional integers, \
-                but at least one must be present' % 
-                timecode)
+    match = _timecode_re.match(timecode)
 
+    if(match == None or
+       (match.group('hour') == '' and 
+        match.group('min') == '' and 
+        match.group('sec') == '')):
+        raise ValidationError(
+            u'%s is not a valid time. \
+            Use format XhYmZs where X, Y and Z are optional integers, \
+            but at least one must be present' % 
+            timecode)
+
+class VideoToJam(models.Model):
+    #_timecode_re = re.compile(r"^(?P<hour>\d*)h?(?P<min>\d*)m?(?P<sec>\d*)s?$")
+    
     start_time = models.CharField(max_length=200,
                                   validators=[_timecode_validator])
     end_time = models.CharField(max_length=200,
-                                validators=[_timecode_validator], blank=True)
+                                validators=[_timecode_validator], 
+                                blank=True)
     video = models.ForeignKey(Video)
     jam = models.ForeignKey(Jam)
     timecode_url = models.URLField(max_length=255, blank=True)
