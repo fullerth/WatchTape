@@ -25,6 +25,17 @@ TEMPLATE_DEBUG = True
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape'),)
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Required by `allauth` template tags
+    'django.core.context_processors.request',
+
+    # `allauth` specific context processors
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
+    'django.contrib.auth.context_processors.auth',
+)
+
+
 ALLOWED_HOSTS = []
 
 #DEBUG TOOLBAR SETTINGS
@@ -85,6 +96,13 @@ INSTALLED_APPS = (
     'video_player',
     'debug_toolbar',
     'rest_framework',
+    
+    #allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -110,6 +128,18 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
     }
 }
+
+#Authentication
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

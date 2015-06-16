@@ -105,14 +105,17 @@ class VideoToJamViewTests(VideoToJamTestCase):
                         }
         expected_json = [v_to_j_1_json, v_to_j_2_json]
         
-        self.assertJSONEqual(response.content.decode(), expected_json)
+        self.assertJSONEqual(response.content.decode(), expected_json,
+            msg="GET /watchtape/videotojam/ did not produce expected JSON")
     
     def test_invalid_post_reports_bad_request_code(self):
         c = Client()
         
         response = c.post('/watchtape/videotojam/')
         
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST,
+            msg="POST to /watchtape/videotojam/ with invalid data did not \
+produce the expected error code")
         
     def test_invalid_post_reports_error_message(self):
         c = Client()
@@ -123,7 +126,9 @@ class VideoToJamViewTests(VideoToJamTestCase):
                              "jam":["This field is required."],
                              "video":["This field is required."]}
         
-        self.assertJSONEqual(response.content.decode(), expected_response)
+        self.assertJSONEqual(response.content.decode(), expected_response,
+            msg="POST to /watchtape/videotojam/ with invalid data did not \
+produce the expected error code.")
     
     def test_valid_post_returns_201_CREATED_status_code(self):
         c = Client()
@@ -142,15 +147,16 @@ class VideoToJamViewTests(VideoToJamTestCase):
         
         response = c.post('/watchtape/videotojam/', v_to_j_1_json)    
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED,
+            msg="API did not create an object for POST to /watchtape/videotojam")
         
-    def test_valid_post_creates_a_new_videotojam(self):
+    def test_valid_post_returns_expected_JSON(self):
         c = Client()
         
         video_to_jam_1 = self._create_video_to_jam()['v_to_j']
         
-        video_to_jam_1.start_time = "2h3m42s"
-
+        video_to_jam_1.start_time = "1m42s"
+        
         v_to_j_1_json = { 'id' : video_to_jam_1.id,
                           'video' : video_to_jam_1.video.id,
                           'jam' : video_to_jam_1.jam.id,
@@ -159,10 +165,11 @@ class VideoToJamViewTests(VideoToJamTestCase):
                           'timecode_url' : video_to_jam_1.timecode_url
                         }
         
-        response = c.post('/watchtape/videotojam/', v_to_j_1_json)  
-        
+        response = c.post('/watchtape/videotojam/', v_to_j_1_json)    
+
         #The post should save the video to jam to the database and it should be
         #the only row in the table
         v_to_j_1_json['id'] = 1
-
-        self.assertJSONEqual(response.content.decode(), v_to_j_1_json )
+        
+        self.assertJSONEqual(response.content.decode(), v_to_j_1_json, 
+            msg="unexpected json response from POST to /watchtape/videotojam")
