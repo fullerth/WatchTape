@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% load staticfiles %}
+{% load account %}
 
 <html lang="en">
     <head>
@@ -28,12 +29,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">WatchTape</a>
+          <a class="navbar-brand" href="/">WatchTape</a>
+          
         </div>
         {% block navbar_block %}
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="https://github.com/fullerth/WatchTape/issues/new">Report A Bug Natcho</a></li>
+            <li><a href="https://github.com/fullerth/WatchTape/issues/new">Report Bug</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if request.user.is_authenticated %}
+            <li><a href="/accounts/profile">{% user_display user %}
+            <li><a href="/accounts/logout">Logout</a></li>
+            {% else %}
+            <li><a href="/accounts/login">Login</a></li>
+            {% endif %}
           </ul>
         </div>
         {% endblock navbar_block %}
@@ -48,8 +58,10 @@
             <div class="container">
             {% if request.user.is_authenticated %}
             WE ARE LOGGED IN!
+            <a href="/accounts/logout">logout</a>
             {% else %}
             WE ARE NOT LOGGED IN!
+            <a href="/accounts/login">login</a>
             {% endif %}
             </div>
             {% block content_block %} {% endblock content_block %}
