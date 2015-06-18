@@ -28,11 +28,11 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape'),)
 TEMPLATE_CONTEXT_PROCESSORS = (
     # Required by `allauth` template tags
     'django.core.context_processors.request',
-
+    'django.contrib.auth.context_processors.auth',
+    
     # `allauth` specific context processors
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
-    'django.contrib.auth.context_processors.auth',
 )
 
 
@@ -87,12 +87,13 @@ LOGGING = {
 
 INSTALLED_APPS = (
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'player_list',
+    'player_list',  
     'video_player',
     'debug_toolbar',
     'rest_framework',
@@ -138,7 +139,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 1
+SITE_ID = 2
 
 
 # Internationalization
