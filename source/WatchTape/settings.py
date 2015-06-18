@@ -140,6 +140,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 2
+LOGIN_REDIRECT_URL = '/'
 
 
 # Internationalization
