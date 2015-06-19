@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+{% load staticfiles %}
+
 <html lang="en">
     <head>
         <title> {% block title %} Watch Tape {% endblock title %} </title>
@@ -11,7 +13,7 @@
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="{{STATIC_URL}}WatchTape/WatchTape.css" rel="stylesheet">
+        <link href="{% static "WatchTape/WatchTape.css" %}"  rel="stylesheet">
 
         {% block head_block %} {% endblock head_block %}
     </head>
