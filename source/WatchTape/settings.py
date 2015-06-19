@@ -76,6 +76,7 @@ LOGGING = {
 
 INSTALLED_APPS = (
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -85,6 +86,13 @@ INSTALLED_APPS = (
     'video_player',
     'debug_toolbar',
     'rest_framework',
+    
+    #allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,6 +107,27 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'WatchTape.urls'
 
 WSGI_APPLICATION = 'WatchTape.wsgi.application'
+
+# Authentication
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # Required by `allauth` template tags
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+    
+    # `allauth` specific context processors
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
+    )
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 2
+LOGIN_REDIRECT_URL = '/'
 
 
 # Database
