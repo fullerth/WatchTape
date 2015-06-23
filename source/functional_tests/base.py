@@ -52,9 +52,14 @@ class FunctionalTest(LiveServerTestCase):
 
     def dump_html(self):
         filename = self._get_filename() + '.html'
-        print('dumping page HTL to', filename)
+        print('dumping page HTML to', filename)
         with open(filename, 'w') as f:
-            f.write(self.browser.page_source)
+            output = self.browser.page_source.encode(
+                                                'ascii', 'ignore'
+                                            ).decode(
+                                                'ascii'
+                                            )
+            f.write(output)
 
     def _get_filename(self):
         timestamp = datetime.now().isoformat().replace(':', '.')[:19]
