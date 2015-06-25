@@ -6,6 +6,8 @@ from datetime import datetime
 from selenium import webdriver
 from pyvirtualdisplay import Display
 
+from django.core.urlresolvers import reverse
+
 SCREEN_DUMP_LOCATION = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), 'screendumps'
 )
@@ -32,6 +34,8 @@ class FunctionalTest(LiveServerTestCase):
 
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(10)
+        
+        self.home_url = ''.join([self.server_url, reverse("home")])
 
     def tearDown(self):
         if not self._outcomeForDoCleanups.success:

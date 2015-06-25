@@ -14,7 +14,6 @@ from selenium.common.exceptions import NoSuchElementException
 
 class NavbarTest(FunctionalTest):
     def setUp(self):
-        self.home_url = [self.server_url, '/']
         site_expected_data = {'domain':'localhost', 'name':'localhost'}
         site_instance = Site.objects.create(
                                     domain=site_expected_data['domain'],
@@ -81,7 +80,7 @@ class NavbarTest(FunctionalTest):
     
     def test_logged_out_navbar_has_correct_login_on_right(self):
         #Load the homepage
-        self.browser.get(''.join(self.home_url))
+        self.browser.get(self.home_url)
         
         login = self._get_login_button()
         
@@ -101,7 +100,7 @@ class NavbarTest(FunctionalTest):
         
     def test_logged_in_navbar_has_correct_logout_on_right(self):
         #Load the homepage
-        self.browser.get(''.join(self.home_url))
+        self.browser.get(self.home_url)
         
         self._login_super_user()
         
@@ -121,7 +120,7 @@ class NavbarTest(FunctionalTest):
         
     def test_logged_out_user_sees_only_login(self):
         #Load the homepage
-        self.browser.get(''.join(self.home_url))
+        self.browser.get(self.home_url)
         
         self._get_login_button()
         
