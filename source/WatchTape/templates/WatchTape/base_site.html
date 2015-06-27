@@ -53,7 +53,14 @@
             {% block header_block %} {% endblock header_block %}
         </div>
         <div id="content">
-            {% block content_block %} {% endblock content_block %}
+            {% block content_block %} 
+            <div id="id_videos">
+                <ul id="id_video_list">
+                    <li><a href="http://localhost:8081/watchtape/video_player/video/1/">Video 1</a></li>
+                    <li><a>Fwoop</a></li>
+                </ul>
+            </div>
+            {% endblock content_block %}
         </div>
     </div>
 

@@ -3,6 +3,7 @@ import re
 from datetime import date
 
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 
 class Player(models.Model):
     name = models.CharField(max_length=200)
@@ -29,6 +30,9 @@ class Video(models.Model):
     site = models.CharField(max_length = 7, choices=SITES)
     #URL for vimeo embed code
     player_url = models.CharField(max_length=2000)
+    
+    def get_absolute_url(self):
+        return(reverse("video_player", kwargs={'video_id':self.id}))
 
     def __str__(self):
         return("Video {0}".format(self.id))
