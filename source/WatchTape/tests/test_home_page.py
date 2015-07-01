@@ -7,10 +7,14 @@ from WatchTape.views import home
 from player_list.models import Video
 
 class VideoListTest(VideoTestCase):
-    def test_video_view_returns_correct_video(self):
-        video = self._create_video()
+    def test_video_view_returns_correct_videos(self):
+        video_1 = self._create_video()
+        video_2 = self._create_video()
+        
+        videos = [video_1, video_2]
         
         response = self.client.get(reverse("home"))
                 
-        self.assertTrue(isinstance(response.context['videos'], Video))
-        self.assertEqual(response.context['videos'], video['instance'])
+        for i, video in enumerate(response.context['videos']):
+            self.assertTrue(isinstance(video, Video))
+            self.assertEqual(video, videos[i]['instance'])
