@@ -11,6 +11,6 @@ def template(request):
     return render(request, 'template.html', context)
 
 def home(request):
-    videos = get_list_or_404(Video)
+    videos = Video.objects.all()
     context = {'videos': videos}
     return render(request, 'base_site.html', context)

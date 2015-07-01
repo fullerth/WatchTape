@@ -56,8 +56,9 @@
             {% block content_block %} 
             <div id="id_videos">
                 <ul id="id_video_list">
-                    <li><a href="http://localhost:8081/watchtape/video_player/video/1/">Video 1</a></li>
-                    <li><a>Fwoop</a></li>
+                {% for video in videos %}
+                    <li><a href="{{ video.get_absolute_url }}">{{ video }}</a></li>
+                {% endfor %}
                 </ul>
             </div>
             {% endblock content_block %}

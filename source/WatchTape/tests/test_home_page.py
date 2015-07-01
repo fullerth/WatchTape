@@ -18,5 +18,3 @@ class VideoListTest(VideoTestCase):
         for i, video in enumerate(response.context['videos']):
             self.assertTrue(isinstance(video, Video))
             self.assertEqual(video, videos[i]['instance'])
-    
-    

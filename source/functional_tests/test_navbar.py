@@ -77,7 +77,7 @@ class NavbarTest(FunctionalTest):
         return{'button_group' : button_group, 'li':logout_button_li,
                'a':logout_button_anchor}
 
-    
+    @override_settings(DEBUG=True)
     def test_logged_out_navbar_has_correct_login_on_right(self):
         #Load the homepage
         self.browser.get(self.home_url)
