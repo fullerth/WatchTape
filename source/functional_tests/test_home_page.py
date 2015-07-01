@@ -15,7 +15,7 @@ class HomePageVideoList(FunctionalTest):
         return video_dict
     
     def test_list_of_videos_exists(self):    
-        video_dict = self._create_video()    
+        video_dict = self._create_video()
         video = video_dict['instance']
         video_url = video_dict['page_url']
         
@@ -40,8 +40,9 @@ class HomePageVideoList(FunctionalTest):
         for idx, video in enumerate(videos):
             video_href = video.find_element_by_tag_name(
                                                     'a').get_attribute('href')
-            self.assertEqual(video_href, expected_videos[idx]['page_url'],
-                    msg="Video #{0} in list has incorrect href".format(idx+1))
+            self.assertEqual(expected_videos[idx]['page_url'], video_href, 
+    msg="Video #{0} in list has incorrect href. Expected: {1}. Saw: {2}".format(
+                        idx+1, expected_videos[idx]['page_url'], video_href))
             self.assertEqual(video.text, str(expected_videos[idx]['instance']))                 
         
         
