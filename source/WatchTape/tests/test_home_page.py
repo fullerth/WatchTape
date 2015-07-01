@@ -7,7 +7,7 @@ from WatchTape.views import home
 from player_list.models import Video
 
 class VideoListTest(VideoTestCase):
-    def test_video_view_returns_correct_videos(self):
+    def test_home_page_context_contains_correct_videos(self):
         video_1 = self._create_video()
         video_2 = self._create_video()
         
@@ -18,3 +18,5 @@ class VideoListTest(VideoTestCase):
         for i, video in enumerate(response.context['videos']):
             self.assertTrue(isinstance(video, Video))
             self.assertEqual(video, videos[i]['instance'])
+    
+    
