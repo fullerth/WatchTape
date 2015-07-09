@@ -121,9 +121,7 @@ class VideoToJamViewTests(VideoToJamTestCase):
                 
         response = c.post('/watchtape/videotojam/')
         
-        expected_response = {"start_time":["This field is required."],
-                             "jam":["This field is required."],
-                             "video":["This field is required."]}
+        expected_response = {"start_time":["This field is required."]}
         
         self.assertJSONEqual(response.content.decode(), expected_response)
     
