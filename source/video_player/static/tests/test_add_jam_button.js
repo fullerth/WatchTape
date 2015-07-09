@@ -30,7 +30,8 @@ test(
 'initialize #id_jam_time_button onclick callback performs a $.post operation \
 with the current time data from the video', function(){
     var videoTime = 22;
-    mockFroogaloop.api.withArgs('CurrentTime').returns(videoTime);
+    var player_id = 1;
+    mockFroogaloop.api.withArgs('getCurrentTime').callsArgWith(1, videoTime, player_id);
 
     WatchTape.VideoPlayer.initialize(mockFroogaloop, urls);
     $('#id_jam_time_button').trigger('click');
