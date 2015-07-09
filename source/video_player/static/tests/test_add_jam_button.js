@@ -45,7 +45,7 @@ test(
 'initialize #id_jam_time_button onclick callback puts resulting jam into jam \
 list', function(){
     var videoTime = 50
-    mockFroogaloop.api.withArgs('CurrentTime').returns(videoTime);
+    mockFroogaloop.api.withArgs('getCurrentTime').returns(videoTime);
 
     WatchTape.VideoPlayer.initialize(mockFroogaloop, urls);
     jam_list = $('#id_jam_list');
@@ -58,3 +58,4 @@ list', function(){
     items = jam_list.find('li')
     equal(items.length, 1, 'check jam list post-click')
 });
+

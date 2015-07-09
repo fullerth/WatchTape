@@ -27,8 +27,11 @@ function reset_jam(data, id) {
     current_jam = 0;
 }
 
-//Setup for Vimeo API
+var froogaloop;
+
+//Setup for video player page
 $(document).ready(function() {
+    // Vimeo player setup
     // Listen for the ready event for any vimeo video players on the page
     var player = $('#id_vimeo_player')[0];
     $f(player).addEvent('ready', ready);
@@ -44,31 +47,38 @@ $(document).ready(function() {
 
     function ready(player_id) {
         console.log('ready!');
-        var froogaloop = $f(player_id);
+        window.froogaloop = $f(player_id);
 
         function onPlay() {
-                froogaloop.addEvent('play', function(data) {
+                window.froogaloop.addEvent('play', function(data) {
                     console.log('play');
                 });
         }
 
 
         function setupResets() {
-                froogaloop.addEvent('finish', reset_jam);
-                froogaloop.addEvent('seek', reset_jam)
+                window.froogaloop.addEvent('finish', reset_jam);
+                window.froogaloop.addEvent('seek', reset_jam)
         }
 
         function onPlayProgress() {
-            froogaloop.addEvent('playProgress', play_tick);
+            window.froogaloop.addEvent('playProgress', play_tick);
         }
 
         function set_starting_time() {
-            froogaloop.api('seekTo',timing_data[0]-10)
+            window.froogaloop.api('seekTo',timing_data[0]-10)
         }
 
         onPlay();
         setupResets();
         onPlayProgress();
         set_starting_time();
+        
+        
+        //Button control initialization
+        urls = {'video_to_jam' : '/watchtape/videotojam/'};    
+        WatchTape.VideoPlayer.initialize(window.froogaloop, urls);
     }
+    
+    
 });

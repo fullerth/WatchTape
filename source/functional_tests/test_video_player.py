@@ -62,7 +62,8 @@ class VideoPlayerTest(FunctionalTest):
         jam_times = jam_time_data.find_elements_by_tag_name('li')
         
         #There should be one and only one jam in the list
-        self.assertEqual(len(jam_times), 1, "There should be one and only one jam time in the list")
+        self.assertEqual(len(jam_times), 1, 
+                         "There should be one and only one jam time in the list")
 
         #The jam appears in the jam tab under the jam list
         self.fail('finish the test!')
