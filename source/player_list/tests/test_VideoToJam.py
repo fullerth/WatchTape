@@ -17,13 +17,15 @@ class VideoToJamTestCase(TestCase):
         return data
 
 class VideoToJamModelTest(VideoToJamTestCase):
-    def test_videotojam_created_with_defaults(self):
-        data = self._create_video_to_jam()
-        data['v_to_j'].save()
+    def test_create_minimal_video_to_jam(self):
+        expected_start_time = 2
+        v_to_j = VideoToJam.objects.create(start_time=expected_start_time)
+        v_to_j.full_clean()
+        v_to_j.save()
 
         saved_v_to_j = VideoToJam.objects.all()[0]
 
-        self.assertEqual(saved_v_to_j, data['v_to_j'])
+        self.assertEqual(saved_v_to_j, v_to_j)
 
     def test_videotojam_start_seconds(self):
         video_to_jam = self._create_video_to_jam()['v_to_j']
