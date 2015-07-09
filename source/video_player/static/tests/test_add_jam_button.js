@@ -31,15 +31,18 @@ test(
 with the current time data from the video', function(){
     var videoTime = 22;
     var player_id = 1;
-    mockFroogaloop.api.withArgs('getCurrentTime').callsArgWith(1, videoTime, player_id);
+    var video_id = 3;
+    mockFroogaloop.api.withArgs('getCurrentTime' \
+        ).callsArgWith(1, videoTime, player_id);
 
-    WatchTape.VideoPlayer.initialize(mockFroogaloop, urls);
+    WatchTape.VideoPlayer.initialize(mockFroogaloop, urls, video_id);
     $('#id_jam_time_button').trigger('click');
 
     equal(requests.length, 1, 'check ajax request')
     equal(requests[0].url, urls.video_to_jam, 'check url')
     equal(requests[0].method, 'POST', 'check ajax request method')
-    equal(requests[0].requestBody, 'time='+videoTime, 'check ajax request data')
+    equal(requests[0].requestBody, 'start_time='+videoTime+"&video="+video_id,\
+        'check ajax request data')
 });
 
 test(
