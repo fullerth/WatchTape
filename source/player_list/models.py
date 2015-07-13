@@ -171,7 +171,7 @@ class VideoToJam(models.Model):
     end_time = models.CharField(max_length=200,
                                 validators=[_timecode_validator], 
                                 blank=True)
-    video = models.ForeignKey(Video, blank=True, null=True)
+    video = models.ForeignKey(Video, null=True, blank=True)
     jam = models.ForeignKey(Jam, null=True, blank=True)
     timecode_url = models.URLField(max_length=255, blank=True)
 
