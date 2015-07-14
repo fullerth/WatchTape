@@ -28,6 +28,8 @@ Assume we have a user accout at /home/username
         --source
         --static
         --virtualenv
+        
+
 
 
 Adding a new user to EC2
@@ -42,7 +44,6 @@ chmod 700 .ssh
 touch .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 *add ssh-rsa to the authorized_keys file
-
 
 Creating virtualenv on Vagrant
 ==============================
