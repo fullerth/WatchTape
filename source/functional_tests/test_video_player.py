@@ -72,7 +72,8 @@ class VideoPlayerTest(FunctionalTest):
         '''Test to make sure that lack of a video URL does not cause rendering problems'''
         self.VideoPlayerPageFactory(self.server_url, self.browser)
 
-        #If there is a tag with the id "id_vimeo_player"
+        #Not rendering the vimeo_player with no src url is a valid solution to 
+        #this issue
         try:
             vimeo_player = self.browser.find_element_by_id('id_vimeo_player')
         except NoSuchElementException:
@@ -83,3 +84,10 @@ class VideoPlayerTest(FunctionalTest):
         self.assertNotIn("localhost", vimeo_player.get_attribute("src"),
             "video.player_url was not specified and the template did not handle \
  it gracefully")
+        
+    def test_tabs_display_content(self):
+        '''Test to make sure that the navigation tabs are functional'''
+        self.VideoPlayerPageFactory(self.server_url, self.browser)
+        
+        navigation_tabs = self.browser.find_element_by_id('id_navigation_tabs')
+        
