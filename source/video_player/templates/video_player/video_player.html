@@ -14,7 +14,6 @@
 
 <script src="{% static "video_player/video_player.js" %}" type="text/javascript"></script>
 
-
 {% endblock head_block %}
 
 
@@ -39,30 +38,29 @@
 
         </div>
 
-        <!-- Nav Tabs -->
-        <div id="jam_info_tabs">
+        <div id="id_navigation_tabs">
             <ul class="nav nav-tabs" role="tablist">
             {% if times %}
-                <li id="id_current_jam_tab" class="active"><a href="#id_players" role="tab" data-toggle="tab">
+                <li id="id_current_jam_tab" class="active"><a href="#id_players_data_tab" role="tab" data-toggle="tab">
                     Current Jam</a></li>
             {% endif %}
-                <li id="id_jam_time_tab" class="hide"><a href="#id_jam_list_tab" role="tab" data-toggle="tab">Jam Info</a>
+                    <li id="id_jam_time_tab"><a href="#id_jam_list_tab" role="tab" data-toggle="tab">Jam Info
+                </a></li>
             </ul>
-        </div>
-
-        <div id="myTabContent" class="tab-content">
-            <div class="tab-pane active" id="id_players_data_tab">
-                {% include "video_player/status_tab.html" %}
-            </div>
-            <div class="tab-pane" id="id_jam_list_tab">
-                <button type="button" id="id_jam_time_button" class="hide">Jam Start</button>
-                <div id="id_jam_list_div">
-                    <ul id="id_jam_list">
-                    </ul>
+    
+            <div id="myTabContent" class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="id_players_data_tab">
+                    {% include "video_player/status_tab.html" %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="id_jam_list_tab">
+                    <button type="button" id="id_jam_time_button">Jam Start</button>
+                    <div id="id_jam_list_div">
+                        <ul id="id_jam_list">
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 {% endblock content_block %}
 

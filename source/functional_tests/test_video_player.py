@@ -2,14 +2,20 @@ from .base import FunctionalTest
 
 from selenium.common.exceptions import NoSuchElementException
 
+from django.test.utils import override_settings
+
 from player_list.models import Video, Jam, VideoToJam, Bout
 from selenium.selenium import selenium
 
 class VideoPlayerTest(FunctionalTest):
     class VideoPlayerPageFactory():
-        def __init__(self, server_url, browser):
+        def __init__(self, server_url, browser, create_jam_times=False, 
+                     get_page=True):
             self._create_new_video_player()
-            self._get_video_page(server_url, browser)
+            if(create_jam_times):
+                self._create_video_to_jams()
+            if(get_page):
+                self.get_video_page(server_url, browser)
 
         def _create_new_video_player(self):
             self.video_player = {}
@@ -22,14 +28,20 @@ class VideoPlayerTest(FunctionalTest):
             self.video_player['jam'] = Jam(bout=self.video_player['bout'])
             self.video_player['jam'].save()
 
-        def _get_video_page(self, server_url, browser):
+        def get_video_page(self, server_url, browser):
             url = [server_url,
                    '/watchtape/video_player/video/{0}'.format(
                                                 self.video_player['video'].id),
                    ]
             browser.get(''.join(url))
 
-
+        def _create_video_to_jams(self):
+            self.video_player['video_to_jam'] = VideoToJam(
+                                            video=self.video_player['video'],
+                                            start_time="1m0s")
+            self.video_player['video_to_jam'].full_clean()         
+            self.video_player['video_to_jam'].save()
+            
 
     def test_video_player_title(self):
         '''Make sure that a video only, with no video_to_jams will display'''
@@ -84,10 +96,16 @@ class VideoPlayerTest(FunctionalTest):
         self.assertNotIn("localhost", vimeo_player.get_attribute("src"),
             "video.player_url was not specified and the template did not handle \
  it gracefully")
-        
+       
     def test_tabs_display_content(self):
         '''Test to make sure that the navigation tabs are functional'''
-        self.VideoPlayerPageFactory(self.server_url, self.browser)
+        self.VideoPlayerPageFactory(self.server_url, self.browser, 
+                                    create_jam_times=True)
         
-        navigation_tabs = self.browser.find_element_by_id('id_navigation_tabs')
+        tabs = self.browser.find_elements_by_xpath(
+            "//div[@id='id_navigation_tabs']/ul/li")
+        
+        for tab in tabs:
+            tab.click()
+            self.fail('figure out how to test tab contents are shown')
         
