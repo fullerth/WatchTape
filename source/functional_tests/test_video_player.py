@@ -2,10 +2,7 @@ from .base import FunctionalTest
 
 from selenium.common.exceptions import NoSuchElementException
 
-from django.test.utils import override_settings
-
 from player_list.models import Video, Jam, VideoToJam, Bout
-from selenium.selenium import selenium
 
 class VideoPlayerTest(FunctionalTest):
     class VideoPlayerPageFactory():
