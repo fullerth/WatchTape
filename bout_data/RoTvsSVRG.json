@@ -1,0 +1,252 @@
+{
+	"bout": {
+		"id": 2 
+	},
+	"video": {
+		"url": "http://vimeo.com/97709660",
+		"player_url" : "//player.vimeo.com/video/97709660",
+		"source" : "Papa Getsome",
+		"site": "Vimeo"
+	},
+	"Half 1" : 
+	[
+	{
+		"number" : 1,
+		"Start" : "0h17m26s",
+		"End" : "0h19m18s"
+	},	
+	{
+		"number" : 2,
+		"Start" : "0h19m50s",
+		"End" : "0h20m29s"
+	},	
+	{
+		"number" : 3,
+		"Start" : "0h21m01s",
+		"End" : "0h21m25s"
+	},	
+	{
+		"number" : 4,
+		"Start" : "0h21m56s",
+		"End" : "0h23m00s"
+	},	
+	{
+		"number" : 5, 
+		"Start" : "0h23m31s",
+		"End" : "0h25m31s"
+	},	
+	{
+		"number" : 6,
+		"Start" : "0h26m01s",
+		"End" : "0h27m45s"
+	},	
+	{
+		"number" : 7,
+		"Start" : "0h28m57s",
+		"End" : "0h29m42s"
+	},	
+	{
+		"number" : 8,
+		"Start" : "0h30m13s",
+		"End" : "0h"
+	},	
+	{
+		"number" : 9,
+		"Start" : "0h31m08s",
+		"End" : "0h31m33s"
+	},	
+	{
+		"number" : 10,
+		"Start" : "0h32m03s",
+		"End" : "0h32m49s"
+	},	
+	{
+		"number" : 11,
+		"Start" : "0h33m20s",
+		"End" : "0h33m44s"
+	},	
+	{
+		"number" : 12,
+		"Start" : "0h34m15s",
+		"End" : "0h35m51s"
+	},	
+	{
+		"number" : 13,
+		"Start" : "0h35m22s",
+		"End" : "0h36m42s"
+	},	
+	{
+		"number" : 14,
+		"Start" : "0h37m15s",
+		"End" : "0h37m39s"
+	},	
+	{
+		"number" : 15,
+		"Start" : "0h38m11s",
+		"End" : "0h39m16s"
+	},	
+	{
+		"number" : 16,
+		"Start" : "0h39m46s",
+		"End" : "0h40m23s"
+	},	
+	{
+		"number" : 17,
+		"Start" : "0h40m54s",
+		"End" : "0h41m38s"
+	},	
+	{
+		"number" : 18,
+		"Start" : "0h42m09s",
+		"End" : "0h44m09s"
+	},	
+	{
+		"number" : 19,
+		"Start" : "0h45m30s",
+		"End" : "0h46m39s"
+	},	
+	{
+		"number" : 20,
+		"Start" : "0h47m10s",
+		"End" : "0h47m39s"
+	},	
+	{
+		"number" : 21,
+		"Start" : "0h48m10s",
+		"End" : "0h48m47s"
+	},	
+	{
+		"number" : 22,
+		"Start" : "0h49m17s",
+		"End" : "0h49m44s"
+	}	
+	],
+	"Half 2" : 
+	[
+	{
+		"number" : 1,
+		"Start" : "0h55m08s",
+		"End" : "0h55m47s"
+	},	
+	{
+		"number" : 2,
+		"Start" : "0h56m19s",
+		"End" : "0h56m53s"
+	},	
+	{
+		"number" : 3,
+		"Start" : "0h57m24s",
+		"End" : "0h57m49s"
+	},	
+	{
+		"number" : 4,
+		"Start" : "0h58m20s",
+		"End" : "0h59m37s"
+	},	
+	{
+		"number" : 5,
+		"Start" : "1h00m09s",
+		"End" : "1h00m43s"
+	},	
+	{
+		"number" : 6,
+		"Start" : "1h01m14s",
+		"End" : "1h02m26s"
+	},	
+	{
+		"number" : 7,
+		"Start" : "1h02m57s",
+		"End" : "1h03m34s"
+	},	
+	{
+		"number" : 8,
+		"Start" : "1h04m04s",
+		"End" : "1h04m27s"
+	},	
+	{
+		"number" : 9,
+		"Start" : "1h04m58s",
+		"End" : "1h05m18s"
+	},	
+	{
+		"number" : 10,
+		"Start" : "1h05m49s",
+		"End" : "1h06m18s"
+	},	
+	{
+		"number" : 11,
+		"Start" : "1h06m49s",
+		"End" : "1h08m08s"
+	},	
+	{
+		"number" : 12,
+		"Start" : "1h08m39s",
+		"End" : "1h09m13s"
+	},	
+	{
+		"number" : 13,
+		"Start" : "1h09m43s",
+		"End" : "1h10m57s"
+	},	
+	{
+		"number" : 14,
+		"Start" : "1h11m28s",
+		"End" : "1h12m18s"
+	},	
+	{
+		"number" : 15,
+		"Start" : "1h12m49s",
+		"End" : "1h14m31s"
+	},	
+	{
+		"number" : 16,
+		"Start" : "1h15m02s",
+		"End" : "1h15m44s"
+	},	
+	{
+		"number" : 17,
+		"Start" : "1h15m16s",
+		"End" : "1h16m35s"
+	},	
+	{
+		"number" : 18,
+		"Start" : "1h17m07s",
+		"End" : "1h18m18s"
+	},	
+	{
+		"number" : 19,
+		"Start" : "1h18m49s",
+		"End" : "1h19m19s"
+	},	
+	{
+		"number" : 20,
+		"Start" : "1h19m50s",
+		"End" : "1h20m31s"
+	},	
+	{
+		"number" : 21,
+		"Start" : "1h21m02s",
+		"End" : "1h21m35s"
+	},	
+	{
+		"number" : 22,
+		"Start" : "1h22m06s",
+		"End" : "1h22m29s"
+	},	
+	{
+		"number" : 23,
+		"Start" : "1h23m00s",
+		"End" : "1h23m57s"
+	},	
+	{
+		"number" : 24,
+		"Start" : "1h24m29s",
+		"End" : "1h24m50s"
+	},	
+	{
+		"number" : 25,
+		"Start" : "1h26m12s",
+		"End" : "1h26m46s"
+	}
+	]
+}	

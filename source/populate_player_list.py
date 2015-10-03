@@ -162,7 +162,7 @@ class wftda_importer_Mar_2014:
                             'home',
                             captain))
                 except UnicodeEncodeError as e:
-                    log.debut("Home player number {0} has bad name".format(player_number))
+                    log.debug("Home player number {0} has bad name".format(player_number))
                 rostered_player = self.add_player(name = player_name,
                                              number=player_number)
 
@@ -533,18 +533,20 @@ if __name__ == '__main__':
     #populate()
     #import_wftda_stats(path =  '../bout_data/2014.04.12 DLF vs TR.xlsx')
     import_wftda_stats(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
-    #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
-    #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
-    import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xlsx')
-
+#     #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
+#     #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
+#     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
+#     import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
+#     import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
+#     import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xlsx')
+    import_wftda_stats(path = '../bout_data/2014.06.07 RoT vs SVRG.xlsx')
+# 
     import_video_info(path='../bout_data/RatVsJet2014.json')
-    #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
-    #import_video_info(path='../bout_data/HomeTeam_Scrimmage_Nov_25_2014.json')
-    #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
-    import_video_info(path='../bout_data/2014.12.09_Rat_HomeTeam_Scrimmage.json')
-    import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_DLF_TR.json')
-    import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_GD_SW.json')
-    import_video_info(path='../bout_data/2015.01.27_Rat_HomeTeam_Scrimmage_DLF_SW.json')
+#     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
+#     #import_video_info(path='../bout_data/HomeTeam_Scrimmage_Nov_25_2014.json')
+#     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
+#     import_video_info(path='../bout_data/2014.12.09_Rat_HomeTeam_Scrimmage.json')
+#     import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_DLF_TR.json')
+#     import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_GD_SW.json')
+#     import_video_info(path='../bout_data/2015.01.27_Rat_HomeTeam_Scrimmage_DLF_SW.json')
+    import_video_info(path='../bout_data/RoTvsSVRG.json')
