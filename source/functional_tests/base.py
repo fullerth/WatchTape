@@ -27,13 +27,19 @@ class FunctionalTest(LiveServerTestCase):
     def tearDownClass(cls):
         if cls.server_url == cls.live_server_url:
             super().tearDownClass()
+            
+    def disable_implicit_wait(self):
+        self.browser.implicitly_wait(0)
+        
+    def enable_implicit_wait(self):
+        self.browser.implicitly_wait(10)
 
     def setUp(self):
         self.display = Display()
         self.display.start()
 
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(10)
+        self.enable_implicit_wait()
         
         self.home_url = ''.join([self.server_url, reverse("home")])
 
@@ -48,7 +54,7 @@ class FunctionalTest(LiveServerTestCase):
                 self.dump_html()
         self.browser.quit()
         self.display.stop()
-
+        
     def take_screenshot(self):
         filename = self._get_filename() + '.png'
         print('screenshotting to', filename)

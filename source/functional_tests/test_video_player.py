@@ -50,25 +50,33 @@ class VideoPlayerTest(FunctionalTest):
         #Foo sees the video_player page
         self.assertIn("Video of A Bout", self.browser.title)
 
-    def test_jam_list_appears(self):
+    def test_jam_list_appears(self):        
         '''Test to make sure that the jam list appears in the correct tab'''
         self.VideoPlayerPageFactory(self.server_url, self.browser)
 
         #There is a tab with jams displayed below the video
         self.browser.find_element_by_id('id_jam_time_tab')
         jam_time_data = self.browser.find_element_by_id('id_jam_list_tab')
-
+        
         #Since there are no jams associated with this video the current data tab
         #does not appear
+        self.disable_implicit_wait()
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_id('id_current_jam_tab')
+        self.enable_implicit_wait()
 
+        #Click the Jam Time Tab
+        self.browser.find_element_by_id('id_jam_time_tab_a').click()
+        
         #A button is now visible in the jam tab to add jam times
         timing_button = self.browser.find_element_by_id('id_jam_time_button')
 
         #The user clicks the button
         timing_button.click()
-
+        
+        #The jam appears in the jam tab under the jam list
+        self.fail('finish the test!')
+        
         #The jam is added to the database with the current video time
         #This data is then displayed in the list of jams in the jam data tab
         jam_times = jam_time_data.find_elements_by_tag_name('li')
@@ -76,9 +84,6 @@ class VideoPlayerTest(FunctionalTest):
         #There should be one and only one jam in the list
         self.assertEqual(len(jam_times), 1, 
                          "There should be one and only one jam time in the list")
-
-        #The jam appears in the jam tab under the jam list
-        self.fail('finish the test!')
 
     def test_video_player_renders_with_no_video(self):
         '''Test to make sure that lack of a video URL does not cause rendering problems'''
@@ -102,10 +107,17 @@ class VideoPlayerTest(FunctionalTest):
         self.VideoPlayerPageFactory(self.server_url, self.browser, 
                                     create_jam_times=True)
         
-        tabs = self.browser.find_elements_by_xpath(
-            "//div[@id='id_navigation_tabs']/ul/li")
+        jam_tab = self.browser.find_element_by_xpath(
+            "//div[@id='id_navigation_tabs']/ul/li[@id='id_jam_time_tab']/a")
+                
+        jam_start_button = self.browser.find_element_by_xpath(
+            "//div[@id='id_jam_list_tab']/button")
+        self.assertFalse(jam_start_button.is_displayed(), 
+                         "Jam Start Button displayed on page load")
         
-        for tab in tabs:
-            tab.click()
-            self.fail('figure out how to test tab contents are shown')
+        jam_tab.click()            
+                
+        self.assertTrue(jam_start_button.is_displayed(), 
+                         "Jam Start Button not displayed after tab click")
+        
         
