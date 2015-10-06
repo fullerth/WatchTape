@@ -50,7 +50,7 @@ class VideoPlayerTest(FunctionalTest):
         self.assertIn("Video of A Bout", self.browser.title)
 
     def test_no_jam_list_for_no_data(self):        
-        '''Test to make sure that the jam list appears in the correct tab'''
+        '''Test to make sure that the jam list does not appear with no jams'''
         self.VideoPlayerPageFactory(self.server_url, self.browser)
         
         # Since there are no jams associated with this video the current data tab
@@ -62,7 +62,7 @@ class VideoPlayerTest(FunctionalTest):
 
     @unittest.skip('Add jam button function not currently being worked on')
     def test_add_jam_button_click(self):
-        '''Test to make sure that the jam list appears in the correct tab'''
+        '''Test to make sure that a jam is added when the add jam button is clicked'''
         self.VideoPlayerPageFactory(self.server_url, self.browser)
 
         # There is a tab with jams displayed below the video
@@ -124,4 +124,12 @@ class VideoPlayerTest(FunctionalTest):
         self.assertTrue(jam_start_button.is_displayed(),
                          "Jam Start Button not displayed after tab click")
         
+    def test_jam_list_tab_shows_jams(self):
+        '''Test that all correct jams are shown on the jam list tab'''
+        self.VideoPlayerPageFactory(self.server_url, self.browser,
+                                    create_jam_times=True)
         
+        jam_list_tab = self.browser.find_element_by_xpath(
+            "//div[@id='id_navigation_tabs']/ul/li[@id='id_jam_time_tab']/a") 
+        
+        jam_list_tab.click()
