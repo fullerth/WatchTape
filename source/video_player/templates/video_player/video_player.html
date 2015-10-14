@@ -44,14 +44,17 @@
                 <li id="id_current_jam_tab" class="active"><a href="#id_players_data_tab" role="tab" data-toggle="tab">
                     Current Jam</a></li>
             {% endif %}
+                    {% comment %}
                     <li id="id_jam_time_tab"><a id="id_jam_time_tab_a" href="#id_jam_list_tab" role="tab" data-toggle="tab">Jam Info
                 </a></li>
+                    {% endcomment %}
             </ul>
     
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane active" id="id_players_data_tab">
                     {% include "video_player/status_tab.html" %}
                 </div>
+                {% comment %}
                 <div class="tab-pane" id="id_jam_list_tab">
                     <button type="button" id="id_jam_time_button">Jam Start</button>
                     <div id="id_jam_list_div">
@@ -59,6 +62,7 @@
                         </ul>
                     </div>
                 </div>
+                {% endcomment %}
             </div>
         </div>
     </div>
