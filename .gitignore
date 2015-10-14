@@ -17,3 +17,4 @@ screendumps
 virtualenv/
 /static/
 *.log
+*nppdf32Log*
