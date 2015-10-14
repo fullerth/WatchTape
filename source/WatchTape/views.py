@@ -5,12 +5,7 @@ from django.template import RequestContext, loader
 
 from player_list.models import Video
 
-#/template
-def template(request):
-    context = {}
-    return render(request, 'template.html', context)
+from video_player.views import view_video_player
 
 def home(request):
-    videos = Video.objects.all()
-    context = {'videos': videos}
-    return render(request, 'base_site.html', context)
+    return (view_video_player(request, video_id=1))
