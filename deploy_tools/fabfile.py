@@ -5,6 +5,7 @@ import random
 REPO_URL = 'https://github.com/fullerth/WatchTape.git'
 env.user = 'ubuntu'
 env.key_filename = 'mrthrill-superlists.pem'
+env.host = 'fiveseconds.tv'
 
 def server():
     """This pushes to the EC2 instance defined below"""
