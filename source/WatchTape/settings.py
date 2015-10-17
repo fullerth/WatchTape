@@ -88,11 +88,11 @@ INSTALLED_APPS = (
     'rest_framework',
     
     #allauth
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
+#    'django.contrib.sites',
+#    'allauth',
+#    'allauth.account',
+#    'allauth.socialaccount',
+#    'allauth.socialaccount.providers.facebook',
 )
 
 MIDDLEWARE_CLASSES = (
