@@ -6,8 +6,10 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from player_list.models import Bout, Jam, Video, VideoToJam, Team, Player, \
-                               PlayerToJam, Roster
+                               PlayerToJam, Roster 
 
 logger = logging.getLogger(__name__)
 
@@ -36,28 +38,43 @@ def view_video_player(request, video_id):
         times.append(jam_video.start_seconds)
     js_jams = json.dumps(times)
 
-    try:
-        #There might be an issue here with videos containing more than one bout
-        bout = Bout.objects.filter(jam__videotojam__video__id__exact=video_id)[0]
-        home_roster = Roster.objects.get(home_roster=bout)
-        away_roster = Roster.objects.get(away_roster=bout)
-        home_players = home_roster.players
-        away_players = away_roster.players
-    except IndexError:
-        logger.warning("bout for video {0} could not be retrieved".format(
-                        video_id))
+    def _populate_context():
+        context = {'times' : None, 'jams' : None,
+               'jams_list' : None, 'video' : None}
+        try:
+            #This does not work with videos containing more than one bout
+            bout = Bout.objects.filter(
+                    jam__videotojam__video__id__exact=video_id)[0]
+        except IndexError:
+            logger.warning("bout for video {0} could not be retrieved".format(
+                            video_id))
+            return context
 
-    jams_list = []
+        try:
+            home_roster = Roster.objects.get(home_roster=bout)
+            away_roster = Roster.objects.get(away_roster=bout)
+            home_players = home_roster.players
+            away_players = away_roster.players
+        except ObjectDoesNotExist:
+            logger.warning(
+              "Roster for bout {0} in video {1} could not be retrieved".format(
+               bout.id, video_id))
+            return context
 
-    for jam in jams:
-        jam_dict = {'roster' : create_roster_dict(jam),
-                    'score' : create_score_dict(jam),
-                    }
-        jams_list.append(jam_dict)
+        jams_list = []
 
+        for jam in jams:
+            jam_dict = {'roster' : create_roster_dict(jam),
+                        'score' : create_score_dict(jam),
+                        }
+            jams_list.append(jam_dict)
 
-    context = {'times' : times, 'jams' : jams,
+        context = {'times' : times, 'jams' : jams,
                'jams_list' : jams_list, 'video' : video}
+        return context
+
+    context = _populate_context()
+
     return render(request, 'video_player/video_player.html', context)
 
 def create_roster_dict(jam):
