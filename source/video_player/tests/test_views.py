@@ -1,24 +1,28 @@
 from django.test import TestCase, RequestFactory
 
 from video_player.views import view_video_player
-from player_list.models import Video
+from player_list.models import Video, Bout, Jam, VideoToJam
 
 class VideoTaggingTests(TestCase):
-    def setUp(self):
-        self.requestFactory = RequestFactory()
-        
-    #def test_renders_page_without_any_video_to_jams(self):
-    #    '''
-    #    Create a request with data that contains no videotojam items
-    #    Verify that view_video_player renders the jam timing template
-    #    in the response
-    #  '''
-        #request = self.requestFactory.get('/video_player/video/{0}'.format(
-        #                                                           video.id))
-        
-        #response = view_video_player(request, video.id)
-        
-        #self.assertEqual(response.status_code, 200, 
-        #                 "Failed to load video player page")
-        
-        #return response
+	def setUp(self):
+		self.video = Video.objects.create()
+		self.video.save()
+	
+	def _add_a_bout(self, video):
+		bout = Bout.objects.create()
+		bout.save()
+		jam = Jam.objects.create(bout=bout)
+		jam.save()
+		video_to_jam = VideoToJam.objects.create(video=self.video,
+												 jam=jam)
+		video_to_jam.start_time='0h0m2s'
+		video_to_jam.save()
+
+	def test_video_player_selects_single_jams(self):
+		self._add_a_bout(self.video)
+		vid = Video.objects.create()
+		vid.save()
+		response = self.client.get('/')
+		print(response.context['times'])
+		self.assertEqual(response.status_code, 200)
+		self.fail()
