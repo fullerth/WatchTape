@@ -6,7 +6,10 @@ from django.core.urlresolvers import reverse
 from WatchTape.views import home
 from player_list.models import Video
 
+from unittest import skip
+
 class VideoListTest(VideoTestCase):
+    @skip('Home Page No Longer Displays Video List. Move this test to a video list page')
     def test_home_page_context_contains_correct_videos(self):
         video_1 = self._create_video()
         video_2 = self._create_video()
