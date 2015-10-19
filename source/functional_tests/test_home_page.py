@@ -1,5 +1,7 @@
 from .base import FunctionalTest
 
+from unittest import skip
+
 from player_list.models import Video
 
 class HomePageVideoList(FunctionalTest):
@@ -14,6 +16,7 @@ class HomePageVideoList(FunctionalTest):
         
         return video_dict
     
+    @skip('Home page no longer contains list of videos, move this test to whatever page ends up listing out the available videos')
     def test_list_of_videos_exists(self):    
         video_dict = self._create_video()
         video = video_dict['instance']
@@ -29,6 +32,7 @@ class HomePageVideoList(FunctionalTest):
         self.assertEqual(video_href, video_url)
         self.assertEqual(video_text, str(video))
         
+    @skip('Home page no longer contains list of videos, move this test to whatever page ends up listing out the available videos')
     def test_two_videos_appear_in_list(self):
         expected_videos = [self._create_video(), self._create_video()]
         

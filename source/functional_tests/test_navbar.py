@@ -1,5 +1,7 @@
 from .base import FunctionalTest
 
+from unittest import skip
+
 from django.contrib.auth.models import User
 
 from django.test.utils import override_settings
@@ -77,7 +79,7 @@ class NavbarTest(FunctionalTest):
         return{'button_group' : button_group, 'li':logout_button_li,
                'a':logout_button_anchor}
 
-    @override_settings(DEBUG=True)
+    @skip('Login/out not currently on main site')
     def test_logged_out_navbar_has_correct_login_on_right(self):
         #Load the homepage
         self.browser.get(self.home_url)
@@ -98,6 +100,7 @@ class NavbarTest(FunctionalTest):
                          msg="Incorrect login href"
                         )
         
+    @skip('Login/out not currently on main site')
     def test_logged_in_navbar_has_correct_logout_on_right(self):
         #Load the homepage
         self.browser.get(self.home_url)
@@ -118,6 +121,7 @@ class NavbarTest(FunctionalTest):
                          logout['a'].get_attribute("href"), 
                          msg="Incorrect logout href")
         
+    @skip('Login/out not currently on main site')
     def test_logged_out_user_sees_only_login(self):
         #Load the homepage
         self.browser.get(self.home_url)
@@ -128,6 +132,7 @@ class NavbarTest(FunctionalTest):
         with self.assertRaises(NoSuchElementException):
             self._get_logout_button()
         
+    @skip('Login/out not currently on main site')
     def test_logged_in_user_sees_only_logout(self):
         #user logs in
         self._login_super_user()

@@ -60,7 +60,7 @@ class VideoPlayerTest(FunctionalTest):
             self.browser.find_element_by_id('id_current_jam_tab')
         self.enable_implicit_wait()
 
-    @unittest.skip('Add jam button function not currently being worked on')
+    @unittest.skip('Add jam button function not currently implemented')
     def test_add_jam_button_click(self):
         '''Test to make sure that a jam is added when the add jam button is clicked'''
         self.VideoPlayerPageFactory(self.server_url, self.browser)
@@ -105,7 +105,7 @@ class VideoPlayerTest(FunctionalTest):
         self.assertNotIn("localhost", vimeo_player.get_attribute("src"),
             "video.player_url was not specified and the template did not handle \
  it gracefully")
-       
+    @unittest.skip('jam time tab not currently displayed') 
     def test_tabs_display_content(self):
         '''Test to make sure that the navigation tabs are functional'''
         self.VideoPlayerPageFactory(self.server_url, self.browser,
@@ -123,7 +123,7 @@ class VideoPlayerTest(FunctionalTest):
                 
         self.assertTrue(jam_start_button.is_displayed(),
                          "Jam Start Button not displayed after tab click")
-        
+    @unittest.skip('jam time tab not currently displayed')    
     def test_jam_list_tab_shows_jams(self):
         '''Test that all correct jams are shown on the jam list tab'''
         self.VideoPlayerPageFactory(self.server_url, self.browser,
