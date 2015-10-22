@@ -64,10 +64,17 @@ def view_video_player(request, video_id):
         jams_list = []
 
         for jam in jams:
-            jam_dict = {'roster' : create_roster_dict(jam),
-                        'score' : create_score_dict(jam),
-                        }
+            try:
+                jam_dict = {'roster' : create_roster_dict(jam),
+                            'score' : create_score_dict(jam),
+                            }
+            except IndexError:
+                logger.warning(
+                    "Could not create roster or score dict for jam {0}".format(
+                            jam))
+                continue
             jams_list.append(jam_dict)
+
 
         context = {'times' : times, 'jams' : jams,
                'jams_list' : jams_list, 'video' : video}
