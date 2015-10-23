@@ -49,8 +49,7 @@ class VideoTaggingTests(TestCase):
 		player1 = self._add_player()
 
 		response = self.client.get('/')
-
-		self.assertEqual(response.context['jams'], bout_info['jam'])
+		self.assertEqual(response.context['jams'][0], bout_info['jam'])
 
 	def test_video_player_context_contains_jams_in_two_bouts(self):
 		bout_info = self._add_bout(self.video)
