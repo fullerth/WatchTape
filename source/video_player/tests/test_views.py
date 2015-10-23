@@ -2,13 +2,18 @@ from django.test import TestCase, RequestFactory
 from django.core.urlresolvers import reverse
 
 from video_player.views import view_video_player
-from player_list.models import Video, Bout, Jam, VideoToJam, Roster, Team
+from player_list.models import Video, Bout, Jam, VideoToJam, Roster, Team, Player, PlayerToRoster
 
 class VideoTaggingTests(TestCase):
 	def setUp(self):
 		self.video = Video.objects.create()
 		self.video.save()
 	
+	def _add_player(self):
+		player = Player.objects.create()
+		player.save()
+		return player
+
 	def _add_bout(self, video):
 		home_team = Team.objects.create()
 		away_team = Team.objects.create()
@@ -25,6 +30,8 @@ class VideoTaggingTests(TestCase):
 		video_to_jam.start_time='0h0m2s'
 		video_to_jam.save()
 
+		return{'home_roster':home_roster, 'away_roster':away_roster, 'jam':jam}
+
 
 	def test_video_player_renders_with_malformed_database(self):
 		request = RequestFactory()
@@ -36,5 +43,14 @@ class VideoTaggingTests(TestCase):
 		self._add_bout(self.video)
 		response = self.client.get('/')
 		self.assertEqual(response.status_code, 200)
-		self.assertNotEqual(response.context['jams'], None)
 
+	def test_video_player_context_contains_jams_in_one_bout(self):
+		bout_info = self._add_bout(self.video)
+		player1 = self._add_player()
+
+		response = self.client.get('/')
+
+		self.assertEqual(response.context['jams'], bout_info['jam'])
+
+	def test_video_player_context_contains_jams_in_two_bouts(self):
+		bout_info = self._add_bout(self.video)
