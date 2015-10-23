@@ -51,8 +51,9 @@ class Bout(models.Model):
     url = property(_get_url)
 
     def __str__(self):
-        return("{0} vs {1} on {2}".format(self.home_roster.team,
-                                          self.away_roster.team, self.date))
+        home_team = self.home_roster.team if self.home_roster else 'None'
+        away_team = self.away_roster.team if self.away_roster else 'None'
+        return("{0} vs {1} on {2}".format(home_team, away_team, self.date))
 
 class Jam(models.Model):
     number = models.IntegerField(default=0)
