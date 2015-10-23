@@ -31,7 +31,7 @@ class VideoTaggingTests(TestCase):
 		video_to_jam.save()
 
 		return{'home_roster':home_roster, 'away_roster':away_roster, 'jam':jam}
-
+	
 
 	def test_video_player_renders_with_malformed_database(self):
 		request = RequestFactory()
@@ -46,10 +46,15 @@ class VideoTaggingTests(TestCase):
 
 	def test_video_player_context_contains_jams_in_one_bout(self):
 		bout_info = self._add_bout(self.video)
-		player1 = self._add_player()
-
 		response = self.client.get('/')
-		self.assertEqual(response.context['jams'][0], bout_info['jam'])
+		jam_list = map(repr, [bout_info['jam']])
+		self.assertQuerysetEqual(response.context['jams'], jam_list) 
 
 	def test_video_player_context_contains_jams_in_two_bouts(self):
-		bout_info = self._add_bout(self.video)
+		bout_1_info = self._add_bout(self.video)
+		bout_2_info = self._add_bout(self.video)
+		response = self.client.get('/')
+		jam_list = map(repr, [bout_1_info['jam'], bout_2_info['jam']])
+		self.assertQuerysetEqual(response.context['jams'], jam_list,
+			ordered=False)
+		
