@@ -78,8 +78,8 @@ class Jam(models.Model):
     url = property(_get_url)
 
     def __str__(self):
-        return("{2}, Half #{1}, Jam #{0}".format(self.number, self.half,
-                                                      self.bout))
+        return("id: {3}, {2}, Half #{1}, Jam #{0}".format(self.number, self.half,
+                                                      self.bout, self.id))
 
 class League(models.Model):
     name = models.CharField(max_length=200)
