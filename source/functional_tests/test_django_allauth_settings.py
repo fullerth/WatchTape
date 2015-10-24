@@ -33,4 +33,4 @@ class DjangoAllauthSetup(unittest.TestCase):
         self.assertIn('/', LOGIN_REDIRECT_URL)
         
     def test_djangoallauth_settings_SITE_ID(self):
-        self.assertEqual(2, SITE_ID)        
+        self.assertEqual(1, SITE_ID)        
