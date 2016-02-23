@@ -6,6 +6,7 @@ import argparse
 import os
 import datetime
 import re
+import abc
 
 #for wftda stats book importer
 import xlrd
@@ -33,7 +34,37 @@ LOGGING = {
 logging.config.dictConfig(LOGGING)
 log = logging.getLogger(__name__)
 
-class wftda_importer_Mar_2014:
+class wftda_importer:
+    __metaclass__ = abc.ABCMeta
+
+    def __init__(self, path):
+        #location of workbook
+        self.stats = xlrd.open_workbook(path)
+
+        self.import_bout()
+        self.import_roster()
+        self.import_lineups()
+        self.import_scores()
+
+    @abc.abstractmethod
+    def import_bout(self):
+        pass
+
+    @abc.abstractmethod
+    def import_roster(self):
+        pass
+
+    @abc.abstractmethod
+    def import_lineups(self):
+        pass
+
+    @abc.abstractmethod
+    def import_scores(self):
+        pass
+
+   
+
+class wftda_importer_Mar_2014(wftda_importer):
     #Note all offsets are zero-indexed, subtract 1 from excel row/column values
 
      #bout information
@@ -532,15 +563,15 @@ if __name__ == '__main__':
                                    League, Team, Roster
     #populate()
     #import_wftda_stats(path =  '../bout_data/2014.04.12 DLF vs TR.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
+    import_wftda_stats_M2014(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
 #     #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
 #     #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
 #     import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.06.07 RoT vs SVRG.xlsx')
-    import_wftda_stats(path = '../bout_data/Evil v Hulas Jan 30.xlsx')
+    import_wftda_stats_M2014(path = '../bout_data/2014.06.07 RoT vs SVRG.xlsx')
+    import_wftda_stats_D2014(path = '../bout_data/Evil v Hulas Jan 30.xlsx')
  
     import_video_info(path='../bout_data/RatVsJet2014.json')
 #     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
