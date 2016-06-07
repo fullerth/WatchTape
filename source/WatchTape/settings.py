@@ -112,20 +112,45 @@ WSGI_APPLICATION = 'WatchTape.wsgi.application'
 TEMPLATE_CONTEXT_PROCESSORS = (
     # Required by `allauth` template tags
     'django.core.context_processors.request',
-    'django.contrib.auth.context_processors.auth',
     
     # `allauth` specific context processors
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
     )
 
-AUTHENTICATION_BACKENDS = (
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [
+                os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape'),
+                os.path.join(BASE_DIR, 'video_player/templates')
+                ],
+            'OPTIONS': {
+                'context_processors': [
+                    # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                    # list if you haven't customized them:
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.i18n',
+                    'django.template.context_processors.media',
+                    'django.template.context_processors.static',
+                    'django.template.context_processors.tz',
+                    'django.contrib.messages.context_processors.messages',
+                    ],
+                },
+            },
+        ]
 
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+
+
+
+AUTHENTICATION_BACKENDS = (
+        # Needed to login by username in Django admin, regardless of `allauth`
+        'django.contrib.auth.backends.ModelBackend',
+
+        # `allauth` specific authentication methods, such as login by e-mail
+        'allauth.account.auth_backends.AuthenticationBackend',
+        )
 SITE_ID = 1 
 LOGIN_REDIRECT_URL = '/'
 
@@ -134,11 +159,11 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
-    }
-}
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
+            }
+        }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -162,12 +187,12 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 
 STATICFILES_DIRS = (
-    os.path.join(
-                 os.path.dirname(BASE_DIR),
-                 'source/WatchTape/static',
-    ),
-    os.path.join(
-                 os.path.dirname(BASE_DIR),
-                 'source/video_player/static',
-    ),
-)
+        os.path.join(
+            os.path.dirname(BASE_DIR),
+            'source/WatchTape/static',
+            ),
+        os.path.join(
+            os.path.dirname(BASE_DIR),
+            'source/video_player/static',
+            ),
+        )
