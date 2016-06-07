@@ -14,7 +14,9 @@ screendumps
 /scratchpad/
 *.pem
 *.ppk
-virtualenv/
 /static/
 *.log
 *nppdf32Log*
+
+## Project
+wt-venv/
