@@ -19,4 +19,10 @@ screendumps
 *nppdf32Log*
 
 ## Project
+tags
 wt-venv/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
