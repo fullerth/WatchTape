@@ -18,18 +18,9 @@ def view_controller(request):
 
 #/video_player/video/<video_id>
 def view_video_player(request, video_id):
-    video = get_object_or_404(Video.objects.select_related(
-                                                'VideoToJam'
-                                          ).select_related(
-                                                'Jams'
-                                          ), pk=video_id)
+    video = get_object_or_404(Video, pk=video_id)
 
-    jams = Jam.objects.select_related(
-                                      'PlayerToJam'
-                                      ).select_related(
-                                      'Player'
-                                      ).filter(
-                                      videos__id__exact=video_id)
+    jams = Jam.objects.filter(videos__id__exact=video_id)
 
     jam_videos = VideoToJam.objects.filter(video__id__exact=video_id)
 
