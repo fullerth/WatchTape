@@ -84,7 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'player_list',
     'video_player',
-    'debug_toolbar',
+    #'debug_toolbar',
     'rest_framework',
     
     #allauth
