@@ -31,46 +31,46 @@ ALLOWED_HOSTS = []
 INTERNAL_IPS = ('10.0.2.2')
 
 #Setup Logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-            'datefmt' : "%d/%b/%Y %H:%M:%S"
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'mysite.log',
-            'formatter': 'verbose'
-        },
-        'applogfile': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'APPNAME.log'),
-            'maxBytes': 1024*1024*15, # 15MB
-            'backupCount': 10,
-            'formatter': 'verbose'
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers':['file'],
-            'propagate': True,
-            'level':'DEBUG',
-        },
-        'video_player': {
-            'handlers': ['applogfile'],
-            'level': 'DEBUG',
-        },
-    }
-}
+#LOGGING = {
+#    'version': 1,
+#    'disable_existing_loggers': False,
+#    'formatters': {
+#        'verbose': {
+#            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+#            'datefmt' : "%d/%b/%Y %H:%M:%S"
+#        },
+#        'simple': {
+#            'format': '%(levelname)s %(message)s'
+#        },
+#    },
+#    'handlers': {
+#        'file': {
+#            'level': 'DEBUG',
+#            'class': 'logging.FileHandler',
+#            'filename': 'mysite.log',
+#            'formatter': 'verbose'
+#        },
+#        'applogfile': {
+#            'level':'DEBUG',
+#            'class':'logging.handlers.RotatingFileHandler',
+#            'filename': os.path.join(BASE_DIR, 'APPNAME.log'),
+#            'maxBytes': 1024*1024*15, # 15MB
+#            'backupCount': 10,
+#            'formatter': 'verbose'
+#        },
+#    },
+#    'loggers': {
+#        'django': {
+#            'handlers':['file'],
+#            'propagate': True,
+#            'level':'DEBUG',
+#        },
+#        'video_player': {
+#            'handlers': ['applogfile'],
+#            'level': 'DEBUG',
+#        },
+#    }
+#}
 
 # Application definition
 
