@@ -125,6 +125,7 @@ TEMPLATES = [
                 os.path.join(BASE_DIR, 'WatchTape/templates/WatchTape'),
                 os.path.join(BASE_DIR, 'video_player/templates')
                 ],
+            'APP_DIRS': True
             'OPTIONS': {
                 'context_processors': [
                     # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
