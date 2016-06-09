@@ -1,4 +1,4 @@
-Django==1.8
+Django==1.8.13
 EasyProcess==0.2.2
 PyVirtualDisplay==0.2
 PyYAML==3.11
