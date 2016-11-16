@@ -1,0 +1,8 @@
+session_name: wt
+windows:
+    - window_name: source
+      panes:
+        - source wt_venv/bin/activate; vim -o TODO.md README.md
+    - window_name: test
+      panes:
+        - source wt_venv/bin/activate
