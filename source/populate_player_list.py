@@ -6,6 +6,7 @@ import argparse
 import os
 import datetime
 import re
+import abc
 
 #for wftda stats book importer
 import xlrd
@@ -33,56 +34,8 @@ LOGGING = {
 logging.config.dictConfig(LOGGING)
 log = logging.getLogger(__name__)
 
-class wftda_importer_Mar_2014:
-    #Note all offsets are zero-indexed, subtract 1 from excel row/column values
-
-     #bout information
-    bout = {
-            'sheet_name': 'IGRF',
-            'venue_row'       : 2,      'venue_column'       : 1,
-            'date_row'        : 4,      'date_column'        : 1,
-            'city_row'        : 2,      'city_column'        : 7,
-            'state_row'       : 2,      'state_column'       : 9,
-            'home_league_row' : 7,      'home_league_column' : 1,
-            'away_league_row' : 7,      'away_league_column' : 7,
-            'home_team_row'   : 8,      'home_team_column'   : 1,
-            'away_team_row'   : 8,      'away_team_column'   : 7,
-            }
-
-    #roster information
-    roster = {'sheet_name':'IGRF',
-              'row_start'             : 10,     'row_end'             : 30,
-              'home_number_column'    : 1,      'home_name_column'    : 2,
-              'away_number_column'    : 7,      'away_name_column'    : 8,
-
-              'home_league_row'       : 7,      'home_league_column' : 1,
-              'away_league_row'       : 7,      'away_league_column' : 7,
-              'home_team_row'         : 8,      'home_team_column'   : 1,
-              'away_team_row'         : 8,      'away_team_column'   : 7,
-            }
-
-    #lineups information
-    lineups = {'sheet_name':'Lineups',
-               'first_half_row_start'  : 3, 'first_half_row_end'    : 40,
-               'second_half_row_start' : 49,'second_half_row_end'   : 86,
-               'jam_number_column'     : 0,
-               'home_jammer_column'    : 2, 'home_pivot_column'     : 6,
-               'home_blockerA_column'  : 10, 'home_blockerB_column' : 14,
-               'home_blockerC_column'  : 18,
-               'away_jammer_column'    : 28, 'away_pivot_column'    : 32,
-               'away_blockerA_column'  : 36, 'away_blockerB_column' : 40,
-               'away_blockerC_column'  : 44}
-
-    #Score sheet info
-    scores = {'sheet_name':'Score',
-              'first_half_row_start'     : 3,  'first_half_row_end'       : 40,
-              'second_half_row_start'    : 50, 'second_half_row_end'      : 87,
-              'jam_number_column'        : 0,  'away_jam_number_column'   : 19,
-              'home_team_jam_total_col'  : 16, 'away_team_jam_total_col'  : 35,
-              'home_team_bout_total_col' : 17, 'away_team_bout_total_col' : 36,
-              }
-
-
+class wftda_importer:
+    __metaclass__ = abc.ABCMeta
 
     #Keep track of players we've added already to allow for easy retrieval
     stored_roster_home = dict()
@@ -91,7 +44,6 @@ class wftda_importer_Mar_2014:
     digits_re = re.compile(r'[0-9]*')
 
     def __init__(self, path):
-
         #location of workbook
         self.stats = xlrd.open_workbook(path)
 
@@ -131,6 +83,7 @@ class wftda_importer_Mar_2014:
         self.bout_id = self.add_bout(date=bout_datetime, location=venue_name,
                                      home_team_id = self.home_team_id.id,
                                      away_team_id = self.away_team_id.id)
+
 
     def import_roster(self):
         roster_sheet = self.stats.sheet_by_name(self.roster['sheet_name'])
@@ -449,9 +402,107 @@ class wftda_importer_Mar_2014:
         j.away_star_pass = away_star_pass
         j.save()
 
+  
+class wftda_importer_Mar_2014(wftda_importer):
+    #Note all offsets are zero-indexed, subtract 1 from excel row/column values
+
+     #bout information
+    bout = {
+            'sheet_name': 'IGRF',
+            'venue_row'       : 2,      'venue_column'       : 1,
+            'city_row'        : 2,      'city_column'        : 7,
+            'state_row'       : 2,      'state_column'       : 9,
+            'date_row'        : 4,      'date_column'        : 1,
+            'home_league_row' : 7,      'home_league_column' : 1,
+            'away_league_row' : 7,      'away_league_column' : 7,
+            'home_team_row'   : 8,      'home_team_column'   : 1,
+            'away_team_row'   : 8,      'away_team_column'   : 7,
+            }
+
+    #roster information
+    roster = {'sheet_name':'IGRF',
+              'row_start'             : 10,     'row_end'             : 30,
+              'home_number_column'    : 1,      'home_name_column'    : 2,
+              'away_number_column'    : 7,      'away_name_column'    : 8,
+
+              'home_league_row'       : 7,      'home_league_column' : 1,
+              'away_league_row'       : 7,      'away_league_column' : 7,
+              'home_team_row'         : 8,      'home_team_column'   : 1,
+              'away_team_row'         : 8,      'away_team_column'   : 7,
+            }
+
+    #lineups information
+    lineups = {'sheet_name':'Lineups',
+               'first_half_row_start'  : 3, 'first_half_row_end'    : 40,
+               'second_half_row_start' : 49,'second_half_row_end'   : 86,
+               'jam_number_column'     : 0,
+               'home_jammer_column'    : 2, 'home_pivot_column'     : 6,
+               'home_blockerA_column'  : 10, 'home_blockerB_column' : 14,
+               'home_blockerC_column'  : 18,
+               'away_jammer_column'    : 28, 'away_pivot_column'    : 32,
+               'away_blockerA_column'  : 36, 'away_blockerB_column' : 40,
+               'away_blockerC_column'  : 44}
+
+    #Score sheet info
+    scores = {'sheet_name':'Score',
+              'first_half_row_start'     : 3,  'first_half_row_end'       : 40,
+              'second_half_row_start'    : 50, 'second_half_row_end'      : 87,
+              'jam_number_column'        : 0,  'away_jam_number_column'   : 19,
+              'home_team_jam_total_col'  : 16, 'away_team_jam_total_col'  : 35,
+              'home_team_bout_total_col' : 17, 'away_team_bout_total_col' : 36,
+              }
+
+class wftda_importer_Dec_2014(wftda_importer):
+    #Note all offsets are zero-indexed, subtract 1 from excel row/column values
+
+    #bout information
+    bout = {
+            'sheet_name': 'IGRF',
+            'venue_row'       : 2,      'venue_column'       : 1,
+            'city_row'        : 2,      'city_column'        : 7,
+            'state_row'       : 2,      'state_column'       : 9,
+            'date_row'        : 6,      'date_column'        : 1,
+            'home_league_row' : 9,      'home_league_column' : 1,
+            'away_league_row' : 9,      'away_league_column' : 7,
+            'home_team_row'   : 10,     'home_team_column'   : 1,
+            'away_team_row'   : 10,     'away_team_column'   : 7,
+            }
+
+    #roster information
+    roster = {'sheet_name':'IGRF',
+              'row_start'             : 13,     'row_end'             : 33,
+              'home_number_column'    : 1,      'home_name_column'    : 2,
+              'away_number_column'    : 7,      'away_name_column'    : 8,
+
+              'home_league_row'       : 9,      'home_league_column' : 1,
+              'away_league_row'       : 9,      'away_league_column' : 7,
+              'home_team_row'         : 10,     'home_team_column'   : 1,
+              'away_team_row'         : 10,     'away_team_column'   : 7,
+            }
+
+    #lineups information
+    lineups = {'sheet_name':'Lineups',
+               'first_half_row_start'  : 3, 'first_half_row_end'    : 40,
+               'second_half_row_start' : 45,'second_half_row_end'   : 82,
+               'jam_number_column'     : 0,
+               'home_jammer_column'    : 2, 'home_pivot_column'     : 6,
+               'home_blockerA_column'  : 10, 'home_blockerB_column' : 14,
+               'home_blockerC_column'  : 18,
+               'away_jammer_column'    : 28, 'away_pivot_column'    : 32,
+               'away_blockerA_column'  : 36, 'away_blockerB_column' : 40,
+               'away_blockerC_column'  : 44}
+
+    #Score sheet info
+    scores = {'sheet_name':'Score',
+              'first_half_row_start'     : 3,  'first_half_row_end'       : 40,
+              'second_half_row_start'    : 45, 'second_half_row_end'      : 82,
+              'jam_number_column'        : 0,  'away_jam_number_column'   : 19,
+              'home_team_jam_total_col'  : 16, 'away_team_jam_total_col'  : 35,
+              'home_team_bout_total_col' : 17, 'away_team_bout_total_col' : 36,
+              }
+
 
 class video_importer:
-
     def __init__(self):
         pass
 
@@ -505,17 +556,21 @@ class video_importer:
             log.warning("{0} does not exist".format(e))
 
 def jam_url_builder(base_url, start_time, stop_time=None, site='Vimeo'):
-        if(site=='Vimeo'):
-            return base_url+'#t='+start_time
+    if(site=='Vimeo'):
+        return base_url+'#t='+start_time
 
 
 def import_video_info(path):
     video_info = video_importer()
     video_info.from_json_file(path=path)
 
-def import_wftda_stats(path):
+def import_wftda_stats_M2014(path):
     #Create importer
     importer = wftda_importer_Mar_2014(path=path)
+
+def import_wftda_stats_D2014(path):
+    #Create importer
+    importer = wftda_importer_Dec_2014(path=path)
 
 
 if __name__ == '__main__':
@@ -532,15 +587,16 @@ if __name__ == '__main__':
                                    League, Team, Roster
     #populate()
     #import_wftda_stats(path =  '../bout_data/2014.04.12 DLF vs TR.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
+    import_wftda_stats_M2014(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
 #     #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
 #     #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.16 DLF vs TR.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.16 GD vs SW.xlsx')
 #     import_wftda_stats(path=  '../bout_data/2015.01.27 DLF vs SW.xlsx')
-    import_wftda_stats(path = '../bout_data/2014.06.07 RoT vs SVRG.xlsx')
-    import_wftda_stats(path = '../bout_data/Evil v Hulas Jan 30.xlsx')
+#    import_wftda_stats_M2014(path = '../bout_data/2014.06.07 RoT vs SVRG.xlsx')
+    import_wftda_stats_D2014(path = 
+            '../bout_data/2016-11-12CARNEVILVSCAMAROHAREM.xlsx')
  
     import_video_info(path='../bout_data/RatVsJet2014.json')
 #     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
@@ -550,5 +606,6 @@ if __name__ == '__main__':
 #     import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_DLF_TR.json')
 #     import_video_info(path='../bout_data/2014.12.16_Rat_HomeTeam_Scrimmage_GD_SW.json')
 #     import_video_info(path='../bout_data/2015.01.27_Rat_HomeTeam_Scrimmage_DLF_SW.json')
-    import_video_info(path='../bout_data/RoTvsSVRG.json')
-    import_video_info(path='../bout_data/2016.1.30_CarnEvilVsHulaHoneys.json')
+#    import_video_info(path='../bout_data/RoTvsSVRG.json')
+#    import_video_info(path='../bout_data/2016.1.30_CarnEvilVsHulaHoneys.json')
+
