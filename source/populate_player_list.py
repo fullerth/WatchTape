@@ -522,7 +522,6 @@ class video_importer:
                                                   timecode_url=timecode_url)
 
     def add_video_to_jam(self, jam_data, half, data, debug=False):
-
         bout = Bout.objects.get(pk=data['bout']['id'])
         jam = Jam.objects.filter(
                             number=jam_data['number']
@@ -587,7 +586,7 @@ if __name__ == '__main__':
                                    League, Team, Roster
     #populate()
     #import_wftda_stats(path =  '../bout_data/2014.04.12 DLF vs TR.xlsx')
-    import_wftda_stats_M2014(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
+#    import_wftda_stats_M2014(path = '../bout_data/2014.06.07 AST vs JCRG.xlsx')
 #     #import_wftda_stats(path = '../bout_data/2014.08.05 RoT vs TheWorld.xlsx')
 #     #import_wftda_stats(path = '../bout_data/2014.11.25 SW vs TR.xlsx')
 #     import_wftda_stats(path = '../bout_data/2014.12.09 DLF vs SW.xlsx')
@@ -598,7 +597,7 @@ if __name__ == '__main__':
     import_wftda_stats_D2014(path = 
             '../bout_data/2016-11-12CARNEVILVSCAMAROHAREM.xlsx')
  
-    import_video_info(path='../bout_data/RatVsJet2014.json')
+#    import_video_info(path='../bout_data/RatVsJet2014.json')
 #     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
 #     #import_video_info(path='../bout_data/HomeTeam_Scrimmage_Nov_25_2014.json')
 #     #import_video_info(path='../bout_data/RoTvThe World_8_5_14.json')
@@ -608,4 +607,5 @@ if __name__ == '__main__':
 #     import_video_info(path='../bout_data/2015.01.27_Rat_HomeTeam_Scrimmage_DLF_SW.json')
 #    import_video_info(path='../bout_data/RoTvsSVRG.json')
 #    import_video_info(path='../bout_data/2016.1.30_CarnEvilVsHulaHoneys.json')
+    import_video_info(path='../bout_data/2016.11.12.JetS10B1.HaremVsCarnies.json')
 

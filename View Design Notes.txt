@@ -1,8 +1,0 @@
-List of views:
-1) Bouts by player
-2) Players by bout
-3) Videos by bout
-4) Videos by player
-5) Videos by player & bout
-
-1 & 2, and 3-5 should be able to use the same template

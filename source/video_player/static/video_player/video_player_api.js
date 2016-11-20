@@ -66,7 +66,7 @@ $(document).ready(function() {
         }
 
         function set_starting_time() {
-            window.froogaloop.api('seekTo',timing_data[0]-10)
+            window.froogaloop.api('seekTo',timing_data[0]-4.5)
         }
 
         onPlay();

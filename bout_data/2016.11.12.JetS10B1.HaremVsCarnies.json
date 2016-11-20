@@ -1,0 +1,72 @@
+{
+    "bout": {
+        "id": 1 
+    },
+    "video": {
+        "url": "https://vimeo.com/191364473",
+        "player_url" : "//player.vimeo.com/video/191364473",
+        "source" : "Jet City",
+        "site": "Vimeo"
+    },
+    "Half 1" : 
+    [
+        { "number" : 1, "Start" : "0h07m43s", "End" : "0h08m32s" },	
+        { "number" : 2, "Start" : "0h09m02s", "End" : "0h11m02s" },	
+        { "number" : 3, "Start" : "0h11m32s", "End" : "0h12m11s" },	
+        { "number" : 4, "Start" : "0h12m42s", "End" : "0h13m51s" },	
+        { "number" : 5, "Start" : "0h14m21s", "End" : "0h15m07s" },	
+        { "number" : 6, "Start" : "0h15m37s", "End" : "0h16m13s" },	
+        { "number" : 7, "Start" : "0h16m43s", "End" : "0h17m25s" },	
+        { "number" : 8, "Start" : "0h19m24s", "End" : "0h20m18s" },	
+        { "number" : 9, "Start" : "0h20m38s", "End" : "0h21m03s" },	
+        { "number" : 10, "Start" : "0h21m33s", "End" : "0h23m33s" },	
+        { "number" : 11, "Start" : "0h25m01s", "End" : "0h25m37s" },	
+        { "number" : 12, "Start" : "0h26m07s", "End" : "0h26m38s" },	
+        { "number" : 13, "Start" : "0h27m08s", "End" : "0h28m12s" },	
+        { "number" : 14, "Start" : "0h28m42s", "End" : "0h29m16s" },	
+        { "number" : 15, "Start" : "0h29m46s", "End" : "0h30m55s" },	
+        { "number" : 16, "Start" : "0h31m25s", "End" : "0h31m37s" },	
+        { "number" : 17, "Start" : "0h33m07s", "End" : "0h33m30s" },	
+        { "number" : 18, "Start" : "0h34m00s", "End" : "0h35m02s" },	
+        { "number" : 19, "Start" : "0h35m32s", "End" : "0h36m45s" },	
+        { "number" : 20, "Start" : "0h37m15s", "End" : "0h37m52s" },	
+        { "number" : 21, "Start" : "0h38m22s", "End" : "0h38m45s" },	
+        { "number" : 22, "Start" : "0h39m15s", "End" : "0h39m59s" },
+        { "number" : 23, "Start" : "0h40m29s", "End" : "0h41m24s" },	
+        { "number" : 24, "Start" : "0h44m20s", "End" : "0h45m17s" }	
+    ],
+    "Half 2" : 
+    [
+        { "number" : 1, "Start" : "0h54m28s", "End" : "0h54m30s" },	
+        { "number" : 2, "Start" : "0h55m11s", "End" : "0h55m39s" },	
+        { "number" : 3, "Start" : "0h56m09s", "End" : "0h57m19s" },	
+        { "number" : 4, "Start" : "0h57m49s", "End" : "0h58m14s" },	
+        { "number" : 5, "Start" : "0h58m44s", "End" : "0h59m42s" },	
+        { "number" : 6, "Start" : "1h00m12s", "End" : "1h00m36s" },	
+        { "number" : 7, "Start" : "1h02m24s", "End" : "1h03m12s" },	
+        { "number" : 8, "Start" : "1h03m42s", "End" : "1h04m47s" },	
+        { "number" : 9, "Start" : "1h05m55s", "End" : "1h06m20s" },	
+        { "number" : 10, "Start" : "1h06m49s", "End" : "1h07m36s" },	
+        { "number" : 11, "Start" : "1h08m06s", "End" : "1h08m35s" },	
+        { "number" : 12, "Start" : "1h09m05s", "End" : "1h09m30s" },	
+        { "number" : 13, "Start" : "1h10m00s", "End" : "1h10m55s" },	
+        { "number" : 14, "Start" : "1h12m33s", "End" : "1h13m02s" },	
+        { "number" : 15, "Start" : "1h13m32s", "End" : "1h13m59s" },	
+        { "number" : 16, "Start" : "1h14m29s", "End" : "1h14m54s" },	
+        { "number" : 17, "Start" : "1h15m24s", "End" : "1h15m58s" },	
+        { "number" : 18, "Start" : "1h16m28s", "End" : "1h16m54s" },	
+        { "number" : 19, "Start" : "1h17m26s", "End" : "1h17m45s" },	
+        { "number" : 20, "Start" : "1h18m15s", "End" : "1h18m37s" },	
+        { "number" : 21, "Start" : "1h19m06s", "End" : "1h19m36s" },	
+        { "number" : 22, "Start" : "1h20m06s", "End" : "1h20m42s" },	
+        { "number" : 23, "Start" : "1h24m01s", "End" : "1h24m21s" },	
+        { "number" : 24, "Start" : "1h24m53s", "End" : "1h25m20s" },	
+        { "number" : 25, "Start" : "1h25m50s", "End" : "1h26m28s" },	
+        { "number" : 26, "Start" : "1h26m58s", "End" : "1h27m00s" },	
+        { "number" : 27, "Start" : "1h28m28s", "End" : "1h29m18s" },	
+        { "number" : 28, "Start" : "1h29m48s", "End" : "1h30m29s" },	
+        { "number" : 29, "Start" : "1h31m00s", "End" : "1h31m40s" },	
+        { "number" : 30, "Start" : "1h34m24s", "End" : "1h35m48s" }	
+
+    ]
+}	
